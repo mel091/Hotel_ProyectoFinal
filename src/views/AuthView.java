@@ -22,9 +22,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import controllers.Auth;
+import models.AuthModel;
+
 public class AuthView 
 {
 	private JFrame frame;
+	private Auth controller;
+	private AuthModel auth;
 	
 	public AuthView()
 	{
@@ -135,13 +140,24 @@ public class AuthView
 		panelInicio.add(iconPws);
 		
 		
-		JButton botonAcceso = new JButton("Acceso");
+		JButton botonAcceso = new JButton("Acceso"); /////////////////////////////////////////////////////
 		botonAcceso.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Acceso");
+				AuthModel funcion = new AuthModel();
+				String user = textUsuario.getText().trim();
+                String password = new String(textPws.getPassword()).trim();
+                funcion.setLoginFields(textUsuario, textPws);
+                if(funcion.acceder(user, password))
+                {
+                	controller = new Auth();
+    				frame.removeAll();
+    				frame.setVisible(false);
+    				controller.inicio();	
+                }
+               // funcion.acceder(user, password);
+				
 			}
 		});
 		botonAcceso.setForeground(new Color(255, 255, 255));
@@ -168,13 +184,15 @@ public class AuthView
 		panelInicio.add(mandarRegistro_1);
 	
 		
-		JButton btnRegistro= new JButton();
+		JButton btnRegistro= new JButton(); /////////////////////////////////////////////7
 		btnRegistro.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Registro");
+				controller = new Auth();
+				frame.removeAll();
+				frame.setVisible(false);
+				controller.registro();	
 			}
 		});
 		btnRegistro.setBorderPainted(false);
@@ -334,8 +352,13 @@ public class AuthView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Registrarse");
+				AuthModel funcion = new AuthModel();
+				String nombreCompleto = textNombre.getText().trim();
+				String user = textUsr.getText().trim();
+				String psw = new String(textPws.getPassword()).trim();
+				String psw1 = new String(textPwsConfi.getPassword()).trim();
+                funcion.setRegistrationFields(textNombre, textUsr, textPws, textPwsConfi);
+                funcion.registro(nombreCompleto, user, psw, psw1);
 			}
 		});
 		botonRegistro.setForeground(new Color(255, 255, 255));
@@ -367,8 +390,10 @@ public class AuthView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Login");
+				controller = new Auth();
+				frame.removeAll();
+				frame.setVisible(false);
+				controller.login();	
 			}
 		});
 		btnLogin.setBorderPainted(false);
