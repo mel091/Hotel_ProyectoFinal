@@ -24,28 +24,13 @@ public class AuthModel
 		
 	}
 	
-	public void setLoginFields(JTextField usrField, JPasswordField pswField)
-	{
-		this.usrField = usrField;
-		this.pswField = pswField;
-	}
-	
-	public void setRegistrationFields(JTextField nameField, JTextField usrField, JPasswordField pswField, JPasswordField psw1Field)
-	{
-		this.nameField = nameField;
-		this.usrField = usrField;
-		this.pswField = pswField;
-		this.psw1Field = psw1Field;
-	}
 	
 	public boolean acceder(String usr, String psw)
 	{
 
 		if(usr.length() <= 0 || psw.length() <= 0)
 		{
-			usrField.setBorder(BorderFactory.createLineBorder(Color.RED));
-            pswField.setBorder(BorderFactory.createLineBorder(Color.RED));
-			JOptionPane.showMessageDialog(null, "Campos vacíos");
+			
 			return false;
 		}
 		
@@ -62,18 +47,12 @@ public class AuthModel
 				
 				if(rs.next())
 				{
-					String username = rs.getString("username");
-					String password = rs.getString("contraseña");
-					JOptionPane.showMessageDialog(null, "Login exitoso! Administrador: " + username);
+					
 					return true;
 				}
 				else
 				{
-					usrField.setBorder(BorderFactory.createLineBorder(Color.red, 2));
-					pswField.setBorder(BorderFactory.createLineBorder(Color.red, 2));
-					JOptionPane.showMessageDialog(null, "Campos incorrectos o no registrados, intenta de nuevo."); 
-					usrField.setText("");
-					pswField.setText("");
+					
 					return false;
 				}
 			} catch (Exception e2) {
@@ -87,18 +66,12 @@ public class AuthModel
 	{	
 		if(nombreC.length() <= 0 || username.length() <= 0 || psw.length() <= 0 || psw1.length() <= 0)
 		{
-			nameField.setBorder(BorderFactory.createLineBorder(Color.red, 2));
-			usrField.setBorder(BorderFactory.createLineBorder(Color.red, 2));
-			pswField.setBorder(BorderFactory.createLineBorder(Color.red, 2));
-			psw1Field.setBorder(BorderFactory.createLineBorder(Color.red, 2));
-			JOptionPane.showMessageDialog(null, "Campos vacíos");
+			
 			return;
 		}
 		else if(!psw.equals(psw1))
 		{
-			pswField.setBorder(BorderFactory.createLineBorder(Color.red, 2));
-			psw1Field.setBorder(BorderFactory.createLineBorder(Color.red, 2));
-            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+			
             return; 
 		}
 		
