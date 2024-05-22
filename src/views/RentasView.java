@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 public class RentasView {
 	private JFrame frame;
 	private JDialog emergente;
+	
 	private RentasView() {
 		frame = new JFrame();
 		frame.setBounds(10, 5, 1350, 720);
@@ -30,9 +31,6 @@ public class RentasView {
 		emergente=new JDialog(frame,"Emergente", true);
 		emergente.setSize( 560, 290);
 		emergente.setResizable(false);
-		
-
-		detalles();
 	}
 	public void consultar()
 	{
