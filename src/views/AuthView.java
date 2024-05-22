@@ -625,8 +625,10 @@ public class AuthView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Registro");
+				controller = new Auth();
+				frame.removeAll();
+				frame.setVisible(false);
+				controller.registro();	
 			}
 		});
 		btnRegistro.setBorderPainted(false);
@@ -639,8 +641,10 @@ public class AuthView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Logout");
+				controller = new Auth();
+				frame.removeAll();
+				frame.setVisible(false);
+				controller.login();	
 			}
 		});
 		btnLogout.setBorderPainted(false);
