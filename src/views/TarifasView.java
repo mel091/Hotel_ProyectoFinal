@@ -16,10 +16,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controllers.HabitacionesController;
+import controllers.InicioController;
+import controllers.TarifasController;
+import models.TarifasModel;
+
 public class TarifasView {
 	private JFrame frame;
+	private InicioController inicio;
+	private TarifasController tarifa;
+	private TarifasModel model;
 	
-	private TarifasView(){
+	public TarifasView(){
 		frame = new JFrame();
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
@@ -51,8 +59,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -140,8 +149,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -195,7 +205,9 @@ public class TarifasView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -233,7 +245,9 @@ public class TarifasView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -267,8 +281,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("editar");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.editar();
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -282,8 +297,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Detalles");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.detalles();
 			}
 		});
 		detallesBtn.setBorderPainted(false);
@@ -321,8 +337,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -410,8 +427,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -465,7 +483,9 @@ public class TarifasView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -506,7 +526,9 @@ public class TarifasView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -569,8 +591,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -659,8 +682,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -714,7 +738,9 @@ public class TarifasView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -752,7 +778,9 @@ public class TarifasView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -815,8 +843,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -905,8 +934,9 @@ public class TarifasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -960,7 +990,9 @@ public class TarifasView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -998,7 +1030,9 @@ public class TarifasView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -1037,6 +1071,9 @@ public class TarifasView {
 		regresarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/regresar.png")));
 		regresarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.consultar();
 			}
 		});
 		regresarBtn.setBorderPainted(false);

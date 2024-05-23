@@ -18,11 +18,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import controllers.HabitacionesController;
+import controllers.InicioController;
+import controllers.RentasController;
+import models.RentasModel;
+
 public class RentasView {
 	private JFrame frame;
 	private JDialog emergente;
+	private InicioController inicio;
+	private RentasController renta;
+	private RentasModel model;
 	
-	private RentasView() {
+	public RentasView() {
 		frame = new JFrame();
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
@@ -58,8 +66,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -133,8 +142,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
 			}
 		});
 		btnRentas.setBorderPainted(false);
@@ -202,7 +212,9 @@ public class RentasView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -240,7 +252,9 @@ public class RentasView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				renta = new RentasController();
+				renta.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -274,8 +288,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("editar");
+				frame.dispose();
+				renta = new RentasController();
+				renta.editar();
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -289,8 +304,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Detalles");
+				frame.dispose();
+				model = new RentasModel();
+				model.detalles();
 			}
 		});
 		detallesBtn.setBorderPainted(false);
@@ -330,8 +346,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -406,8 +423,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
 			}
 		});
 		btnRentas.setBorderPainted(false);
@@ -475,7 +493,9 @@ public class RentasView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				renta = new RentasController();
+				renta.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -516,7 +536,9 @@ public class RentasView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				renta = new RentasController();
+				renta.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -558,6 +580,7 @@ public class RentasView {
 				// TODO Auto-generated method stub
 				System.out.println("Rentar");
 				pagoInicial();
+				
 			}
 		});
 		rentarBtn.setBorderPainted(false);
@@ -596,8 +619,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -672,8 +696,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
 			}
 		});
 		btnRentas.setBorderPainted(false);
@@ -741,7 +766,9 @@ public class RentasView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				renta = new RentasController();
+				renta.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -779,7 +806,9 @@ public class RentasView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				renta = new RentasController();
+				renta.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -813,7 +842,7 @@ public class RentasView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Descargar");
+				//System.out.println("Descargar");
 				checkOut();
 			}
 		});
@@ -858,8 +887,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -934,8 +964,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
 			}
 		});
 		btnRentas.setBorderPainted(false);
@@ -1003,7 +1034,9 @@ public class RentasView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				renta = new RentasController();
+				renta.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -1041,7 +1074,9 @@ public class RentasView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				renta = new RentasController();
+				renta.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -1080,6 +1115,9 @@ public class RentasView {
 		regresarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/regresar.png")));
 		regresarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				renta = new RentasController();
+				renta.consultar();
 			}
 		});
 		regresarBtn.setBorderPainted(false);
@@ -1135,8 +1173,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -1211,8 +1250,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
 			}
 		});
 		btnRentas.setBorderPainted(false);
@@ -1280,7 +1320,9 @@ public class RentasView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				renta = new RentasController();
+				renta.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -1319,7 +1361,9 @@ public class RentasView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				renta = new RentasController();
+				renta.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -1353,7 +1397,9 @@ public class RentasView {
 		opciones.setText("Informacion de las habitaciones");
 		opciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				renta = new RentasController();
+				renta.crear();
 			}
 		});
 		opciones.setBorderPainted(false);
@@ -1398,9 +1444,9 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Cancelar");
-				emergente.dispose();
+				frame.dispose();
+				renta = new RentasController();
+				renta.detalles();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
@@ -1520,6 +1566,8 @@ public class RentasView {
 				// TODO Auto-generated method stub
 				System.out.println("Continuar");
 				emergente.dispose();
+				renta = new RentasController();
+				renta.detalles();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
@@ -1543,6 +1591,8 @@ public class RentasView {
 				// TODO Auto-generated method stub
 				System.out.println("Cancelar");
 				emergente.dispose();
+				renta = new RentasController();
+				renta.detalles();
 			}
 		});
 		botonCancelar.setForeground(new Color(255, 255, 255));

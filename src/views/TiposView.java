@@ -16,9 +16,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controllers.InicioController;
+import controllers.TarifasController;
+import controllers.TiposController;
+import models.TiposModel;
+
 public class TiposView {
 	private JFrame frame;
-	private TiposView() {
+	private InicioController inicio;
+	private TiposController tipo;
+	private TiposModel model;
+	
+	public TiposView() {
 		frame = new JFrame();
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
@@ -50,8 +59,9 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -154,8 +164,9 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		btnTipos.setBorderPainted(false);
@@ -194,7 +205,9 @@ public class TiposView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -232,7 +245,9 @@ public class TiposView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -266,8 +281,9 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("editar");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.editar();
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -281,8 +297,9 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Detalles");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.detalles();
 			}
 		});
 		detallesBtn.setBorderPainted(false);
@@ -320,8 +337,9 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -424,8 +442,9 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		btnTipos.setBorderPainted(false);
@@ -464,7 +483,9 @@ public class TiposView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -505,7 +526,9 @@ public class TiposView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -568,8 +591,9 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -674,8 +698,9 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		btnTipos.setBorderPainted(false);
@@ -714,7 +739,9 @@ public class TiposView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -752,7 +779,9 @@ public class TiposView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -815,8 +844,9 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -960,7 +990,9 @@ public class TiposView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -998,7 +1030,9 @@ public class TiposView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -1037,6 +1071,9 @@ public class TiposView {
 		regresarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/regresar.png")));
 		regresarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.consultar();
 			}
 		});
 		regresarBtn.setBorderPainted(false);

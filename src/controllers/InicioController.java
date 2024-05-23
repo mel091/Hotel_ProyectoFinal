@@ -1,14 +1,21 @@
 package controllers;
 
 import views.AuthView;
+import views.InicioView;
 
 public class InicioController 
 {
-	public AuthView vista;
+	public InicioView vista;
 	
 	public InicioController()
 	{
-		vista = new AuthView();
+		vista = new InicioView();
 	}
+	
+	public void inicio()
+	{
+		vista.inicio();
+	}
+		
 	
 }

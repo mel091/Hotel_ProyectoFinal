@@ -18,10 +18,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import controllers.ClientesController;
+import controllers.HabitacionesController;
+import controllers.InicioController;
+import controllers.TiposController;
+import models.ClientesModel;
+
 public class ClientesView {
 	private JFrame frame;
 	private JDialog emergente;
-	private ClientesView () {
+	private InicioController inicio;
+	private ClientesController cliente;
+	private ClientesModel model;
+	
+	public ClientesView () {
 		frame = new JFrame();
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
@@ -58,8 +68,9 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -202,7 +213,9 @@ public class ClientesView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -240,7 +253,9 @@ public class ClientesView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -274,8 +289,9 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("editar");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.editar();
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -289,8 +305,9 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Detalles");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.detalles();
 			}
 		});
 		detallesBtn.setBorderPainted(false);
@@ -326,8 +343,9 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -512,7 +530,9 @@ public class ClientesView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -549,8 +569,8 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Subir");
+				model = new ClientesModel();
+				model.subirImg();
 			}
 		});
 		subirBtn.setBorderPainted(false);
@@ -594,8 +614,9 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -739,7 +760,9 @@ public class ClientesView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -777,7 +800,9 @@ public class ClientesView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -810,7 +835,6 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				System.out.println("Descargar");
 				descarga();
 			}
@@ -826,8 +850,7 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Historial");
+				System.out.println("Descargar");
 				historial();
 			}
 		});
@@ -1017,7 +1040,9 @@ public class ClientesView {
 		JButton crearBtn = new JButton();
 		crearBtn .addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Crear");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -1055,7 +1080,9 @@ public class ClientesView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.consultar();
 			}
 		});
 		consultarBtn.setBorderPainted(false);
@@ -1094,6 +1121,9 @@ public class ClientesView {
 		regresarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/regresar.png")));
 		regresarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.consultar();
 			}
 		});
 		regresarBtn.setBorderPainted(false);
@@ -1138,9 +1168,9 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Aceptar");
-				emergente.dispose();
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.detalles();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
@@ -1194,10 +1224,9 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Cancelar");
-				emergente.removeAll();
-				emergente.dispose();
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.detalles();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));

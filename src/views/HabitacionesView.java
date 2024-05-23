@@ -18,11 +18,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import controllers.HabitacionesController;
+import controllers.InicioController;
+import models.HabitacionesModel;
+
 public class HabitacionesView {
 	
 	private JFrame frame;
 	private JDialog emergente;
-	private HabitacionesView() {
+	private HabitacionesController room;
+	private HabitacionesModel model;
+	private InicioController inicio;
+	
+	public HabitacionesView() {
 		frame = new JFrame();
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
@@ -57,8 +65,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -105,8 +114,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -204,7 +214,9 @@ public class HabitacionesView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		consultarBtn.setBounds(0, 0, 130, 277);
@@ -242,6 +254,9 @@ public class HabitacionesView {
 		JButton crearBtn = new JButton();
 		crearBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				room = new HabitacionesController();
+				room.crear();
 			}
 		});
 		crearBtn.setBorderPainted(false);
@@ -275,8 +290,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("editar");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.editar();
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -290,8 +306,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Detalles");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.detalles();
 			}
 		});
 		detallesBtn.setBorderPainted(false);
@@ -327,8 +344,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -375,8 +393,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -474,7 +493,9 @@ public class HabitacionesView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		consultarBtn.setBounds(0, 0, 130, 277);
@@ -512,6 +533,9 @@ public class HabitacionesView {
 		JButton crearBtn = new JButton();
 		crearBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				room = new HabitacionesController();
+				room.crear();
 			}
 		});
 		crearBtn.setBorderPainted(false);
@@ -545,7 +569,6 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				System.out.println("Descargar");
 				descarga();
 			}
@@ -561,8 +584,6 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Historial");
 				historial();
 			}
 		});
@@ -608,8 +629,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -656,8 +678,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -755,7 +778,9 @@ public class HabitacionesView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		consultarBtn.setBounds(0, 0, 130, 277);
@@ -793,6 +818,9 @@ public class HabitacionesView {
 		JButton crearBtn = new JButton();
 		crearBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				room = new HabitacionesController();
+				room.crear();
 			}
 		});
 		crearBtn.setBorderPainted(false);
@@ -831,6 +859,9 @@ public class HabitacionesView {
 		regresarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/regresar.png")));
 		regresarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		regresarBtn.setBorderPainted(false);
@@ -875,9 +906,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Aceptar");
-				emergente.dispose();
+				frame.dispose();
+				room = new HabitacionesController();
+				room.detalles();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
@@ -902,6 +933,7 @@ public class HabitacionesView {
 	    
 		
 	}
+	
 	public void descarga()
 	{
 		
@@ -931,10 +963,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Cancelar");
-				emergente.removeAll();
-				emergente.dispose();
+				frame.dispose();
+				room = new HabitacionesController();
+				room.detalles();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
@@ -984,8 +1015,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
@@ -1032,8 +1064,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -1131,7 +1164,9 @@ public class HabitacionesView {
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Consultar");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		consultarBtn.setBounds(0, 0, 130, 277);
@@ -1169,6 +1204,9 @@ public class HabitacionesView {
 		JButton crearBtn = new JButton();
 		crearBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				room = new HabitacionesController();
+				room.crear();
 			}
 		});
 		crearBtn.setBorderPainted(false);
@@ -1206,8 +1244,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Subir");
+				frame.dispose();
+				model = new HabitacionesModel();
+				model.subirImg();
 			}
 		});
 		subirBtn.setBorderPainted(false);

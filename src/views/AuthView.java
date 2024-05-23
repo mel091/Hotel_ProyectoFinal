@@ -28,6 +28,8 @@ import models.AuthModel;
 public class AuthView 
 {
 	private JFrame frame;
+	public Auth login;
+	public AuthModel model;
 	
 	
 	public AuthView()
@@ -146,7 +148,10 @@ public class AuthView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				model = new AuthModel();
+				String pass = new String(textPws.getPassword()) ;
+				model.acceder(textUsuario.getText(), pass);
+				frame.dispose();
 				
 			}
 		});
@@ -179,7 +184,9 @@ public class AuthView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				frame.dispose();
+				login = new Auth();
+				login.registro();
 			}
 		});
 		btnRegistro.setBorderPainted(false);
@@ -341,6 +348,7 @@ public class AuthView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//mandar inputs a model.registro
 				
 			}
 		});
@@ -373,7 +381,9 @@ public class AuthView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				frame.dispose();
+				login = new Auth();
+				login.login();
 			}
 		});
 		btnLogin.setBorderPainted(false);

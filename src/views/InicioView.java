@@ -21,11 +21,23 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import controllers.Auth;
+import controllers.ClientesController;
+import controllers.HabitacionesController;
+import controllers.InicioController;
+import controllers.RentasController;
+import controllers.TarifasController;
+import controllers.TiposController;
 
 public class InicioView 
 {
 	private JFrame frame;
-	
+	public Auth login;
+	public InicioController inicio;
+	public TarifasController tarifa;
+	public TiposController tipo;
+	public RentasController renta;
+	public HabitacionesController room;
+	public ClientesController cliente;
 	
 	public InicioView()
 	{
@@ -78,8 +90,9 @@ public class InicioView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Inicio");
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
 			}
 		});
 		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgWalt.png")));
@@ -126,8 +139,9 @@ public class InicioView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -140,8 +154,10 @@ public class InicioView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Clientes");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
+				
 			}
 		});
 		btnClientes.setBorderPainted(false);
@@ -154,8 +170,9 @@ public class InicioView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
 			}
 		});
 		btnRentas.setBorderPainted(false);
@@ -168,8 +185,9 @@ public class InicioView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -183,8 +201,9 @@ public class InicioView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		btnTipos.setBorderPainted(false);
@@ -251,8 +270,9 @@ public class InicioView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Registro");
+				frame.dispose();
+				login = new Auth();
+				login.registro();
 			}
 		});
 		btnRegistro.setBorderPainted(false);
@@ -265,8 +285,9 @@ public class InicioView
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Logout");
+				frame.dispose();
+				login = new Auth();
+				login.login();
 			}
 		});
 		btnLogout.setBorderPainted(false);
