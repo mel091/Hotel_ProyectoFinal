@@ -33,7 +33,7 @@ public class AuthView
 	public AuthView()
 	{
 		frame=new JFrame();
-		frame.setVisible(false);
+		frame.setVisible(true);
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,6 +42,8 @@ public class AuthView
 	//Login
 	public void login()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal del login
 		JPanel panelLogin=new JPanel()
 		{
@@ -186,7 +188,7 @@ public class AuthView
 		panelInicio.add(btnRegistro);
 	
 		
-		frame.add(panelLogin);
+		frame.getContentPane().add(panelLogin);
 		frame.setVisible(true);
 		frame.repaint();
 		frame.revalidate();
@@ -196,6 +198,8 @@ public class AuthView
 	//Registro
 	public void registro()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal del Registro
 		JPanel panelRegistro=new JPanel()
 		{
@@ -377,7 +381,7 @@ public class AuthView
 		btnLogin.setBounds(310, 370, 147, 28);
 		panelInicio.add(btnLogin);
 
-		frame.add(panelRegistro);
+		frame.getContentPane().add(panelRegistro);
 		frame.setVisible(true);
 		frame.repaint();
 		frame.revalidate();

@@ -26,6 +26,7 @@ public class ClientesView {
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 		
 		emergente=new JDialog(frame,"Emergente", true);
 		emergente.setSize( 560, 290);
@@ -36,6 +37,8 @@ public class ClientesView {
 	public void consultar()
 	{
 		//Panel principal
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		JPanel panelConsultar=new JPanel();
 		panelConsultar.setBackground(Color.white);
 		panelConsultar.setBounds(0, 0, 1200, 700);
@@ -562,12 +565,16 @@ public class ClientesView {
 		panelCentral.add(clientes_1);
 		
 		frame.getContentPane().add(panelCrear);
-		
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 			
 	}	
 	public void detalles()
 	{
 		//Panel principal
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		JPanel panelDetalles=new JPanel();
 		panelDetalles.setBackground(Color.white);
 		panelDetalles.setBounds(0, 0, 1200, 700);
@@ -836,12 +843,16 @@ public class ClientesView {
 		panelCentral.add(nomCliente);
 	
 		frame.getContentPane().add(panelDetalles);
-			
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 	}
 	
 	public void editar()
 	{
 		//Panel principal
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		JPanel panelEditar=new JPanel();
 		panelEditar.setBackground(Color.white);
 		panelEditar.setBounds(0, 0, 1200, 700);
@@ -1091,7 +1102,9 @@ public class ClientesView {
 		panelCentral.add(regresarBtn);
 	
 		frame.getContentPane().add(panelEditar);
-			
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 	}
 	
 	public void historial()
@@ -1147,6 +1160,8 @@ public class ClientesView {
 		emergente.getContentPane().add(historialPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
+	    emergente.repaint();
+	    emergente.revalidate();
 	    
 		
 	}
@@ -1154,6 +1169,7 @@ public class ClientesView {
 	{
 		emergente.getContentPane().removeAll();
 		emergente.repaint();
+		
 		emergente.setSize(550, 680);
 		JPanel descargaPanel= new JPanel();
 		descargaPanel.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
@@ -1201,6 +1217,8 @@ public class ClientesView {
 		emergente.getContentPane().add(descargaPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
+	    emergente.repaint();
+	    emergente.revalidate();
 
 	}
 }

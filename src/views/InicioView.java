@@ -30,7 +30,7 @@ public class InicioView
 	public InicioView()
 	{
 		frame=new JFrame();
-		frame.setVisible(false);
+		frame.setVisible(true);
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +38,8 @@ public class InicioView
 	
 	public void inicio()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal
 		JPanel panelInicio=new JPanel()
 		{
@@ -304,7 +306,11 @@ public class InicioView
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		panelInicio.add(scrollPane);
-		frame.add(panelInicio);
+		
+		frame.getContentPane().add(panelInicio);
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 			
 	}
 

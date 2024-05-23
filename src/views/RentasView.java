@@ -27,13 +27,17 @@ public class RentasView {
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 		
 		emergente=new JDialog(frame,"Emergente", true);
 		emergente.setSize( 560, 290);
 		emergente.setResizable(false);
+		
 	}
 	public void consultar()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal
 		JPanel panelConsultar=new JPanel();
 		panelConsultar.setBackground(Color.white);
@@ -296,10 +300,14 @@ public class RentasView {
 	
 		
 		frame.getContentPane().add(panelConsultar);
-			
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 	}
 	public void crear()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal
 		JPanel panelCrear=new JPanel();
 		panelCrear.setBackground(Color.white);
@@ -559,11 +567,15 @@ public class RentasView {
 		
 		
 		frame.getContentPane().add(panelCrear);
-		
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 			
 	}	
 	public void detalles()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal
 		JPanel panelDetalles=new JPanel();
 		panelDetalles.setBackground(Color.white);
@@ -817,11 +829,15 @@ public class RentasView {
 		panelCentral.add(detalleRenta);
 	
 		frame.getContentPane().add(panelDetalles);
-			
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();	
 	}
 	
 	public void editar()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal
 		JPanel panelEditar=new JPanel();
 		panelEditar.setBackground(Color.white);
@@ -1089,10 +1105,14 @@ public class RentasView {
 		panelCentral.add(guardarCambiosBtn);
 		
 		frame.getContentPane().add(panelEditar);
-			
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 	}
 	public void rentasPrincipal()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal
 		JPanel panelPrincipal=new JPanel();
 		panelPrincipal.setBackground(Color.white);
@@ -1342,6 +1362,9 @@ public class RentasView {
 		panelCentral.add(opciones);
 		
 		frame.getContentPane().add(panelPrincipal);
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 	}
 	
 	public void pagoInicial()
@@ -1454,7 +1477,8 @@ public class RentasView {
 		emergente.getContentPane().add(edicionPagoPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
-	    
+	    emergente.repaint();
+		emergente.revalidate();
 		
 	}
 	
@@ -1541,7 +1565,8 @@ public class RentasView {
 		emergente.getContentPane().add(checkOutPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
-	    
+	    emergente.repaint();
+		emergente.revalidate();
 		
 	}
 }

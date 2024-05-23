@@ -27,22 +27,22 @@ public class HabitacionesView {
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		emergente=new JDialog(frame,"Emergente", true);
 		emergente.setSize( 560, 290);
 		emergente.setResizable(false);
+		frame.setVisible(true);
 	}
 
 	public void consultar()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal
 		JPanel panelConsultar=new JPanel();
 		panelConsultar.setBackground(Color.white);
 		panelConsultar.setBounds(0, 0, 1200, 700);
 		panelConsultar.setLayout(null);
-	
-		
-		
+
 		//Panel de la cabecera
 		JLabel disneyFondo = new JLabel();
 		disneyFondo.setBounds(10, 10, 1313, 90);
@@ -303,6 +303,8 @@ public class HabitacionesView {
 	}
 	public void detalles()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal
 		JPanel panelDetalles=new JPanel();
 		panelDetalles.setBackground(Color.white);
@@ -575,13 +577,18 @@ public class HabitacionesView {
 		nomHabitacion.setBounds(373, 29, 465, 65);
 		panelCentral.add(nomHabitacion);
 	
-		frame.add(panelDetalles);
+		frame.getContentPane().add(panelDetalles);
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 			
 	}
 	
 	public void editar()
 	{
 		//Panel principal
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		JPanel panelEditar=new JPanel();
 		panelEditar.setBackground(Color.white);
 		panelEditar.setBounds(0, 0, 1200, 700);
@@ -831,7 +838,10 @@ public class HabitacionesView {
 		regresarBtn.setBounds(33, 11, 80, 80);
 		panelCentral.add(regresarBtn);
 	
-		frame.add(panelEditar);
+		frame.getContentPane().add(panelEditar);
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 			
 	}
 	public void historial()
@@ -887,11 +897,14 @@ public class HabitacionesView {
 		emergente.getContentPane().add(historialPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
+	    emergente.repaint();
+		emergente.revalidate();
 	    
 		
 	}
 	public void descarga()
 	{
+		
 		emergente.getContentPane().removeAll();
 		emergente.repaint();
 		emergente.setSize(550, 680);
@@ -941,10 +954,14 @@ public class HabitacionesView {
 		emergente.getContentPane().add(descargaPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
+	    emergente.repaint();
+	    emergente.revalidate();
 
 	}
 	public void crear()
 	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
 		//Panel principal
 		JPanel panelCrear=new JPanel();
 		panelCrear.setBackground(Color.white);
@@ -1198,8 +1215,10 @@ public class HabitacionesView {
 		subirBtn.setBounds(670, 90, 430, 120);
 		panelCentral.add(subirBtn);
 		
-		frame.add(panelCrear);
-		
+		frame.getContentPane().add(panelCrear);
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
 			
 	}
 }
