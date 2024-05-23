@@ -9,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.swing.Timer;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,6 +30,7 @@ import models.AuthModel;
 public class AuthView 
 {
 	private JFrame frame;
+	private JDialog emergente;
 	public Auth login;
 	public AuthModel model;
 	
@@ -39,6 +42,10 @@ public class AuthView
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		emergente=new JDialog(frame,"ventana", true);
+		emergente.setSize( 560, 290);
+		emergente.setResizable(false);
 	}
 	
 	//Login
@@ -146,13 +153,28 @@ public class AuthView
 		JButton botonAcceso = new JButton("Acceso"); 
 		botonAcceso.addActionListener(new ActionListener()
 		{
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				model = new AuthModel();
-				String pass = new String(textPws.getPassword()) ;
-				model.acceder(textUsuario.getText(), pass);
-				frame.dispose();
-				
+				String usr=textUsuario.getText();
+				String psw=new String(textPws.getPassword());
+				boolean resultado=model.acceder(textUsuario.getText(), psw);
+				if(usr.length()<=0||psw.length()<=0||resultado!=true)
+				{
+					textUsuario.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+					textPws.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+					vDatosIncorrectos();
+					textUsuario.setText("");
+					textPws.setText("");
+				}
+				else
+				{
+					textUsuario.setBorder(BorderFactory.createLineBorder(Color.green, 2));
+					textPws.setBorder(BorderFactory.createLineBorder(Color.green, 2));
+					frame.dispose();
+				}
+
 			}
 		});
 		botonAcceso.setForeground(new Color(255, 255, 255));
@@ -397,6 +419,59 @@ public class AuthView
 		frame.revalidate();
 		
 				
+	}
+	public void vDatosIncorrectos()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"Los datos que ha ingresado son <br>"+
+		"incorrectos, favor de ingresarlos <br>"+
+		"correctamente"+"</div></html>");
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,23,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/posion.png")));
+		iconPosion.setBounds(10, 55, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
 	}
 
 }

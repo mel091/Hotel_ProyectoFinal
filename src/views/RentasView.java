@@ -18,9 +18,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import controllers.ClientesController;
 import controllers.HabitacionesController;
 import controllers.InicioController;
 import controllers.RentasController;
+import controllers.TarifasController;
+import controllers.TiposController;
 import models.RentasModel;
 
 public class RentasView {
@@ -29,6 +32,10 @@ public class RentasView {
 	private InicioController inicio;
 	private RentasController renta;
 	private RentasModel model;
+	public TarifasController tarifa;
+	public TiposController tipo;
+	public HabitacionesController room;
+	public ClientesController cliente;
 	
 	public RentasView() {
 		frame = new JFrame();
@@ -116,6 +123,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -130,6 +140,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Clientes");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
 			}
 		});
 		btnClientes.setBorderPainted(false);
@@ -159,6 +172,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -173,7 +189,10 @@ public class RentasView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				System.out.println("tipos");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		btnTipos.setBorderPainted(false);
@@ -397,6 +416,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -411,6 +433,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Clientes");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
 			}
 		});
 		btnClientes.setBorderPainted(false);
@@ -440,6 +465,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -454,7 +482,10 @@ public class RentasView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				System.out.println("Tipos");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		btnTipos.setBorderPainted(false);
@@ -495,7 +526,7 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				renta = new RentasController();
-				renta.crear();
+				renta.rentasPrincipal();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -670,6 +701,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -684,6 +718,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Clientes");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
 			}
 		});
 		btnClientes.setBorderPainted(false);
@@ -713,6 +750,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -727,7 +767,10 @@ public class RentasView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				System.out.println("Tipos");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		btnTipos.setBorderPainted(false);
@@ -768,7 +811,7 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				renta = new RentasController();
-				renta.crear();
+				renta.rentasPrincipal();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -938,6 +981,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -952,6 +998,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Clientes");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
 			}
 		});
 		btnClientes.setBorderPainted(false);
@@ -981,6 +1030,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -995,7 +1047,10 @@ public class RentasView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				System.out.println("Tarifas");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		btnTipos.setBorderPainted(false);
@@ -1036,7 +1091,7 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				renta = new RentasController();
-				renta.crear();
+				renta.rentasPrincipal();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
@@ -1224,6 +1279,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
 			}
 		});
 		btnHabitaciones.setBorderPainted(false);
@@ -1238,6 +1296,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Clientes");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
 			}
 		});
 		btnClientes.setBorderPainted(false);
@@ -1267,6 +1328,9 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Tarifas");
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
 			}
 		});
 		btnTarifas.setBorderPainted(false);
@@ -1281,7 +1345,10 @@ public class RentasView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Rentas");
+				System.out.println("Tipos");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
 			}
 		});
 		btnTipos.setBorderPainted(false);
@@ -1322,7 +1389,7 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				renta = new RentasController();
-				renta.crear();
+				renta.rentasPrincipal();
 			}
 		});
 		crearBtn.setBounds(0, 0, 130, 277);
