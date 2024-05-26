@@ -16,7 +16,11 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import controllers.Auth;
 import controllers.ClientesController;
@@ -55,7 +59,6 @@ public class ClientesView {
 		emergente.setResizable(false);
 
 	}
-
 	public void consultar()
 	{
 		//Panel principal
@@ -323,7 +326,7 @@ public class ClientesView {
 		});
 		editarBtn.setBorderPainted(false);
 		editarBtn.setContentAreaFilled(false);
-		editarBtn.setBounds(690, 480, 328, 45);
+		editarBtn.setBounds(690, 470, 328, 45);
 		panelCentral.add(editarBtn);
 		
 		JButton detallesBtn= new JButton();
@@ -339,13 +342,83 @@ public class ClientesView {
 		});
 		detallesBtn.setBorderPainted(false);
 		detallesBtn.setContentAreaFilled(false);
-		detallesBtn.setBounds(145, 480, 328, 45);
+		detallesBtn.setBounds(145, 470, 328, 45);
 		panelCentral.add(detallesBtn);
 	
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(50, 50, 1075, 366);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
+		
+		JPanel panelDeTabla = new JPanel();
+		panelDeTabla.setBounds(25, 25, 1023, 316);
+		panelAzul.add(panelDeTabla);
+		
+		String tableTitle[]={"ID del cliente", "Nombre completo", "Correo electrónico", "Número telefónico", "Estado de hospedaje"};
+		String tableData[][] = {
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""}
+		};
+	
+	JTable productoTable= new JTable(tableData, tableTitle);
+	productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+	productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+	{
+            @Override
+            public void valueChanged(ListSelectionEvent e) 
+            {
+                if (!e.getValueIsAdjusting()) 
+                {
+                    int selectedRow = productoTable.getSelectedRow();
+                    if (selectedRow != -1) 
+                    { 
+                        System.out.println("Fila seleccionada: " + selectedRow);
+                        
+                    }
+                }
+            }
+	    });
+		panelDeTabla.setLayout(null);
+		
+		JScrollPane tableScroll=new JScrollPane(productoTable);
+		tableScroll.setBounds(0, 0, 1023, 316);
+		panelDeTabla.add(tableScroll);
+
 		
 		frame.getContentPane().add(panelConsultar);
 			
 	}
+
+	
 	public void crear()
 	{
 		//Panel principal
