@@ -1,9 +1,11 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -22,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -893,6 +896,7 @@ public class ClientesView {
 		frame.revalidate();
 			
 	}	
+
 	public void detalles()
 	{
 		//Panel principal
@@ -1153,13 +1157,14 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
 				System.out.println("Descargar");
 				descarga();
 			}
 		});
 		descargarBtn.setBorderPainted(false);
 		descargarBtn.setContentAreaFilled(false);
-		descargarBtn.setBounds(905, 448, 200, 49);
+		descargarBtn.setBounds(925, 472, 200, 49);
 		panelCentral.add(descargarBtn);
 		
 		JButton historialBtn= new JButton();
@@ -1168,21 +1173,270 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Descargar");
+				// TODO Auto-generated method stub
+				System.out.println("Historial");
 				historial();
 			}
 		});
 		historialBtn.setBorderPainted(false);
 		historialBtn.setContentAreaFilled(false);
-		historialBtn.setBounds(638, 448, 200, 49);
+		historialBtn.setBounds(619, 472, 200, 49);
 		panelCentral.add(historialBtn);
 		
-		JLabel nomCliente = new JLabel("Nombre del cliente");
-		nomCliente.setForeground(new Color(0, 0, 0));
-		nomCliente.setFont(new Font("Palatino Linotype", Font.BOLD, 35));
-		nomCliente.setBounds(396, 28, 465, 65);
-		panelCentral.add(nomCliente);
+		
+		JLabel nombreCliente = new JLabel("Nombre del cliente");
+		nombreCliente.setForeground(new Color(0, 0, 0));
+		nombreCliente.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		nombreCliente.setBounds(445, 28, 289, 46);
+		panelCentral.add(nombreCliente);
 	
+		JLabel fondoCliente = new JLabel("");
+		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoCliente.setBounds(330, 21, 489, 45);
+		panelCentral.add(fondoCliente);
+		
+		JButton atrasBtn = new JButton();
+		atrasBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("atras");
+			}
+		});
+		atrasBtn.setBorderPainted(false);
+		atrasBtn.setContentAreaFilled(false);
+		atrasBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/anterior.png")));
+		atrasBtn.setBounds(50, 11, 75, 61);
+		panelCentral.add(atrasBtn);
+		
+		
+		JButton sigBtn = new JButton();
+		sigBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Siguiente");
+			}
+		});
+		sigBtn.setBorderPainted(false);
+		sigBtn.setContentAreaFilled(false);
+		sigBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/siguiente.png")));
+		sigBtn.setBounds(1050, 15,75, 61);
+		panelCentral.add(sigBtn);
+		
+		JPanel paneAzulFondo = new JPanel();
+		paneAzulFondo.setBackground(new Color(0, 73, 102));
+		paneAzulFondo.setBounds(50, 109, 517, 412);
+		panelCentral.add(paneAzulFondo);
+		paneAzulFondo.setLayout(null);
+		
+		JPanel panelInfo = new JPanel();
+		 panelInfo.setPreferredSize(new Dimension(400, 690));
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 73, 102));
+		panel.setBounds(610, 109, 515, 333);
+		panelCentral.add(panel);
+		panel.setLayout(null);
+		
+		JPanel panelImagen = new JPanel();
+		panelImagen.setBounds(20, 20, 472, 291);
+		panel.add(panelImagen);
+		panelImagen.setLayout(null);
+		panelInfo.setLayout(null);
+		
+		JLabel idCliente = new JLabel("ID del cliente");
+		idCliente.setForeground(Color.BLACK);
+		idCliente.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		idCliente.setBounds(20, 11, 354, 29);
+		panelInfo.add(idCliente);
+		
+		JTextField infoIdCliente = new JTextField("271873");
+		infoIdCliente.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoIdCliente.setBorder(BorderFactory.createCompoundBorder(
+				infoIdCliente.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoIdCliente.setEditable(false);
+		infoIdCliente.setBackground(new Color(217, 217, 217));
+		infoIdCliente.setBounds(20, 40, 420, 25);
+		panelInfo.add(infoIdCliente);
+		
+		JLabel nomCompleto = new JLabel("Nombre completo");
+		nomCompleto.setForeground(Color.BLACK);
+		nomCompleto.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nomCompleto.setBounds(20, 78, 354, 29);
+		panelInfo.add(nomCompleto);
+		
+		JTextField infoNombre = new JTextField("Juan Dominguez");
+		infoNombre.setBorder(BorderFactory.createCompoundBorder(
+				infoNombre.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoNombre.setEditable(false);
+		infoNombre.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoNombre.setColumns(10);
+		infoNombre.setBackground(new Color(217, 217, 217));
+		infoNombre.setBounds(20, 107, 420, 25);
+		panelInfo.add(infoNombre);
+		
+		JLabel correoElect = new JLabel("Correo electrónico");
+		correoElect.setForeground(Color.BLACK);
+		correoElect.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		correoElect.setBounds(20, 143, 354, 29);
+		panelInfo.add(correoElect);
+		
+		JTextField infoCorreo = new JTextField("pepe@gmail.com");
+		infoCorreo.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoCorreo.setBorder(BorderFactory.createCompoundBorder(
+				infoCorreo.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoCorreo.setEditable(false);
+		infoCorreo.setColumns(10);
+		infoCorreo.setBackground(new Color(217, 217, 217));
+		infoCorreo.setBounds(20, 171, 420, 25);
+		panelInfo.add(infoCorreo);
+		
+		
+		JLabel noTelefono = new JLabel("Número de teléfono");
+		noTelefono.setForeground(Color.BLACK);
+		noTelefono.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		noTelefono.setBounds(20, 207, 354, 29);
+		panelInfo.add(noTelefono);
+		
+		JTextField infoTelefono = new JTextField("612 234 7639");
+		infoTelefono.setBorder(BorderFactory.createCompoundBorder(
+				infoTelefono.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoTelefono.setEditable(false);
+		infoTelefono.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoTelefono.setColumns(10);
+		infoTelefono.setBackground(new Color(217, 217, 217));
+		infoTelefono.setBounds(20, 238, 420, 25);
+		panelInfo.add(infoTelefono);
+		
+		JLabel direccion = new JLabel("Dirección");
+		direccion.setForeground(Color.BLACK);
+		direccion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		direccion.setBounds(20, 274, 354, 29);
+		panelInfo.add(direccion);
+		
+		JTextField infoDireccion = new JTextField("Calle Lupe 123");
+		infoDireccion.setBorder(BorderFactory.createCompoundBorder(
+				infoDireccion.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoDireccion.setEditable(false);
+		infoDireccion.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoDireccion.setColumns(10);
+		infoDireccion.setBackground(new Color(217, 217, 217));
+		infoDireccion.setBounds(20, 303, 420, 25);
+		panelInfo.add(infoDireccion);
+		
+		
+		JLabel nombreContEmerg = new JLabel("Nombre del contacto de emergencia");
+		nombreContEmerg.setForeground(Color.BLACK);
+		nombreContEmerg.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nombreContEmerg.setBounds(20, 335, 354, 29);
+		panelInfo.add(nombreContEmerg);
+		
+		
+		JTextField infoNomEmerg = new JTextField("Juan Diego Dominguez Vega");
+		infoNomEmerg.setBorder(BorderFactory.createCompoundBorder(
+				infoNomEmerg.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoNomEmerg.setEditable(false);
+		infoNomEmerg.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoNomEmerg.setColumns(10);
+		infoNomEmerg.setBackground(new Color(217, 217, 217));
+		infoNomEmerg.setBounds(20,360, 420, 25);
+		panelInfo.add(infoNomEmerg);
+		
+		JLabel numeroContEmerg = new JLabel("Número del contacto de emergencia");
+		numeroContEmerg.setForeground(Color.BLACK);
+		numeroContEmerg.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		numeroContEmerg.setBounds(20, 395, 354, 29);
+		panelInfo.add(numeroContEmerg);
+		
+		
+		JTextField infoNumeroEmerg = new JTextField("612 344 1283");
+		infoNumeroEmerg.setBorder(BorderFactory.createCompoundBorder(
+				infoNumeroEmerg.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoNumeroEmerg.setEditable(false);
+		infoNumeroEmerg.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoNumeroEmerg.setColumns(10);
+		infoNumeroEmerg.setBackground(new Color(217, 217, 217));
+		infoNumeroEmerg.setBounds(20,425, 420, 25);
+		panelInfo.add(infoNumeroEmerg);
+		
+		
+		JLabel relacionCliente = new JLabel("Relación del contacto con el cliente");
+		relacionCliente.setForeground(Color.BLACK);
+		relacionCliente.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		relacionCliente.setBounds(20, 460, 354, 29);
+		panelInfo.add(relacionCliente);
+		
+		
+		JTextField infoRelacion = new JTextField("Hermano");
+		infoRelacion.setBorder(BorderFactory.createCompoundBorder(
+				infoRelacion.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoRelacion.setEditable(false);
+		infoRelacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoRelacion.setColumns(10);
+		infoRelacion.setBackground(new Color(217, 217, 217));
+		infoRelacion.setBounds(20,490, 420, 25);
+		panelInfo.add(infoRelacion);
+		
+
+		JLabel informacionAdicional = new JLabel("Informacion Adicional");
+		informacionAdicional.setForeground(Color.BLACK);
+		informacionAdicional.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		informacionAdicional.setBounds(20, 525, 354, 29);
+		panelInfo.add(informacionAdicional);
+		
+		
+		JTextArea infoAdicional = new JTextArea("Ninguna");
+		infoAdicional.setBorder(BorderFactory.createCompoundBorder(
+				infoAdicional.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoAdicional.setEditable(false);
+		infoAdicional.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoAdicional.setColumns(10);
+		infoAdicional.setBackground(new Color(217, 217, 217));
+		infoAdicional.setBounds(20,555, 420, 50);
+		panelInfo.add(infoAdicional);
+		
+		JLabel estadoHospedaje = new JLabel("Estado de hospedaje");
+		estadoHospedaje.setForeground(Color.BLACK);
+		estadoHospedaje.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		estadoHospedaje.setBounds(20, 620, 354, 29);
+		panelInfo.add(estadoHospedaje);
+		
+		
+		JTextField infoEstado = new JTextField("Hospedado");
+		infoEstado.setBorder(BorderFactory.createCompoundBorder(
+				infoEstado.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoEstado.setEditable(false);
+		infoEstado.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoEstado.setColumns(10);
+		infoEstado.setBackground(new Color(217, 217, 217));
+		infoEstado.setBounds(20,650, 420, 25);
+		panelInfo.add(infoEstado);
+		
+		JScrollPane scrollPane = new JScrollPane(panelInfo);
+		scrollPane.setBounds(20, 20, 477, 370);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+		SwingUtilities.invokeLater(()->scrollPane.getViewport().setViewPosition(new Point(0, 0)));
+         
+        paneAzulFondo.add(scrollPane);
 		frame.getContentPane().add(panelDetalles);
 		frame.setVisible(true);
 		frame.repaint();
