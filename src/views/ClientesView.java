@@ -1920,9 +1920,7 @@ public class ClientesView {
 		historialPanel.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
 		historialPanel.setBackground(new Color(220,220,220));
 		historialPanel.setLayout(null);
-		
-		
-		
+
 		JLabel text = new JLabel("Historial");
 		text.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
 		text.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1992,8 +1990,8 @@ public class ClientesView {
 		fondoTexto.setBounds(0,0,emergente.getWidth(),50);
 		descargaPanel.add(fondoTexto);
 		
-		JButton botonAceptar = new JButton("Cancelar");
-		botonAceptar.addActionListener(new ActionListener()
+		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -2002,19 +2000,49 @@ public class ClientesView {
 				cliente.detalles();
 			}
 		});
-		botonAceptar.setForeground(new Color(255, 255, 255));
-		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
-		botonAceptar.setBorderPainted(false);
-		botonAceptar.setContentAreaFilled(false);
-		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		botonAceptar.setBounds(180, 560, 181, 51);
-		descargaPanel.add(botonAceptar);
+		btnGuardar.setForeground(new Color(255, 255, 255));
+		btnGuardar.setVerticalAlignment(SwingConstants.BOTTOM);
+		btnGuardar.setBorderPainted(false);
+		btnGuardar.setContentAreaFilled(false);
+		btnGuardar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		btnGuardar.setBounds(50, 570, 181, 51);
+		descargaPanel.add(btnGuardar);
 		
-		JLabel imgAceptar= new JLabel();
-		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgAceptar.setBounds(180, 560, 181, 51);
-		descargaPanel.add(imgAceptar);
+		JLabel imgGuardar= new JLabel();
+		imgGuardar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgGuardar.setBounds(50, 570, 181, 51);
+		descargaPanel.add(imgGuardar);
 		
+		JButton botonCancelar = new JButton("Cancelar");
+		botonCancelar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.detalles();
+			}
+		});
+		botonCancelar.setForeground(new Color(255, 255, 255));
+		botonCancelar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonCancelar.setBorderPainted(false);
+		botonCancelar.setContentAreaFilled(false);
+		botonCancelar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonCancelar.setBounds(300, 570, 181, 51);
+		descargaPanel.add(botonCancelar);
+		
+		JLabel imgCancelar= new JLabel();
+		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgCancelar.setBounds(300, 570, 181, 51);
+		descargaPanel.add(imgCancelar);
+		
+
+		//Panel para el documento
+		JPanel docPanel= new JPanel();
+		docPanel.setBounds(65,70,400,475);
+		docPanel.setBackground(Color.white);
+		docPanel.setLayout(null);
+		descargaPanel.add(docPanel);
 		
 		emergente.getContentPane().add(descargaPanel);
 	    emergente.setLocationRelativeTo(frame);
