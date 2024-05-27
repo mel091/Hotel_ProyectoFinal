@@ -371,6 +371,26 @@ public class AuthView
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//mandar inputs a model.registro
+				model = new AuthModel();
+				String nombreCompleto = textNombre.getText();
+				String user = textUsr.getText();
+				String contraseña = new String(textPws.getPassword());
+				String contraseña1 = new String(textPwsConfi.getPassword());
+				//model.registro(nombreCompleto, user, contraseña, contraseña1);
+				
+				if(contraseña.equals(contraseña1))
+				{
+					model.registro(nombreCompleto, user, contraseña, contraseña1);
+					frame.dispose();
+					login = new Auth();
+					login.login();
+					
+				}
+				else
+				{
+					textPws.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+					textPwsConfi.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+				}
 				
 			}
 		});

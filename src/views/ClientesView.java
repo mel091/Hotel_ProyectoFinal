@@ -690,7 +690,7 @@ public class ClientesView {
 		JLabel editar = new JLabel("Cliente");
 		editar.setForeground(new Color(0, 0, 0));
 		editar.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		editar.setBounds(475, 30, 179, 46);
+		editar.setBounds(500, 30, 179, 46);
 		panelAzul.add(editar);
 	
 		JLabel fondoCliente = new JLabel("");
