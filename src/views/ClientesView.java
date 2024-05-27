@@ -424,9 +424,7 @@ public class ClientesView {
 			
 	}
 
-	
-
-	
+		
 	public void crear()
 	{
 		//Panel principal
@@ -1443,6 +1441,7 @@ public class ClientesView {
 		frame.revalidate();
 	}
 	
+	
 	public void editar()
 	{
 		//Panel principal
@@ -1695,19 +1694,206 @@ public class ClientesView {
 		panelCentral.setBounds(150,111,1175, 560);
 		panelCentral.setLayout(null);
 		panelEditar.add(panelCentral);
-	
-		//Titulo del panel central
-		JLabel editarClientes = new JLabel("Editar clientes");
-		editarClientes.setForeground(new Color(0, 0, 0));
-		editarClientes.setFont(new Font("Palatino Linotype", Font.BOLD, 35));
-		editarClientes.setBounds(439, 33, 465, 65);
-		panelCentral.add(editarClientes);
+
 		
-		//boton de regreso
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(24, 11, 1115, 539);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
+		
+		JLabel editarCliente = new JLabel("Editar cliente");
+		editarCliente.setForeground(new Color(0, 0, 0));
+		editarCliente.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		editarCliente.setBounds(463, 30, 185, 46);
+		panelAzul.add(editarCliente);
+	
+		JLabel fondoCliente = new JLabel("");
+		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoCliente.setBounds(300, 21, 489, 45);
+		panelAzul.add(fondoCliente);
+		
+		JPanel panelInfo = new JPanel();
+		panelInfo.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
+		panelInfo.setBounds(42, 87, 1038, 384);
+		panelAzul.add(panelInfo);
+		panelInfo.setLayout(null);
+		
+		JButton subirBtn= new JButton();
+		subirBtn.setFont(new Font("Palatino Linotype", Font.BOLD, 28));
+		subirBtn.setForeground(new Color(255, 255, 255));
+		subirBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/subirCliente.png")));
+		subirBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Subir");
+			}
+		});
+		subirBtn.setBorderPainted(false);
+		subirBtn.setContentAreaFilled(false);
+		subirBtn.setBounds(581, 18, 420, 116);
+		panelInfo.add(subirBtn);
+		
+		JLabel nombre = new JLabel("Nombre completo");
+		nombre.setForeground(Color.BLACK);
+		nombre.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nombre.setBounds(35, 11, 196, 46);
+		panelInfo.add(nombre);
+		
+	
+		JTextField nombreResp = new JTextField();
+		nombreResp.setBorder(BorderFactory.createCompoundBorder(
+				nombreResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		nombreResp.setBackground(new Color(217, 217, 217));
+		nombreResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		nombreResp.setBounds(35, 53, 420, 25);
+		panelInfo.add(nombreResp);
+		nombreResp.setColumns(10);
+		
+		JLabel correoElectronico = new JLabel("Correo electrónico");
+		correoElectronico.setForeground(Color.BLACK);
+		correoElectronico.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		correoElectronico.setBounds(35, 83, 196, 46);
+		panelInfo.add(correoElectronico);
+		
+		JTextField correoResp = new JTextField();
+		correoResp.setBorder(BorderFactory.createCompoundBorder(
+				correoResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		correoResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		correoResp.setColumns(10);
+		correoResp.setBackground(new Color(217, 217, 217));
+		correoResp.setBounds(35, 125, 420, 25);
+		panelInfo.add(correoResp);
+		
+		JLabel noTelefono = new JLabel("Número de teléfono");
+		noTelefono.setForeground(Color.BLACK);
+		noTelefono.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		noTelefono.setBounds(35, 157, 216, 46);
+		panelInfo.add(noTelefono);
+		
+		JTextField telResp = new JTextField();
+		telResp.setBorder(BorderFactory.createCompoundBorder(
+				telResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		telResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		telResp.setColumns(10);
+		telResp.setBackground(new Color(217, 217, 217));
+		telResp.setBounds(35, 198, 420, 25);
+		panelInfo.add(telResp);
+		
+		JLabel direccion = new JLabel("Dirección");
+		direccion.setForeground(Color.BLACK);
+		direccion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		direccion.setBounds(35, 227, 109, 46);
+		panelInfo.add(direccion);
+		
+		JTextField direccionResp = new JTextField();
+		direccionResp.setBorder(BorderFactory.createCompoundBorder(
+				direccionResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		direccionResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		direccionResp.setColumns(10);
+		direccionResp.setBackground(new Color(217, 217, 217));
+		direccionResp.setBounds(35, 266, 420, 25);
+		panelInfo.add(direccionResp);
+		
+		JLabel nombreContacto = new JLabel("Nombre del contacto de emergencia");
+		nombreContacto.setForeground(Color.BLACK);
+		nombreContacto.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nombreContacto.setBounds(35, 297, 364, 46);
+		panelInfo.add(nombreContacto);
+		
+		JTextField contactoResp = new JTextField();
+		contactoResp.setBorder(BorderFactory.createCompoundBorder(
+				contactoResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		contactoResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		contactoResp.setColumns(10);
+		contactoResp.setBackground(new Color(217, 217, 217));
+		contactoResp.setBounds(35, 340, 420, 25);
+		panelInfo.add(contactoResp);
+		
+		JLabel relacion = new JLabel("Relación con el cliente");
+		relacion.setForeground(Color.BLACK);
+		relacion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		relacion.setBounds(581, 142, 233, 46);
+		panelInfo.add(relacion);
+		
+
+		JTextField relacionResp = new JTextField();
+		relacionResp.setBorder(BorderFactory.createCompoundBorder(
+				relacionResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		relacionResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		relacionResp.setColumns(10);
+		relacionResp.setBackground(new Color(217, 217, 217));
+		relacionResp.setBounds(581, 179, 420, 25);
+		panelInfo.add(relacionResp);
+		
+		JLabel noContacto = new JLabel("Número del contacto de emergencia");
+		noContacto.setForeground(Color.BLACK);
+		noContacto.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		noContacto.setBounds(581, 211, 364, 46);
+		panelInfo.add(noContacto);
+		
+		JTextField noContactoResp = new JTextField();
+		noContactoResp.setBorder(BorderFactory.createCompoundBorder(
+				noContactoResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		noContactoResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		noContactoResp.setColumns(10);
+		noContactoResp.setBackground(new Color(217, 217, 217));
+		noContactoResp.setBounds(581, 248, 420, 25);
+		panelInfo.add(noContactoResp);
+		
+		JTextArea infoAdResp = new JTextArea();
+		infoAdResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoAdResp.setBorder(BorderFactory.createLineBorder(Color.gray, 1));
+		infoAdResp.setBackground(new Color(217, 217, 217));
+		infoAdResp.setBounds(581, 315, 420, 50);
+		panelInfo.add(infoAdResp);
+		
+		JLabel infoAdicional = new JLabel("Información adicional");
+		infoAdicional.setForeground(Color.BLACK);
+		infoAdicional.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		infoAdicional.setBounds(581, 278, 233, 46);
+		panelInfo.add(infoAdicional);
+		
+		JButton botonVacio = new JButton();
+		botonVacio.setBorderPainted(false);
+		botonVacio.setContentAreaFilled(false);
+		botonVacio.setIcon(new ImageIcon(getClass().getResource("/contenido/eliminarCliente.png")));
+		botonVacio.setBounds(85, 482, 387, 50);
+		panelAzul.add(botonVacio);
+		
+		JButton botonCrear = new JButton();
+		botonCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		botonCrear.setBorderPainted(false);
+		botonCrear.setContentAreaFilled(false);
+		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/guardarCambios.png")));
+		botonCrear.setBounds(642, 482, 387, 50);
+		panelAzul.add(botonCrear);
+		
+		
+		
 		JButton regresarBtn = new JButton();
-		regresarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/regresar.png")));
 		regresarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Regresar");
 				frame.dispose();
 				cliente = new ClientesController();
 				cliente.consultar();
@@ -1715,15 +1901,15 @@ public class ClientesView {
 		});
 		regresarBtn.setBorderPainted(false);
 		regresarBtn.setContentAreaFilled(false);
-		regresarBtn.setBounds(33, 11, 80, 80);
-		panelCentral.add(regresarBtn);
+		regresarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/regresar.png")));
+		regresarBtn.setBounds(42, 15, 60, 60);
+		panelAzul.add(regresarBtn);
 	
 		frame.getContentPane().add(panelEditar);
 		frame.setVisible(true);
 		frame.repaint();
 		frame.revalidate();
 	}
-	
 	public void historial()
 	{
 		emergente.getContentPane().removeAll();
