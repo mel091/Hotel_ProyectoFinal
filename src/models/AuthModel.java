@@ -29,7 +29,7 @@ public class AuthModel
 			try {
 				Connection cn = Conexion.conectar();
 				PreparedStatement pst = cn.prepareStatement(
-						"select username, contraseña from administrador where username = ? and contraseña = ?");
+						"select username, contraseña from usuarios where username = ? and contraseña = ?");
 				pst.setString(1, usr);
 				pst.setString(2, psw);
 			
@@ -54,12 +54,12 @@ public class AuthModel
 		
 	}
 	
-	public void registro(String nombreC, String username, String psw)
+	public void registro(String nombreC, String username, String psw, String psw1)
 	{		
 			try {
 				Connection cn = Conexion.conectar();
-				PreparedStatement pst = cn.prepareStatement("insert into administrador (idAdmin, nombreCompleto, username, contraseña) values(?, ?, ?, ?)"); //signos = num columnas
-				String password = new String(psw.toString());
+				PreparedStatement pst = cn.prepareStatement("insert into usuarios (idAdmin, nombreCompleto, username, contraseña) values(?, ?, ?, ?)"); //signos = num columnas
+				
 				pst.setString(1, "0");
 				pst.setString(2, nombreC); //trim quita espacios del inicio y final del input
 				pst.setString(3, username);
