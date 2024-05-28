@@ -52,6 +52,20 @@ public class ClientesView {
 	public RentasController renta;
 	public HabitacionesController room;
 
+//	String idCliente = "";
+//	Clientes clienteDetalles;
+//	
+//	JTextField infoIdCliente = new JTextField("");
+//	JTextField infoNombre = new JTextField("");
+//	JTextField infoCorreo = new JTextField("");
+//	JTextField infoTelefono = new JTextField("");
+//	JTextField infoDireccion = new JTextField("");
+//	JTextField infoNomEmerg = new JTextField("");
+//	JTextField infoNumeroEmerg = new JTextField("");
+//	JTextField infoRelacion = new JTextField("");
+//	JTextArea infoAdicional = new JTextArea("");
+//	JTextField infoEstado = new JTextField("");
+	// borra las que tengan los cosos estos /////////////////////
 	
 	public ClientesView () {
 		frame = new JFrame();
@@ -335,15 +349,28 @@ public class ClientesView {
 		editarBtn.setBounds(690, 470, 328, 45);
 		panelCentral.add(editarBtn);
 		
-		JButton detallesBtn= new JButton();
+		JButton detallesBtn= new JButton(); //mueve este boton a despues de crear la tabla
 		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
 		detallesBtn.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				cliente = new ClientesController();
-				cliente.detalles();
+//				if (idCliente != null && !idCliente.isEmpty()) {
+//		    	    System.out.println(idCliente);
+//		    	    
+//		    	    model = new ClientesModel();
+//		    	    ClientesView view = new ClientesView();
+//		    	    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
+//		    	    		 view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus());
+//		    	    
+//		    	    frame.dispose();
+//		    	    
+//		    	    model.mostrarDetalles(idCliente);
+//		    	    view.detalles();
+//		    	   
+//		    	} else {
+//		    	    System.out.println("Ningún cliente seleccionado");
+//		    	}
 			}
 		});
 		detallesBtn.setBorderPainted(false);
@@ -361,7 +388,10 @@ public class ClientesView {
 		panelDeTabla.setBounds(25, 25, 1023, 316);
 		panelAzul.add(panelDeTabla);
 		
-		String tableTitle[]={"ID del cliente", "Nombre completo", "Correo electrónico", "Número telefónico", "Estado de hospedaje"};
+		//inicializa el model
+		//DefaultTableModel datosClientes = model.tablaClientes();
+		
+		String tableTitle[]={"ID del cliente", "Nombre completo", "Correo electrónico", "Número telefónico", "Estado de hospedaje"}; //borra de aqui
 		String tableData[][] = {
 							    {"", "", "", "", ""},
 							    {"", "", "", "", ""},
@@ -393,9 +423,10 @@ public class ClientesView {
 							    {"", "", "", "", ""},
 							    {"", "", "", "", ""},
 							    {"", "", "", "", ""}
-		};
+		}; //hasta aqui
 	
-	JTable productoTable= new JTable(tableData, tableTitle);
+	JTable productoTable= new JTable(tableData, tableTitle); //dentro de los parentesis mete "datosClientes" 
+															// del DefaultTable arriba
 	productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
 	productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
 	{
@@ -407,8 +438,9 @@ public class ClientesView {
                     int selectedRow = productoTable.getSelectedRow();
                     if (selectedRow != -1) 
                     { 
-                        System.out.println("Fila seleccionada: " + selectedRow);
-                        
+                        System.out.println("Fila seleccionada: " + selectedRow); //borra este
+//                        idCliente = (String) clientesTabla.getValueAt(selectedRow, 0);
+//                    	System.out.println("ID seleccionado: " + idCliente);
                     }
                 }
             }
@@ -417,10 +449,13 @@ public class ClientesView {
 		
 		JScrollPane tableScroll=new JScrollPane(productoTable);
 		tableScroll.setBounds(0, 0, 1023, 316);
+		//panelDeTabla.removeAll();
 		panelDeTabla.add(tableScroll);
 
-		
-		frame.getContentPane().add(panelConsultar);
+//		panelDeTabla.revalidate();
+//	    panelDeTabla.repaint();
+	    
+		frame.getContentPane().add(panelConsultar); //que este quede despues del boton de detalles
 			
 	}
 
@@ -712,10 +747,12 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Subir");
-				model = new ClientesModel();
-				model.subirImg();
+//				model = new ClientesModel();
+//				model.subirImg();
+//				
+//				model.imagen(subirBtn);
+//				
+//				subirBtn.setEnabled(false); el boton no sirve despues de que q se click una vez
 			}
 		});
 		subirBtn.setBorderPainted(false);
@@ -879,6 +916,19 @@ public class ClientesView {
 		JButton botonCrear = new JButton();
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				String nombre = nombreResp.getText();
+//				String correo = correoResp.getText();
+//				String tel = telResp.getText();
+//				String dir = direccionResp.getText();
+//				String contactoEmergencia = contactoResp.getText();
+//				String relacion = relacionResp.getText();
+//				String telEmergencia = noContactoResp.getText();
+//				String info = infoAdResp.getText();
+//				
+//				InputStream img = model.getImagen();
+//				
+//				model = new ClientesModel();
+//				model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, img);
 			}
 		});
 		botonCrear.setBorderPainted(false);
@@ -1245,7 +1295,7 @@ public class ClientesView {
 		idCliente.setBounds(20, 11, 354, 29);
 		panelInfo.add(idCliente);
 		
-		JTextField infoIdCliente = new JTextField("271873");
+		JTextField infoIdCliente = new JTextField("271873"); ///////////////////////////////////// borra
 		infoIdCliente.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoIdCliente.setBorder(BorderFactory.createCompoundBorder(
 				infoIdCliente.getBorder(),
@@ -1262,7 +1312,7 @@ public class ClientesView {
 		nomCompleto.setBounds(20, 78, 354, 29);
 		panelInfo.add(nomCompleto);
 		
-		JTextField infoNombre = new JTextField("Juan Dominguez");
+		JTextField infoNombre = new JTextField("Juan Dominguez"); ///////////////////////////////////// borra
 		infoNombre.setBorder(BorderFactory.createCompoundBorder(
 				infoNombre.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1280,7 +1330,7 @@ public class ClientesView {
 		correoElect.setBounds(20, 143, 354, 29);
 		panelInfo.add(correoElect);
 		
-		JTextField infoCorreo = new JTextField("pepe@gmail.com");
+		JTextField infoCorreo = new JTextField("pepe@gmail.com"); ///////////////////////////////////// borra
 		infoCorreo.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoCorreo.setBorder(BorderFactory.createCompoundBorder(
 				infoCorreo.getBorder(),
@@ -1299,7 +1349,7 @@ public class ClientesView {
 		noTelefono.setBounds(20, 207, 354, 29);
 		panelInfo.add(noTelefono);
 		
-		JTextField infoTelefono = new JTextField("612 234 7639");
+		JTextField infoTelefono = new JTextField("612 234 7639"); ///////////////////////////////////// borra
 		infoTelefono.setBorder(BorderFactory.createCompoundBorder(
 				infoTelefono.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1317,7 +1367,7 @@ public class ClientesView {
 		direccion.setBounds(20, 274, 354, 29);
 		panelInfo.add(direccion);
 		
-		JTextField infoDireccion = new JTextField("Calle Lupe 123");
+		JTextField infoDireccion = new JTextField("Calle Lupe 123"); ///////////////////////////////////// borra
 		infoDireccion.setBorder(BorderFactory.createCompoundBorder(
 				infoDireccion.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1337,7 +1387,7 @@ public class ClientesView {
 		panelInfo.add(nombreContEmerg);
 		
 		
-		JTextField infoNomEmerg = new JTextField("Juan Diego Dominguez Vega");
+		JTextField infoNomEmerg = new JTextField("Juan Diego Dominguez Vega"); ///////////////////////////////////// borra
 		infoNomEmerg.setBorder(BorderFactory.createCompoundBorder(
 				infoNomEmerg.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1356,7 +1406,7 @@ public class ClientesView {
 		panelInfo.add(numeroContEmerg);
 		
 		
-		JTextField infoNumeroEmerg = new JTextField("612 344 1283");
+		JTextField infoNumeroEmerg = new JTextField("612 344 1283"); ///////////////////////////////////// borra
 		infoNumeroEmerg.setBorder(BorderFactory.createCompoundBorder(
 				infoNumeroEmerg.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1376,7 +1426,7 @@ public class ClientesView {
 		panelInfo.add(relacionCliente);
 		
 		
-		JTextField infoRelacion = new JTextField("Hermano");
+		JTextField infoRelacion = new JTextField("Hermano"); ///////////////////////////////////// borra
 		infoRelacion.setBorder(BorderFactory.createCompoundBorder(
 				infoRelacion.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1396,7 +1446,7 @@ public class ClientesView {
 		panelInfo.add(informacionAdicional);
 		
 		
-		JTextArea infoAdicional = new JTextArea("Ninguna");
+		JTextArea infoAdicional = new JTextArea("Ninguna"); ///////////////////////////////////// borra
 		infoAdicional.setBorder(BorderFactory.createCompoundBorder(
 				infoAdicional.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1415,7 +1465,7 @@ public class ClientesView {
 		panelInfo.add(estadoHospedaje);
 		
 		
-		JTextField infoEstado = new JTextField("Hospedado");
+		JTextField infoEstado = new JTextField("Hospedado"); ///////////////////////////////////// borra
 		infoEstado.setBorder(BorderFactory.createCompoundBorder(
 				infoEstado.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1439,6 +1489,8 @@ public class ClientesView {
 		frame.setVisible(true);
 		frame.repaint();
 		frame.revalidate();
+		
+		//revalida y repinta el panelInfo x si acaso
 	}
 	
 	
@@ -2051,4 +2103,16 @@ public class ClientesView {
 	    emergente.revalidate();
 
 	}
+
+//	public JTextField getId() {		añade este para todos los textField (id, nombre, correo, telefono, direccion, etc)
+//        return infoIdCliente;		el retorno es el nombre que le colocaste a los textField
+//    }
+	
+//	public JTextArea getInfo()		especial pq es un textArea
+//	{
+//		return infoAdicional;
+//	}
+	
+	
+	//solo falta la imagen
 }
