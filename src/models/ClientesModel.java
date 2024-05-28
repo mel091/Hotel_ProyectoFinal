@@ -125,7 +125,39 @@ public class ClientesModel
         }
 	}
 	
-	
+	public DefaultTableModel tablaClientes() //tabla de sql
+	{
+		DefaultTableModel tabla = new DefaultTableModel();
+		tabla.addColumn("ID");
+		tabla.addColumn("Nombre completo");
+		tabla.addColumn("Correo electrónico");
+		tabla.addColumn("Teléfono");
+		tabla.addColumn("Estado de hospedaje");
+		
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement pst = cn.prepareStatement("select idCliente, nombreCompleto, correo, telefono, estatus from clientes");
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next())
+			{
+				Object[] fila = new Object[5]; //ajusta tam x el num de columnas
+				fila[0] = rs.getString("idCliente");
+				fila[1] = rs.getString("nombreCompleto");
+				fila[2] = rs.getString("correo");
+				fila[3] = rs.getString("telefono");
+				fila[4] = rs.getString("estatus");
+				
+				tabla.addRow(fila);
+			}
+			
+			cn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return tabla;
+	}
 	
 	public InputStream getImagen()
 	{
