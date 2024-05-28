@@ -159,6 +159,76 @@ public class ClientesModel
 		return tabla;
 	}
 	
+	public void textField(JTextField idC, JTextField nombre, JTextField correo, JTextField telefono, JTextField direccion, JTextField nombreEmergencia, JTextField relacion,
+			JTextField telefonoEmergencia, JTextArea infoAdicional, JTextField estatus)
+	{
+		this.idC = idC;
+		this.nombre = nombre;
+		this.correo = correo;
+		this.telefono = telefono;
+		this.direccion = direccion;
+		this.nombreEmergencia = nombreEmergencia;
+		this.relacion = relacion;
+		this.telefonoEmergencia = telefonoEmergencia;
+		this.infoAdicional = infoAdicional;
+		this.estatus = estatus;
+	}
+	
+	public Clientes mostrarDetalles(String id)
+	{
+		Clientes cliente = null;
+		
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement pst = cn.prepareStatement("select * from clientes where idCliente = ?");
+			pst.setString(1, id);
+		
+			ResultSet rs = pst.executeQuery();
+			
+			if(rs.next())
+			{
+				byte[] imagen = rs.getBytes("img");
+				cliente = new Clientes(
+				rs.getString("idCliente"),
+				rs.getString("nombreCompleto"),
+				rs.getString("correo"),
+				rs.getString("telefono"),
+				rs.getString("direccion"),
+				rs.getString("contactoEmergencia"),
+				rs.getString("relacionCliente"),
+				rs.getString("telefonoEmergencia"),
+				rs.getString("infAdicional"),
+				rs.getString("estatus"),
+				imagen
+				);
+				
+				System.out.println("encontrado: " + cliente.toString());
+				 if (id != null && nombre != null) 
+				 {
+                    idC.setText(rs.getString("idCliente"));  // Actualiza el JTextField
+                    nombre.setText(rs.getString("nombreCompleto"));
+                    correo.setText(rs.getString("correo"));
+                    telefono.setText(rs.getString("telefono"));
+                    direccion.setText(rs.getString("direccion"));
+                    nombreEmergencia.setText(rs.getString("contactoEmergencia"));
+                    relacion.setText(rs.getString("relacionCliente"));
+                    telefonoEmergencia.setText(rs.getString("telefonoEmergencia"));
+                    infoAdicional.setText(rs.getString("infAdicional"));
+                    estatus.setText(rs.getString("estatus"));
+				 }
+	            } else {
+	                System.out.println("no");
+	            }
+			
+			rs.close();
+			pst.close();
+			cn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cliente;
+	}
+	
 	public InputStream getImagen()
 	{
 		return imagenSeleccionada;
