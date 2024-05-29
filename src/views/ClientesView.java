@@ -362,7 +362,7 @@ public class ClientesView {
 //		    	    ClientesView view = new ClientesView();
 //		    	    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
 //		    	    		 view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus());
-//		    	    
+//		    	    model.panel(view.getPanelImg());
 //		    	    frame.dispose();
 //		    	    
 //		    	    model.mostrarDetalles(idCliente);
@@ -929,6 +929,7 @@ public class ClientesView {
 //				
 //				model = new ClientesModel();
 //				model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, img);
+				
 			}
 		});
 		botonCrear.setBorderPainted(false);
@@ -1283,7 +1284,7 @@ public class ClientesView {
 		panelCentral.add(panel);
 		panel.setLayout(null);
 		
-		JPanel panelImagen = new JPanel();
+		JPanel panelImagen = new JPanel(); //////////////////////////////////////////borra
 		panelImagen.setBounds(20, 20, 472, 291);
 		panel.add(panelImagen);
 		panelImagen.setLayout(null);
@@ -1986,6 +1987,11 @@ public class ClientesView {
 		fondoTexto.setBounds(0,0,emergente.getWidth(),50);
 		historialPanel.add(fondoTexto);
 		
+		//inicializa el model
+		//DefaultTableModel historialClientes = model.tablaHistorialClientes();
+		
+		// copia y pega lo mismo de la anterior tabla, menos el listener me parece y añadir el otro panel para que la tabla pueda agregarse
+		
 		JButton botonAceptar = new JButton("Aceptar");
 		botonAceptar.addActionListener(new ActionListener()
 		{
@@ -2112,6 +2118,10 @@ public class ClientesView {
 //	{
 //		return infoAdicional;
 //	}
+	
+//	public JPanel getPanelImg() {
+//        return panelImg;
+//    }
 	
 	
 	//solo falta la imagen

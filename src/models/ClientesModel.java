@@ -1,6 +1,7 @@
 package models;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,6 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -37,7 +40,7 @@ public class ClientesModel
 	private JTextField telefonoEmergencia;
 	private JTextArea infoAdicional;
 	private JTextField estatus;
-	
+	private JPanel panelImg;
 	
 	public ClientesModel()
 	{
@@ -159,6 +162,43 @@ public class ClientesModel
 		return tabla;
 	}
 	
+	public DefaultTableModel tablaHistorialClientes() //tabla de sql
+	{
+		DefaultTableModel tabla = new DefaultTableModel();
+		tabla.addColumn("ID de la renta");
+		tabla.addColumn("Fecha inicial");
+		tabla.addColumn("Fecha final");
+		tabla.addColumn("Costo final");
+		tabla.addColumn("Estatus de la reserva");
+		tabla.addColumn("Estado de la reserva");
+		
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement pst = cn.prepareStatement("select rentas.idRenta, rentas.fecha_inicial, rentas.fecha_final, rentas.costo_final, "
+					+ "rentas.estatus AS estatus_reserva, clientes.estatus AS estatus_cliente from rentas join clientes on rentas.idCliente = clientes.idCliente");
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next())
+			{
+				Object[] fila = new Object[6]; //ajusta tam x el num de columnas
+				 fila[0] = rs.getString("idRenta");
+		         fila[1] = rs.getString("fecha_inicial");
+		         fila[2] = rs.getString("fecha_final");
+		         fila[3] = rs.getString("costo_final");
+		         fila[4] = rs.getString("estatus_reserva");
+		         fila[5] = rs.getString("estatus_cliente");
+				
+				tabla.addRow(fila);
+			}
+			
+			cn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return tabla;
+	}
+	
 	public void textField(JTextField idC, JTextField nombre, JTextField correo, JTextField telefono, JTextField direccion, JTextField nombreEmergencia, JTextField relacion,
 			JTextField telefonoEmergencia, JTextArea infoAdicional, JTextField estatus)
 	{
@@ -172,6 +212,24 @@ public class ClientesModel
 		this.telefonoEmergencia = telefonoEmergencia;
 		this.infoAdicional = infoAdicional;
 		this.estatus = estatus;
+	}
+	
+	public void panel(JPanel panelImg)
+	{
+		this.panelImg = panelImg;
+	}
+	
+	public BufferedImage byteToImage(byte[] imgByte) // saca la img de la base de datos y convierte 
+	{
+		if(imgByte != null && imgByte.length > 0)
+		{
+			try {
+				return ImageIO.read(new ByteArrayInputStream(imgByte));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 	
 	public Clientes mostrarDetalles(String id)
@@ -215,6 +273,21 @@ public class ClientesModel
                     telefonoEmergencia.setText(rs.getString("telefonoEmergencia"));
                     infoAdicional.setText(rs.getString("infAdicional"));
                     estatus.setText(rs.getString("estatus"));
+                    
+                    if(panelImg != null)
+                    {
+                    	panelImg.removeAll(); // quita todo para colocar img
+                    	BufferedImage img = byteToImage(imagen);
+                    	
+                    	if(img != null)
+                    	{
+                    		JLabel label = new JLabel(new ImageIcon(img));
+                    		panelImg.add(label);
+                    	}
+                    	
+                    	panelImg.revalidate();
+                    	panelImg.repaint();
+                    }
 				 }
 	            } else {
 	                System.out.println("no");
