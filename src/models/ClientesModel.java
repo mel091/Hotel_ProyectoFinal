@@ -68,8 +68,8 @@ public class ClientesModel
 			
 			if(img != null)
 			{
-				//pst.setBlob(10, img);
-				pst.setBinaryStream(10, img);
+				pst.setBlob(10, img);
+				//pst.setBinaryStream(10, img);
 			}
 			else
 			{
