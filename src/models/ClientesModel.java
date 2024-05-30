@@ -99,13 +99,11 @@ public class ClientesModel
 		}
 	}
 	
-public void descargar(String id) {
-		
-		this.idRecuperado = id;
-		System.out.println(idRecuperado);
+	public void descargar(String id) 
+	{
 	    Document documento = new Document();
 	    try {
-	        String ruta = System.getProperty("user.home") + File.separator + "InformacionCliente";
+	        String ruta = System.getProperty("user.home") + File.separator + "Información_Cliente";
 	        File directoEscritorio = new File(ruta);
 
 	        if (!directoEscritorio.exists()) {
@@ -126,12 +124,12 @@ public void descargar(String id) {
 
 	        // Configurar tabla con 10 columnas
 	        PdfPTable tabla = new PdfPTable(10);
-	        tabla.setWidthPercentage(100); // Ancho de la tabla
-	        tabla.setSpacingBefore(10f); // Espaciado antes de la tabla
-	        tabla.setSpacingAfter(10f); // Espaciado después de la tabla
+	        tabla.setWidthPercentage(100); 
+	        tabla.setSpacingBefore(10f); 
+	        tabla.setSpacingAfter(10f); 
 
 	        // Configurar anchos de columnas
-	        float[] columnWidths = {1f, 2f, 2f, 1.5f, 2.5f, 2.5f, 2f, 1.5f, 2.5f, 1.5f};
+	        float[] columnWidths = {1f, 2f, 2f, 1.5f, 2f, 2f, 2f, 1.5f, 2.5f, 1.5f};
 	        tabla.setWidths(columnWidths);
 
 	        // Añadir encabezados de columnas
@@ -142,7 +140,7 @@ public void descargar(String id) {
 	        };
 
 	        for (String header : columnHeaders) {
-	            PdfPCell cell = new PdfPCell(new Paragraph(header, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10)));
+	            PdfPCell cell = new PdfPCell(new Paragraph(header, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
 	            cell.setBackgroundColor(BaseColor.PINK);
 	            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -159,7 +157,7 @@ public void descargar(String id) {
 
 	            if (rs.next()) {
 	                for (int i = 1; i <= 10; i++) {
-	                    PdfPCell cell = new PdfPCell(new Paragraph(rs.getString(i), FontFactory.getFont(FontFactory.HELVETICA, 10)));
+	                    PdfPCell cell = new PdfPCell(new Paragraph(rs.getString(i), FontFactory.getFont(FontFactory.HELVETICA, 6)));
 	                    cell.setBackgroundColor(BaseColor.ORANGE);
 	                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	                    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -168,6 +166,10 @@ public void descargar(String id) {
 	                }
 	            }
 	            documento.add(tabla);
+	            
+	            rs.close();
+	            pst.close();
+	            cn.close();
 
 	        } catch (DocumentException | SQLException e2) {
 	            e2.printStackTrace();
@@ -180,16 +182,11 @@ public void descargar(String id) {
 	        e2.printStackTrace();
 	    }
 	}
-	
-	public void historial()
-	{
-		
-	}
-	
-	public void subirImg() //preguntar
+
+	public void subirImg() //especificaciones al seleccionar imagen en crear
 	{
 		fc = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("jpg", "png", "jpeg");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("archivo de imagen", "png");
 		fc.setFileFilter(filter);
 		int r = fc.showOpenDialog(null);
 		
@@ -254,7 +251,7 @@ public void descargar(String id) {
 		return tabla;
 	}
 	
-	public DefaultTableModel tablaHistorialClientes() //tabla de sql
+	public DefaultTableModel tablaHistorialClientes(String id) //tabla de sql
 	{
 		DefaultTableModel tabla = new DefaultTableModel();
 		tabla.addColumn("ID de la renta");
@@ -268,6 +265,7 @@ public void descargar(String id) {
 			Connection cn = Conexion.conectar();
 			PreparedStatement pst = cn.prepareStatement("select rentas.idRenta, rentas.fecha_inicial, rentas.fecha_final, rentas.costo_final, "
 					+ "rentas.estatus AS estatus_reserva, clientes.estatus AS estatus_cliente from rentas join clientes on rentas.idCliente = clientes.idCliente");
+			pst.setString(1, id);
 			ResultSet rs = pst.executeQuery();
 			
 			while(rs.next())
@@ -324,7 +322,7 @@ public void descargar(String id) {
 		return null;
 	}
 	
-	public Clientes mostrarDetalles(String id)
+	public Clientes mostrarDetalles(String id) //aparece en la ventana de detalles
 	{
 		Clientes cliente = null;
 		
@@ -336,6 +334,7 @@ public void descargar(String id) {
 			ResultSet rs = pst.executeQuery();
 			
 			if(rs.next())
+				
 			{
 				byte[] imagen = rs.getBytes("img");
 				cliente = new Clientes(
@@ -353,33 +352,32 @@ public void descargar(String id) {
 				);
 				
 				System.out.println("encontrado: " + cliente.toString());
-				 if (id != null && nombre != null) 
-				 {
-                    idC.setText(rs.getString("idCliente"));  // Actualiza el JTextField
-                    nombre.setText(rs.getString("nombreCompleto"));
-                    correo.setText(rs.getString("correo"));
-                    telefono.setText(rs.getString("telefono"));
-                    direccion.setText(rs.getString("direccion"));
-                    nombreEmergencia.setText(rs.getString("contactoEmergencia"));
-                    relacion.setText(rs.getString("relacionCliente"));
-                    telefonoEmergencia.setText(rs.getString("telefonoEmergencia"));
-                    infoAdicional.setText(rs.getString("infAdicional"));
-                    estatus.setText(rs.getString("estatus"));
-                    
-                    if(panelImg != null)
-                    {
-                    	panelImg.removeAll(); // quita todo para colocar img
-                    	BufferedImage img = byteToImage(imagen);
-                    	
-                    	if(img != null)
-                    	{
-                    		JLabel label = new JLabel(new ImageIcon(img));
-                    		panelImg.add(label);
-                    	}
-                    	
-                    	panelImg.revalidate();
-                    	panelImg.repaint();
-                    }
+				 if (id != null && nombre != null) {
+					
+	                    idC.setText(rs.getString("idCliente"));  // Actualiza el JTextField
+	                    nombre.setText(rs.getString("nombreCompleto"));
+	                    correo.setText(rs.getString("correo"));
+	                    telefono.setText(rs.getString("telefono"));
+	                    direccion.setText(rs.getString("direccion"));
+	                    nombreEmergencia.setText(rs.getString("contactoEmergencia"));
+	                    relacion.setText(rs.getString("relacionCliente"));
+	                    telefonoEmergencia.setText(rs.getString("telefonoEmergencia"));
+	                    infoAdicional.setText(rs.getString("infAdicional"));
+	                    estatus.setText(rs.getString("estatus"));
+	                   
+//	                    if(imagen != null)
+//	                    {
+//	                    	ImageIcon icon = new ImageIcon(imagen);
+//	                    	JLabel label = new JLabel(icon);
+//	                    	 panelImg.removeAll(); // Limpiar el panel antes de agregar la nueva imagen
+//	                         panelImg.add(label);
+//	                         panelImg.revalidate(); // Actualizar el panel
+//	                         panelImg.repaint();
+//	                    }
+//	                    else
+//	                    {
+//	                    	System.out.println("no se puede cargar");
+//	                    }
 				 }
 	            } else {
 	                System.out.println("no");
@@ -388,10 +386,74 @@ public void descargar(String id) {
 			rs.close();
 			pst.close();
 			cn.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return cliente;
+	}
+	
+	public void recuperaDatos(String id) {
+	    Clientes cliente = mostrarDetalles(id);
+
+	    if (cliente != null) {
+	        //idC.setText(cliente.getIdCliente());
+	        nombre.setText(cliente.getNombreCompleto());
+	        correo.setText(cliente.getCorreo());
+	        telefono.setText(cliente.getTelefono());
+	        direccion.setText(cliente.getDireccion());
+	        nombreEmergencia.setText(cliente.getContactoEmergencia());
+	        relacion.setText(cliente.getRelacionCliente());
+	        telefonoEmergencia.setText(cliente.getTelefonoEmergencia());
+	        infoAdicional.setText(cliente.getInfAdicional());
+	        //estatus.setText(cliente.getEstatus());
+	    } else {
+	        System.out.println("no hay clientes");
+	    }
+	}
+	
+	public void actualizarClientes(String id) {
+	    String nuevoNombre = nombre.getText();
+	    String nuevoCorreo = correo.getText();
+	    String nuevoTelefono = telefono.getText();
+	    String nuevaDireccion = direccion.getText();
+	    String nuevoContactoEmergencia = nombreEmergencia.getText();
+	    String nuevaRelacionCliente = relacion.getText();
+	    String nuevoTelefonoEmergencia = telefonoEmergencia.getText();
+	    String nuevaInfoAdicional = infoAdicional.getText();
+	   // String nuevoEstatus = estatus.getText();
+
+	    // Llamar al método editar para actualizar los datos en la base de datos
+	    editar(id, nuevoNombre, nuevoCorreo, nuevoTelefono, nuevaDireccion, nuevoContactoEmergencia, nuevaRelacionCliente, nuevoTelefonoEmergencia, nuevaInfoAdicional);
+	}
+	
+	public void editar(String id, String nombreCompleto, String correo, String telefono, String direccion, String contactoEmergencia, String relacionCliente, String telefonoEmergencia, String infAdicional) {
+	    try {
+	        Connection cn = Conexion.conectar();
+	        PreparedStatement pst = cn.prepareStatement("UPDATE clientes SET nombreCompleto=?, correo=?, telefono=?, direccion=?, contactoEmergencia=?, relacionCliente=?, telefonoEmergencia=?, infAdicional=?, estatus=? WHERE idCliente=?");
+	        pst.setString(1, nombreCompleto);
+	        pst.setString(2, correo);
+	        pst.setString(3, telefono);
+	        pst.setString(4, direccion);
+	        pst.setString(5, contactoEmergencia);
+	        pst.setString(6, relacionCliente);
+	        pst.setString(7, telefonoEmergencia);
+	        pst.setString(8, infAdicional);
+	        //pst.setString(9, estatus);
+	        pst.setString(10, id);
+
+	        int rowsAffected = pst.executeUpdate();
+	        if (rowsAffected > 0) {
+	            System.out.println("Cliente actualizado exitosamente.");
+	        } else {
+	            System.out.println("No se encontró ningún cliente con el ID proporcionado.");
+	        }
+
+	        pst.close();
+	        cn.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	public InputStream getImagen()
