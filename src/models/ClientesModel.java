@@ -1,25 +1,39 @@
 package models;
 
+import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import controllers.ClientesController;
 import controllers.HabitacionesController;
@@ -41,6 +55,7 @@ public class ClientesModel
 	private JTextArea infoAdicional;
 	private JTextField estatus;
 	private JPanel panelImg;
+	private String idRecuperado;
 	
 	public ClientesModel()
 	{
@@ -84,9 +99,86 @@ public class ClientesModel
 		}
 	}
 	
-	public void descargar()
-	{
+public void descargar(String id) {
 		
+		this.idRecuperado = id;
+		System.out.println(idRecuperado);
+	    Document documento = new Document();
+	    try {
+	        String ruta = System.getProperty("user.home") + File.separator + "InformacionCliente";
+	        File directoEscritorio = new File(ruta);
+
+	        if (!directoEscritorio.exists()) {
+	            System.out.println("Directorio no existente, creando");
+	            boolean dirCreated = directoEscritorio.mkdirs();
+	            if (!dirCreated) {
+	                throw new IOException("No se pudo crear el directorio del escritorio.");
+	            }
+	        } else {
+	            System.out.println("La carpeta Desktop existe.");
+	        }
+
+	        String rutaArc = ruta + File.separator + "Cliente.pdf";
+	        System.out.println(rutaArc);
+
+	        PdfWriter.getInstance(documento, new FileOutputStream(rutaArc));
+	        documento.open();
+
+	        // Configurar tabla con 10 columnas
+	        PdfPTable tabla = new PdfPTable(10);
+	        tabla.setWidthPercentage(100); // Ancho de la tabla
+	        tabla.setSpacingBefore(10f); // Espaciado antes de la tabla
+	        tabla.setSpacingAfter(10f); // Espaciado después de la tabla
+
+	        // Configurar anchos de columnas
+	        float[] columnWidths = {1f, 2f, 2f, 1.5f, 2.5f, 2.5f, 2f, 1.5f, 2.5f, 1.5f};
+	        tabla.setWidths(columnWidths);
+
+	        // Añadir encabezados de columnas
+	        String[] columnHeaders = {
+	            "ID", "Nombre", "Correo", "Teléfono", "Dirección",
+	            "Contacto de emergencia", "Relación con el cliente", "Teléfono de emergencia",
+	            "Información adicional", "Estatus"
+	        };
+
+	        for (String header : columnHeaders) {
+	            PdfPCell cell = new PdfPCell(new Paragraph(header, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10)));
+	            cell.setBackgroundColor(BaseColor.PINK);
+	            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+	            cell.setPadding(5f);
+	            tabla.addCell(cell);
+	        }
+
+	        try {
+	            Connection cn = Conexion.conectar();
+	            PreparedStatement pst = cn.prepareStatement("SELECT * FROM clientes WHERE idCliente = ?");
+	            pst.setString(1, id);
+
+	            ResultSet rs = pst.executeQuery();
+
+	            if (rs.next()) {
+	                for (int i = 1; i <= 10; i++) {
+	                    PdfPCell cell = new PdfPCell(new Paragraph(rs.getString(i), FontFactory.getFont(FontFactory.HELVETICA, 10)));
+	                    cell.setBackgroundColor(BaseColor.ORANGE);
+	                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	                    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+	                    cell.setPadding(5f);
+	                    tabla.addCell(cell);
+	                }
+	            }
+	            documento.add(tabla);
+
+	        } catch (DocumentException | SQLException e2) {
+	            e2.printStackTrace();
+	        }
+
+	        documento.close();
+	        JOptionPane.showMessageDialog(null, "Documento creado");
+
+	    } catch (DocumentException | HeadlessException | IOException e2) {
+	        e2.printStackTrace();
+	    }
 	}
 	
 	public void historial()
