@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -27,6 +28,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import controllers.Auth;
 import controllers.ClientesController;
@@ -35,6 +37,7 @@ import controllers.InicioController;
 import controllers.RentasController;
 import controllers.TarifasController;
 import controllers.TiposController;
+import models.Clientes;
 import models.ClientesModel;
 
 public class ClientesView {
@@ -52,19 +55,20 @@ public class ClientesView {
 	public RentasController renta;
 	public HabitacionesController room;
 
-//	String idCliente = "";
-//	Clientes clienteDetalles;
-//	
-//	JTextField infoIdCliente = new JTextField("");
-//	JTextField infoNombre = new JTextField("");
-//	JTextField infoCorreo = new JTextField("");
-//	JTextField infoTelefono = new JTextField("");
-//	JTextField infoDireccion = new JTextField("");
-//	JTextField infoNomEmerg = new JTextField("");
-//	JTextField infoNumeroEmerg = new JTextField("");
-//	JTextField infoRelacion = new JTextField("");
-//	JTextArea infoAdicional = new JTextArea("");
-//	JTextField infoEstado = new JTextField("");
+	String idCliente = "";
+	Clientes clienteDetalles;
+	
+	JTextField infoIdCliente = new JTextField("");
+	JTextField infoNombre = new JTextField("");
+	JTextField infoCorreo = new JTextField("");
+	JTextField infoTelefono = new JTextField("");
+	JTextField infoDireccion = new JTextField("");
+	JTextField infoNomEmerg = new JTextField("");
+	JTextField infoNumeroEmerg = new JTextField("");
+	JTextField infoRelacion = new JTextField("");
+	JTextArea infoAdicional = new JTextArea("");
+	JTextField infoEstado = new JTextField("");
+	JPanel panelImagen = new JPanel();
 	// borra las que tengan los cosos estos /////////////////////
 	
 	public ClientesView () {
@@ -349,34 +353,7 @@ public class ClientesView {
 		editarBtn.setBounds(690, 470, 328, 45);
 		panelCentral.add(editarBtn);
 		
-		JButton detallesBtn= new JButton(); //mueve este boton a despues de crear la tabla
-		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
-		detallesBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-//				if (idCliente != null && !idCliente.isEmpty()) {
-//		    	    System.out.println(idCliente);
-//		    	    
-//		    	    model = new ClientesModel();
-//		    	    ClientesView view = new ClientesView();
-//		    	    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
-//		    	    		 view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus());
-//		    	    model.panel(view.getPanelImg());
-//		    	    frame.dispose();
-//		    	    
-//		    	    model.mostrarDetalles(idCliente);
-//		    	    view.detalles();
-//		    	   
-//		    	} else {
-//		    	    System.out.println("Ningún cliente seleccionado");
-//		    	}
-			}
-		});
-		detallesBtn.setBorderPainted(false);
-		detallesBtn.setContentAreaFilled(false);
-		detallesBtn.setBounds(145, 470, 328, 45);
-		panelCentral.add(detallesBtn);
+		
 	
 		JPanel panelAzul = new JPanel();
 		panelAzul.setBackground(new Color(0, 73, 102));
@@ -389,43 +366,11 @@ public class ClientesView {
 		panelAzul.add(panelDeTabla);
 		
 		//inicializa el model
-		//DefaultTableModel datosClientes = model.tablaClientes();
+		model=new ClientesModel();
+		DefaultTableModel datosClientes = model.tablaClientes();
 		
-		String tableTitle[]={"ID del cliente", "Nombre completo", "Correo electrónico", "Número telefónico", "Estado de hospedaje"}; //borra de aqui
-		String tableData[][] = {
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""}
-		}; //hasta aqui
 	
-	JTable productoTable= new JTable(tableData, tableTitle); //dentro de los parentesis mete "datosClientes" 
+	JTable productoTable= new JTable(datosClientes); //dentro de los parentesis mete "datosClientes" 
 															// del DefaultTable arriba
 	productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
 	productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
@@ -438,9 +383,9 @@ public class ClientesView {
                     int selectedRow = productoTable.getSelectedRow();
                     if (selectedRow != -1) 
                     { 
-                        System.out.println("Fila seleccionada: " + selectedRow); //borra este
-//                        idCliente = (String) clientesTabla.getValueAt(selectedRow, 0);
-//                    	System.out.println("ID seleccionado: " + idCliente);
+                        //System.out.println("Fila seleccionada: " + selectedRow); //borra este
+                        idCliente = (String) productoTable.getValueAt(selectedRow, 0);
+                    	System.out.println("ID seleccionado: " + idCliente);
                     }
                 }
             }
@@ -452,8 +397,36 @@ public class ClientesView {
 		//panelDeTabla.removeAll();
 		panelDeTabla.add(tableScroll);
 
-//		panelDeTabla.revalidate();
-//	    panelDeTabla.repaint();
+		JButton detallesBtn= new JButton(); //mueve este boton a despues de crear la tabla
+		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
+		detallesBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (idCliente != null && !idCliente.isEmpty()) {
+		    	    System.out.println(idCliente);
+		    	    
+		    	    model = new ClientesModel();
+		    	    ClientesView view = new ClientesView();
+		    	    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
+		    	    		 view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus());
+		    	    model.panel(view.getPanelImg());
+		    	    frame.dispose();
+		    	    
+		    	    model.mostrarDetalles(idCliente);
+		    	    view.detalles();
+		    	   
+		    	} else {
+		    	    System.out.println("Ningún cliente seleccionado");
+		    	}
+			}
+		});
+		detallesBtn.setBorderPainted(false);
+		detallesBtn.setContentAreaFilled(false);
+		detallesBtn.setBounds(145, 470, 328, 45);
+		panelCentral.add(detallesBtn);
+		panelDeTabla.revalidate();
+	    panelDeTabla.repaint();
 	    
 		frame.getContentPane().add(panelConsultar); //que este quede despues del boton de detalles
 			
@@ -747,12 +720,12 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				model = new ClientesModel();
-//				model.subirImg();
-//				
-//				model.imagen(subirBtn);
-//				
-//				subirBtn.setEnabled(false); el boton no sirve despues de que q se click una vez
+				model = new ClientesModel();
+				model.subirImg();
+				
+				model.imagen(subirBtn);
+				
+				subirBtn.setEnabled(false); //el boton no sirve despues de que q se click una vez
 			}
 		});
 		subirBtn.setBorderPainted(false);
@@ -916,19 +889,19 @@ public class ClientesView {
 		JButton botonCrear = new JButton();
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				String nombre = nombreResp.getText();
-//				String correo = correoResp.getText();
-//				String tel = telResp.getText();
-//				String dir = direccionResp.getText();
-//				String contactoEmergencia = contactoResp.getText();
-//				String relacion = relacionResp.getText();
-//				String telEmergencia = noContactoResp.getText();
-//				String info = infoAdResp.getText();
-//				
-//				InputStream img = model.getImagen();
-//				
-//				model = new ClientesModel();
-//				model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, img);
+				String nombre = nombreResp.getText();
+				String correo = correoResp.getText();
+				String tel = telResp.getText();
+				String dir = direccionResp.getText();
+				String contactoEmergencia = contactoResp.getText();
+				String relacion = relacionResp.getText();
+				String telEmergencia = noContactoResp.getText();
+				String info = infoAdResp.getText();
+				
+				InputStream img = model.getImagen();
+				
+				model = new ClientesModel();
+				model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, img);
 				
 			}
 		});
@@ -1284,7 +1257,7 @@ public class ClientesView {
 		panelCentral.add(panel);
 		panel.setLayout(null);
 		
-		JPanel panelImagen = new JPanel(); //////////////////////////////////////////borra
+		
 		panelImagen.setBounds(20, 20, 472, 291);
 		panel.add(panelImagen);
 		panelImagen.setLayout(null);
@@ -1296,7 +1269,7 @@ public class ClientesView {
 		idCliente.setBounds(20, 11, 354, 29);
 		panelInfo.add(idCliente);
 		
-		JTextField infoIdCliente = new JTextField("271873"); ///////////////////////////////////// borra
+		
 		infoIdCliente.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoIdCliente.setBorder(BorderFactory.createCompoundBorder(
 				infoIdCliente.getBorder(),
@@ -1313,7 +1286,7 @@ public class ClientesView {
 		nomCompleto.setBounds(20, 78, 354, 29);
 		panelInfo.add(nomCompleto);
 		
-		JTextField infoNombre = new JTextField("Juan Dominguez"); ///////////////////////////////////// borra
+		
 		infoNombre.setBorder(BorderFactory.createCompoundBorder(
 				infoNombre.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1331,7 +1304,7 @@ public class ClientesView {
 		correoElect.setBounds(20, 143, 354, 29);
 		panelInfo.add(correoElect);
 		
-		JTextField infoCorreo = new JTextField("pepe@gmail.com"); ///////////////////////////////////// borra
+		
 		infoCorreo.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoCorreo.setBorder(BorderFactory.createCompoundBorder(
 				infoCorreo.getBorder(),
@@ -1350,7 +1323,7 @@ public class ClientesView {
 		noTelefono.setBounds(20, 207, 354, 29);
 		panelInfo.add(noTelefono);
 		
-		JTextField infoTelefono = new JTextField("612 234 7639"); ///////////////////////////////////// borra
+		
 		infoTelefono.setBorder(BorderFactory.createCompoundBorder(
 				infoTelefono.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1368,7 +1341,7 @@ public class ClientesView {
 		direccion.setBounds(20, 274, 354, 29);
 		panelInfo.add(direccion);
 		
-		JTextField infoDireccion = new JTextField("Calle Lupe 123"); ///////////////////////////////////// borra
+		
 		infoDireccion.setBorder(BorderFactory.createCompoundBorder(
 				infoDireccion.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1388,7 +1361,7 @@ public class ClientesView {
 		panelInfo.add(nombreContEmerg);
 		
 		
-		JTextField infoNomEmerg = new JTextField("Juan Diego Dominguez Vega"); ///////////////////////////////////// borra
+		
 		infoNomEmerg.setBorder(BorderFactory.createCompoundBorder(
 				infoNomEmerg.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1407,7 +1380,7 @@ public class ClientesView {
 		panelInfo.add(numeroContEmerg);
 		
 		
-		JTextField infoNumeroEmerg = new JTextField("612 344 1283"); ///////////////////////////////////// borra
+		
 		infoNumeroEmerg.setBorder(BorderFactory.createCompoundBorder(
 				infoNumeroEmerg.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1427,7 +1400,7 @@ public class ClientesView {
 		panelInfo.add(relacionCliente);
 		
 		
-		JTextField infoRelacion = new JTextField("Hermano"); ///////////////////////////////////// borra
+		
 		infoRelacion.setBorder(BorderFactory.createCompoundBorder(
 				infoRelacion.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1447,7 +1420,7 @@ public class ClientesView {
 		panelInfo.add(informacionAdicional);
 		
 		
-		JTextArea infoAdicional = new JTextArea("Ninguna"); ///////////////////////////////////// borra
+		
 		infoAdicional.setBorder(BorderFactory.createCompoundBorder(
 				infoAdicional.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1466,7 +1439,7 @@ public class ClientesView {
 		panelInfo.add(estadoHospedaje);
 		
 		
-		JTextField infoEstado = new JTextField("Hospedado"); ///////////////////////////////////// borra
+		
 		infoEstado.setBorder(BorderFactory.createCompoundBorder(
 				infoEstado.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1988,7 +1961,47 @@ public class ClientesView {
 		historialPanel.add(fondoTexto);
 		
 		//inicializa el model
-		//DefaultTableModel historialClientes = model.tablaHistorialClientes();
+		
+		
+		JPanel paneltablitaAzul= new JPanel();
+		paneltablitaAzul.setBounds(50, 60, 530, 270);
+		paneltablitaAzul.setBackground(new Color(0,73,102));
+		paneltablitaAzul.setLayout(null);
+		historialPanel.add(paneltablitaAzul);
+		
+		JPanel paneltablita= new JPanel();
+		paneltablita.setBounds(10, 10, 510, 250);
+		paneltablita.setBackground(Color.white);
+		paneltablita.setLayout(null);
+		paneltablitaAzul.add(paneltablita);
+
+		model=new ClientesModel();
+		DefaultTableModel historialClientes= model.tablaHistorialClientes();
+		
+		JTable productoTable= new JTable(historialClientes); //dentro de los parentesis mete "datosClientes" 
+		// del DefaultTable arriba
+		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+		{
+			@Override
+			public void valueChanged(ListSelectionEvent e) 
+			{
+				if (!e.getValueIsAdjusting()) 
+				{
+					int selectedRow = productoTable.getSelectedRow();
+					if (selectedRow != -1) 
+					{ 
+						//System.out.println("Fila seleccionada: " + selectedRow); //borra este
+						idCliente = (String) productoTable.getValueAt(selectedRow, 0);
+						System.out.println("ID seleccionado: " + idCliente);
+					}
+				}
+			}
+		});
+		paneltablita.setLayout(null);
+		
+//		model=new ClientesModel();
+//		DefaultTableModel historialClientes = model.tablaHistorialClientes();
 		
 		// copia y pega lo mismo de la anterior tabla, menos el listener me parece y añadir el otro panel para que la tabla pueda agregarse
 		
@@ -2007,12 +2020,12 @@ public class ClientesView {
 		botonAceptar.setBorderPainted(false);
 		botonAceptar.setContentAreaFilled(false);
 		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		botonAceptar.setBounds(220, 330, 181, 51);
+		botonAceptar.setBounds(220, 345, 181, 51);
 		historialPanel.add(botonAceptar);
 		
 		JLabel imgAceptar= new JLabel();
 		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgAceptar.setBounds(220, 330, 181, 51);
+		imgAceptar.setBounds(220, 345, 181, 51);
 		historialPanel.add(imgAceptar);
 		
 		
@@ -2110,18 +2123,523 @@ public class ClientesView {
 
 	}
 
-//	public JTextField getId() {		añade este para todos los textField (id, nombre, correo, telefono, direccion, etc)
-//        return infoIdCliente;		el retorno es el nombre que le colocaste a los textField
-//    }
+	public void campoVacio()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"Hay campos vacíos, por favor <br>"+
+		"rellene los campos faltantes. <br>"+
+		"</div></html>");
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,23,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
 	
-//	public JTextArea getInfo()		especial pq es un textArea
-//	{
-//		return infoAdicional;
-//	}
+	public void datosNoValidos()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"El tipo de dato que estás  <br>"+
+		"intentando ingresar no es válido <br>"+
+		"para este campo. Por favor, <br>"+
+		"inténtalo de nuevo con un dato <br>"+
+		"diferente.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,12,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void exito()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"Esta acción se ha completado  <br>"+
+		"exitosamente. <br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,20,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(181, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/exito.png")));
+		iconPosion.setBounds(17, 50, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
 	
-//	public JPanel getPanelImg() {
-//        return panelImg;
-//    }
+	public void eleccion()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"¿Estás seguro de que deseas  <br>"+
+		"continuar? <br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,17,487,168);
+		datos.add(text);
+		
+		JButton cancelarBtn = new JButton("Cancelar");
+		cancelarBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("cancelar");
+				emergente.dispose();
+			}
+		});
+		cancelarBtn.setForeground(new Color(255, 255, 255));
+		cancelarBtn.setVerticalAlignment(SwingConstants.BOTTOM);
+		cancelarBtn.setBorderPainted(false);
+		cancelarBtn.setContentAreaFilled(false);
+		cancelarBtn.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		cancelarBtn.setBounds(50, 190, 181, 51);
+		datos.add(cancelarBtn);
+		
+		JLabel imgCancelar= new JLabel();
+		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgCancelar.setBounds(50, 190, 181, 51);
+		datos.add(imgCancelar);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Aceptar");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(313, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(313, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/veneno.png")));
+		iconPosion.setBounds(20, 50, 80, 91);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void errorImagen()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"La imagen no se pudo cargar,<br>"+
+		"por favor ingrese otra imagen.<br>"+
+		"</div></html>");
+		 
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,17,487,168);
+		datos.add(text);
+		
+		JButton botonContinuar = new JButton("Continuar");
+		botonContinuar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonContinuar.setForeground(new Color(255, 255, 255));
+		botonContinuar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonContinuar.setBorderPainted(false);
+		botonContinuar.setContentAreaFilled(false);
+		botonContinuar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonContinuar.setBounds(182, 190, 181, 51);
+		datos.add(botonContinuar);
+		
+		JLabel imgContinuar= new JLabel();
+		imgContinuar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgContinuar.setBounds(183, 190, 181, 51);
+		datos.add(imgContinuar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/error.png")));
+		iconPosion.setBounds(20, 65, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	public void seleccion()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"No has seleccionado ningún  <br>"+
+		"cliente, favor de seleccionarlo.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,12,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void docExito()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"El documento se ha guardado  <br>"+
+		"exitosamente.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(30,10,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/completado.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	public void docError()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"EL documento no se pudo  <br>"+
+		"guardar.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(30,13,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/noCompletado.png")));
+		iconPosion.setBounds(22, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public JTextField getId() {		//añade este para todos los textField (id, nombre, correo, telefono, direccion, etc)
+        return infoIdCliente;		//el retorno es el nombre que le colocaste a los textField
+    }
+
+	public JTextField getNombre() {
+        return infoNombre;
+    }
+	
+	public JTextField getCorreo() {
+        return infoCorreo;
+    }
+	
+	public JTextField getTelefono() {
+        return infoTelefono;
+    }
+	
+	public JTextField getDireccion() {
+        return infoDireccion;
+    }
+	
+	public JTextField getNombreEmergencia() {
+        return infoNomEmerg;
+    }
+	
+	public JTextField getNumEmergencia() {
+        return infoNumeroEmerg;
+    }
+	
+	public JTextField getRelacion() {
+        return infoRelacion;
+    }
+	
+	public JTextField getEstatus() {
+        return infoEstado;
+    }
+	
+	public JTextArea getInfo()
+	{
+		return infoAdicional;
+	}
+	
+	 public JPanel getPanelImg() {
+	     return panelImagen;
+	   }
+	 
+	 public String getIdCliente()
+	 {
+		 return idCliente;
+	 }
 	
 	
 	//solo falta la imagen
