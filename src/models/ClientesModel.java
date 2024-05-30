@@ -141,7 +141,7 @@ public class ClientesModel
 
 	        for (String header : columnHeaders) {
 	            PdfPCell cell = new PdfPCell(new Paragraph(header, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-	            cell.setBackgroundColor(BaseColor.PINK);
+	            cell.setBackgroundColor(new BaseColor(168, 203, 248));
 	            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	            cell.setPadding(5f);
@@ -158,7 +158,7 @@ public class ClientesModel
 	            if (rs.next()) {
 	                for (int i = 1; i <= 10; i++) {
 	                    PdfPCell cell = new PdfPCell(new Paragraph(rs.getString(i), FontFactory.getFont(FontFactory.HELVETICA, 6)));
-	                    cell.setBackgroundColor(BaseColor.ORANGE);
+	                    cell.setBackgroundColor(BaseColor.WHITE);
 	                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	                    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	                    cell.setPadding(5f);
