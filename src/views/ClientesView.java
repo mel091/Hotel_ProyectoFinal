@@ -437,7 +437,7 @@ public class ClientesView {
 		    	    view.detalles();
 		    	   
 		    	} else {
-		    	    System.out.println("Ningún cliente seleccionado");
+		    	    seleccion();
 		    	}
 			}
 		});
@@ -898,6 +898,7 @@ public class ClientesView {
 				relacionResp.setText("");
 				noContactoResp.setText("");
 				infoAdResp.setText("");
+				eleccion();
 			}
 		});
 		botonVacio.setBorderPainted(false);
@@ -922,6 +923,7 @@ public class ClientesView {
 				
 				model = new ClientesModel();
 				model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, img);
+				exito();
 				
 			}
 		});
@@ -1936,6 +1938,7 @@ public class ClientesView {
 //					model = new ClientesModel();
 //					model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
 //					model.actualizarClientes(idCliente);
+//				exito();
 //				}
 			}
 		});
@@ -2608,10 +2611,23 @@ public class ClientesView {
 	    emergente.setVisible(true);;
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public JTextField getId() {		//añade este para todos los textField (id, nombre, correo, telefono, direccion, etc)
         return infoIdCliente;		//el retorno es el nombre que le colocaste a los textField
     }
 
+	
 	public JTextField getNombre() {
         return infoNombre;
     }

@@ -176,10 +176,13 @@ public class ClientesModel
 	        }
 
 	        documento.close();
-	        JOptionPane.showMessageDialog(null, "Documento creado");
+	        view = new ClientesView();
+	        view.docExito();
 
 	    } catch (DocumentException | HeadlessException | IOException e2) {
 	        e2.printStackTrace();
+	        view = new ClientesView();
+	        view.docError();
 	    }
 	}
 

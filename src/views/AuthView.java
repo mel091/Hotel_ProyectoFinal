@@ -33,7 +33,7 @@ public class AuthView
 	private JDialog emergente;
 	public Auth login;
 	public AuthModel model;
-	
+	public ClientesView cliente;
 	
 	public AuthView()
 	{
@@ -378,19 +378,31 @@ public class AuthView
 				String contraseña1 = new String(textPwsConfi.getPassword());
 				//model.registro(nombreCompleto, user, contraseña, contraseña1);
 				
-				if(contraseña.equals(contraseña1))
+				if(nombreCompleto.length() > 0 || user.length() > 0 || contraseña.length()>0 || contraseña1.length()>0 )
 				{
-					model.registro(nombreCompleto, user, contraseña, contraseña1);
-					frame.dispose();
-					login = new Auth();
-					login.login();
 					
+					if(contraseña.equals(contraseña1))
+					{
+						model.registro(nombreCompleto, user, contraseña, contraseña1);
+						frame.dispose();
+						login = new Auth();
+						login.login();
+						
+						
+					}
+					else
+					{
+						textPws.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+						textPwsConfi.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+						noCohincide();
+					}
 				}
 				else
 				{
-					textPws.setBorder(BorderFactory.createLineBorder(Color.red, 2));
-					textPwsConfi.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+					cliente = new ClientesView();
+					cliente.campoVacio();
 				}
+				
 				
 			}
 		});
