@@ -70,15 +70,15 @@ public class ClientesView {
 	JTextArea infoAdicional = new JTextArea("");
 	JTextField infoEstado = new JTextField("");
 	
-//	JTextField idResp = new JTextField("");
-//	JTextField nombreResp = new JTextField("");
-//	JTextField correoResp  = new JTextField("");
-//	JTextField telResp  = new JTextField(""); 
-//	JTextField direccionResp  = new JTextField("");
-//	JTextField contactoResp  = new JTextField("");
-//	JTextField relacionResp  = new JTextField("");
-//	JTextField noContactoResp  = new JTextField("");
-//	JTextArea infoAdResp  = new JTextArea("");
+	JTextField idResp = new JTextField("");
+	JTextField nombreResp = new JTextField("");
+	JTextField correoResp  = new JTextField("");
+	JTextField telResp  = new JTextField(""); 
+	JTextField direccionResp  = new JTextField("");
+	JTextField contactoResp  = new JTextField("");
+	JTextField relacionResp  = new JTextField("");
+	JTextField noContactoResp  = new JTextField("");
+	JTextArea infoAdResp  = new JTextArea("");
 	
 	JPanel panelImagen = new JPanel();
 	
@@ -1201,11 +1201,11 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				System.out.println("Descargar ID seleccionado: " + idCliente);
-//				
-//                idClienteSeleccionado = infoIdCliente.getText();
-//                //System.out.println("Descargar ID seleccionado: " + idClienteSeleccionado);
-//                descarga();
+				System.out.println("Descargar ID seleccionado: " + idCliente);
+				
+                idClienteSeleccionado = infoIdCliente.getText();
+                System.out.println("Descargar ID seleccionado: " + idClienteSeleccionado);
+                descarga();
 			}
 		});
 		descargarBtn.setBorderPainted(false);
@@ -1220,10 +1220,10 @@ public class ClientesView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Historial");
-				// Asignar el ID del cliente al atributo idClienteSeleccionado
+				 //Asignar el ID del cliente al atributo idClienteSeleccionado
 				
-				//idClienteSeleccionado = infoIdCliente.getText();
-				//historial();
+				idClienteSeleccionado = infoIdCliente.getText();
+				historial();
 			}
 		});
 		historialBtn.setBorderPainted(false);
@@ -1932,14 +1932,14 @@ public class ClientesView {
 		JButton botonCrear = new JButton();
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				if(idCliente != null && !idCliente.isEmpty())
-//				{
-//					System.out.println("guardar: " + idCliente);
-//					model = new ClientesModel();
-//					model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
-//					model.actualizarClientes(idCliente);
-//				exito();
-//				}
+				if(idCliente != null && !idCliente.isEmpty())
+				{
+					System.out.println("guardar: " + idCliente);
+					model = new ClientesModel();
+					//model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
+					model.actualizarClientes(idCliente);
+				exito();
+				}
 			}
 		});
 		botonCrear.setBorderPainted(false);
@@ -1989,7 +1989,7 @@ public class ClientesView {
 		text.setBounds(225,15,150,40);
 		historialPanel.add(text);
 		
-		// idCliente = getIdCliente();
+		idCliente = getIdCliente();
 		
 		JLabel fondoTexto = new JLabel();
 		fondoTexto.setOpaque(true);
@@ -2010,14 +2010,13 @@ public class ClientesView {
 		paneltablitaAzul.add(paneltablita);
 
 		model=new ClientesModel();
-		//DefaultTableModel historialClientes= model.tablaHistorialClientes(idClienteSeleccionado);
+		DefaultTableModel historialClientes= model.tablaHistorialClientes(idClienteSeleccionado);
+		JTable productoTable= new JTable(historialClientes); //dentro de los parentesis mete "datosClientes" 
 		
-		//JTable productoTable= new JTable(historialClientes); //dentro de los parentesis mete "datosClientes" 
-		
-		//productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
-		//JScrollPane scrollPane = new JScrollPane(productoTable);
-		//scrollPane.setBounds(0, 0, 600, 400);
-		//paneltablita.add(scrollPane);
+		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+		JScrollPane scrollPane = new JScrollPane(productoTable);
+		scrollPane.setBounds(0, 0, 600, 400);
+		paneltablita.add(scrollPane);
 		
 		JButton botonAceptar = new JButton("Aceptar");
 		botonAceptar.addActionListener(new ActionListener()
@@ -2095,9 +2094,9 @@ public class ClientesView {
 		btnGuardar.setBounds(50, 570, 181, 51);
 		descargaPanel.add(btnGuardar);
 		
-//		model = new ClientesModel();
-//		System.out.println("id seleccionado: " + idClienteSeleccionado);
-//		model.descargar(idClienteSeleccionado);
+		model = new ClientesModel();
+		System.out.println("id seleccionado: " + idClienteSeleccionado);
+		model.descargar(idClienteSeleccionado);
 		
 		JLabel imgGuardar= new JLabel();
 		imgGuardar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
