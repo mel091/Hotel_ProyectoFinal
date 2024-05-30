@@ -356,24 +356,12 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (idCliente != null && !idCliente.isEmpty()) {
-		    	    
-		    		System.out.println(idCliente);
-		    	    
-		    	    model = new ClientesModel();
-		    	    
-		    	    ClientesView view = new ClientesView();
-		    	    //model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
-		    	    // DESCOMENTAR
-		    	    frame.dispose();
-		    	   
-		    	    model.recuperaDatos(idCliente);
-		    	 
-		    	    view.editar();
-		    	    System.out.println("id despues de editar: " + idCliente);
-		    	} else {
-		    	    System.out.println("Ningún cliente seleccionado");
-		    	}
+//				if (idCliente != null && !idCliente.isEmpty()) {
+//		            ClientesModel model = new ClientesModel();
+//		            model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
+//		            model.recuperaDatos(idCliente); // Solo recupera y establece datos
+//		            editar();
+//		        }
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -1942,6 +1930,13 @@ public class ClientesView {
 		JButton botonCrear = new JButton();
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				if(idCliente != null && !idCliente.isEmpty())
+//				{
+//					System.out.println("guardar: " + idCliente);
+//					model = new ClientesModel();
+//					model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
+//					model.actualizarClientes(idCliente);
+//				}
 			}
 		});
 		botonCrear.setBorderPainted(false);
