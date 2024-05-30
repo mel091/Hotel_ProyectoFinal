@@ -54,6 +54,16 @@ public class ClientesModel
 	private JTextField telefonoEmergencia;
 	private JTextArea infoAdicional;
 	private JTextField estatus;
+	
+	private JTextField nombreResp;
+	private JTextField correoResp;
+	private JTextField telefonoResp;
+	private JTextField direccionResp;
+	private JTextField nombreEmergenciaResp;
+	private JTextField relacionResp;
+	private JTextField telefonoEmergenciaResp;
+	private JTextArea infoAdicionalResp;
+	
 	private JPanel panelImg;
 	private String idRecuperado;
 	
@@ -307,6 +317,18 @@ public class ClientesModel
 		this.estatus = estatus;
 	}
 	
+	public void textField2(JTextField nombreResp, JTextField correoResp, JTextField telResp, JTextField direccionResp, JTextField contactoResp, JTextField relacionResp, JTextField noContactoResp, JTextArea infoAdResp) 
+	{
+	    this.nombreResp = nombreResp;
+	    this.correoResp = correoResp;
+	    this.telefonoResp = telResp;
+	    this.direccionResp = direccionResp;
+	    this.nombreEmergenciaResp = contactoResp;
+	    this.relacionResp = relacionResp;
+	    this.telefonoEmergenciaResp = noContactoResp;
+	    this.infoAdicionalResp = infoAdResp;
+	    
+	}
 	public void panel(JPanel panelImg)
 	{
 		this.panelImg = panelImg;
@@ -401,14 +423,14 @@ public class ClientesModel
 
 	    if (cliente != null) {
 	        //idC.setText(cliente.getIdCliente());
-	        nombre.setText(cliente.getNombreCompleto());
-	        correo.setText(cliente.getCorreo());
-	        telefono.setText(cliente.getTelefono());
-	        direccion.setText(cliente.getDireccion());
-	        nombreEmergencia.setText(cliente.getContactoEmergencia());
-	        relacion.setText(cliente.getRelacionCliente());
-	        telefonoEmergencia.setText(cliente.getTelefonoEmergencia());
-	        infoAdicional.setText(cliente.getInfAdicional());
+	    	nombreResp.setText(cliente.getNombreCompleto());
+	    	correoResp.setText(cliente.getCorreo());
+	        telefonoResp.setText(cliente.getTelefono());
+	        direccionResp.setText(cliente.getDireccion());
+	        nombreEmergenciaResp.setText(cliente.getContactoEmergencia());
+	        relacionResp.setText(cliente.getRelacionCliente());
+	        telefonoEmergenciaResp.setText(cliente.getTelefonoEmergencia());
+	        infoAdicionalResp.setText(cliente.getInfAdicional());
 	        //estatus.setText(cliente.getEstatus());
 	    } else {
 	        System.out.println("no hay clientes");
@@ -416,14 +438,14 @@ public class ClientesModel
 	}
 	
 	public void actualizarClientes(String id) {
-	    String nuevoNombre = nombre.getText();
-	    String nuevoCorreo = correo.getText();
-	    String nuevoTelefono = telefono.getText();
-	    String nuevaDireccion = direccion.getText();
-	    String nuevoContactoEmergencia = nombreEmergencia.getText();
-	    String nuevaRelacionCliente = relacion.getText();
-	    String nuevoTelefonoEmergencia = telefonoEmergencia.getText();
-	    String nuevaInfoAdicional = infoAdicional.getText();
+		String nuevoNombre = nombreResp.getText();
+	    String nuevoCorreo = correoResp.getText();
+	    String nuevoTelefono = telefonoResp.getText();
+	    String nuevaDireccion = direccionResp.getText();
+	    String nuevoContactoEmergencia = nombreEmergenciaResp.getText();
+	    String nuevaRelacionCliente = relacionResp.getText();
+	    String nuevoTelefonoEmergencia = telefonoEmergenciaResp.getText();
+	    String nuevaInfoAdicional = infoAdicionalResp.getText();
 	   // String nuevoEstatus = estatus.getText();
 
 	    // Llamar al método editar para actualizar los datos en la base de datos
@@ -433,7 +455,7 @@ public class ClientesModel
 	public void editar(String id, String nombreCompleto, String correo, String telefono, String direccion, String contactoEmergencia, String relacionCliente, String telefonoEmergencia, String infAdicional) {
 	    try {
 	        Connection cn = Conexion.conectar();
-	        PreparedStatement pst = cn.prepareStatement("UPDATE clientes SET nombreCompleto=?, correo=?, telefono=?, direccion=?, contactoEmergencia=?, relacionCliente=?, telefonoEmergencia=?, infAdicional=?, estatus=? WHERE idCliente=?");
+	        PreparedStatement pst = cn.prepareStatement("UPDATE clientes SET nombreCompleto=?, correo=?, telefono=?, direccion=?, contactoEmergencia=?, relacionCliente=?, telefonoEmergencia=?, infAdicional=? WHERE idCliente=?");
 	        pst.setString(1, nombreCompleto);
 	        pst.setString(2, correo);
 	        pst.setString(3, telefono);
@@ -443,7 +465,7 @@ public class ClientesModel
 	        pst.setString(7, telefonoEmergencia);
 	        pst.setString(8, infAdicional);
 	        //pst.setString(9, estatus);
-	        pst.setString(10, id);
+	        pst.setString(9, id);
 
 	        int rowsAffected = pst.executeUpdate();
 	        if (rowsAffected > 0) {

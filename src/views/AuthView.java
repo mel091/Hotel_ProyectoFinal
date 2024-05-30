@@ -399,6 +399,11 @@ public class AuthView
 				}
 				else
 				{
+					textNombre.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+					textUsr.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+					textPws.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+					textPwsConfi.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+					
 					cliente = new ClientesView();
 					cliente.campoVacio();
 				}

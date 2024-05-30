@@ -349,25 +349,7 @@ public class ClientesView {
 		panelCentral.setLayout(null);
 		panelConsultar.add(panelCentral);
 		
-		//botones del panel central
-		JButton editarBtn= new JButton();//////////////////////////////////////////////////////////////////////mover debajo del boton de detalles
-		editarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/editar.png")));
-		editarBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-//				if (idCliente != null && !idCliente.isEmpty()) {
-//		            ClientesModel model = new ClientesModel();
-//		            model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
-//		            model.recuperaDatos(idCliente); // Solo recupera y establece datos
-//		            editar();
-//		        }
-			}
-		});
-		editarBtn.setBorderPainted(false);
-		editarBtn.setContentAreaFilled(false);
-		editarBtn.setBounds(690, 470, 328, 45);
-		panelCentral.add(editarBtn);
+		
 		
 		
 	
@@ -409,7 +391,7 @@ public class ClientesView {
 		
 		JScrollPane tableScroll=new JScrollPane(productoTable);
 		tableScroll.setBounds(0, 0, 1023, 316);
-		//panelDeTabla.removeAll();
+		panelDeTabla.removeAll();
 		panelDeTabla.add(tableScroll);
 		
 		panelDeTabla.revalidate();
@@ -447,6 +429,26 @@ public class ClientesView {
 		panelCentral.add(detallesBtn);
 		panelDeTabla.revalidate();
 	    panelDeTabla.repaint();
+	    
+	  //botones del panel central
+	  		JButton editarBtn= new JButton();//////////////////////////////////////////////////////////////////////mover debajo del boton de detalles
+	  		editarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/editar.png")));
+	  		editarBtn.addActionListener(new ActionListener()
+	  		{
+	  			@Override
+	  			public void actionPerformed(ActionEvent e) {
+	  				if (idCliente != null && !idCliente.isEmpty()) {
+	  		            ClientesModel model = new ClientesModel();
+	  		            model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
+	  		            model.recuperaDatos(idCliente); // Solo recupera y establece datos
+	  		            editar();
+	  		        }
+	  			}
+	  		});
+	  		editarBtn.setBorderPainted(false);
+	  		editarBtn.setContentAreaFilled(false);
+	  		editarBtn.setBounds(690, 470, 328, 45);
+	  		panelCentral.add(editarBtn);
 	    
 		frame.getContentPane().add(panelConsultar); //que este quede despues del boton de detalles
 			
@@ -1795,7 +1797,7 @@ public class ClientesView {
 		panelInfo.add(nombre);
 		
 	
-		JTextField nombreResp = new JTextField();
+		//JTextField nombreResp = new JTextField();
 		nombreResp.setBorder(BorderFactory.createCompoundBorder(
 				nombreResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1812,7 +1814,7 @@ public class ClientesView {
 		correoElectronico.setBounds(35, 83, 196, 46);
 		panelInfo.add(correoElectronico);
 		
-		JTextField correoResp = new JTextField();
+		//JTextField correoResp = new JTextField();
 		correoResp.setBorder(BorderFactory.createCompoundBorder(
 				correoResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1829,7 +1831,7 @@ public class ClientesView {
 		noTelefono.setBounds(35, 157, 216, 46);
 		panelInfo.add(noTelefono);
 		
-		JTextField telResp = new JTextField();
+		//JTextField telResp = new JTextField();
 		telResp.setBorder(BorderFactory.createCompoundBorder(
 				telResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1846,7 +1848,7 @@ public class ClientesView {
 		direccion.setBounds(35, 227, 109, 46);
 		panelInfo.add(direccion);
 		
-		JTextField direccionResp = new JTextField();
+		//JTextField direccionResp = new JTextField();
 		direccionResp.setBorder(BorderFactory.createCompoundBorder(
 				direccionResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1863,7 +1865,7 @@ public class ClientesView {
 		nombreContacto.setBounds(35, 297, 364, 46);
 		panelInfo.add(nombreContacto);
 		
-		JTextField contactoResp = new JTextField();
+		//JTextField contactoResp = new JTextField();
 		contactoResp.setBorder(BorderFactory.createCompoundBorder(
 				contactoResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1881,7 +1883,7 @@ public class ClientesView {
 		panelInfo.add(relacion);
 		
 
-		JTextField relacionResp = new JTextField();
+		//JTextField relacionResp = new JTextField();
 		relacionResp.setBorder(BorderFactory.createCompoundBorder(
 				relacionResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1898,7 +1900,7 @@ public class ClientesView {
 		noContacto.setBounds(581, 211, 364, 46);
 		panelInfo.add(noContacto);
 		
-		JTextField noContactoResp = new JTextField();
+		//JTextField noContactoResp = new JTextField();
 		noContactoResp.setBorder(BorderFactory.createCompoundBorder(
 				noContactoResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1909,7 +1911,7 @@ public class ClientesView {
 		noContactoResp.setBounds(581, 248, 420, 25);
 		panelInfo.add(noContactoResp);
 		
-		JTextArea infoAdResp = new JTextArea();
+		//JTextArea infoAdResp = new JTextArea();
 		infoAdResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoAdResp.setBorder(BorderFactory.createLineBorder(Color.gray, 1));
 		infoAdResp.setBackground(new Color(217, 217, 217));
@@ -1936,7 +1938,7 @@ public class ClientesView {
 				{
 					System.out.println("guardar: " + idCliente);
 					model = new ClientesModel();
-					//model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
+					model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
 					model.actualizarClientes(idCliente);
 				exito();
 				}
@@ -2068,7 +2070,7 @@ public class ClientesView {
 		text.setBounds(140,15,250,40);
 		descargaPanel.add(text);
 		
-		//idCliente = getIdCliente();
+		idCliente = getIdCliente();
 		
 		JLabel fondoTexto = new JLabel();
 		fondoTexto.setOpaque(true);
@@ -2081,9 +2083,9 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				cliente = new ClientesController();
-				cliente.detalles();
+				model = new ClientesModel();
+				System.out.println("id seleccionado: " + idClienteSeleccionado);
+				model.descargar(idClienteSeleccionado);
 			}
 		});
 		btnGuardar.setForeground(new Color(255, 255, 255));
@@ -2094,45 +2096,45 @@ public class ClientesView {
 		btnGuardar.setBounds(50, 570, 181, 51);
 		descargaPanel.add(btnGuardar);
 		
-		model = new ClientesModel();
-		System.out.println("id seleccionado: " + idClienteSeleccionado);
-		model.descargar(idClienteSeleccionado);
+//		model = new ClientesModel();
+//		System.out.println("id seleccionado: " + idClienteSeleccionado);
+//		model.descargar(idClienteSeleccionado);
 		
 		JLabel imgGuardar= new JLabel();
 		imgGuardar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgGuardar.setBounds(180, 560, 181, 51);
+		imgGuardar.setBounds(50, 570, 181, 51);
 		descargaPanel.add(imgGuardar);
 		
-//		JButton botonCancelar = new JButton("Cancelar");  ///////////////////////////////////////////////////////////////////BORRAR
-//		botonCancelar.addActionListener(new ActionListener()
-//		{
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				frame.dispose();
-//				cliente = new ClientesController();
-//				cliente.detalles();
-//			}
-//		});
-//		botonCancelar.setForeground(new Color(255, 255, 255));
-//		botonCancelar.setVerticalAlignment(SwingConstants.BOTTOM);
-//		botonCancelar.setBorderPainted(false);
-//		botonCancelar.setContentAreaFilled(false);
-//		botonCancelar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-//		botonCancelar.setBounds(300, 570, 181, 51);
-//		descargaPanel.add(botonCancelar);
-//		
-//		JLabel imgCancelar= new JLabel();
-//		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-//		imgCancelar.setBounds(300, 570, 181, 51);
-//		descargaPanel.add(imgCancelar);
-//		
-//
-//		//Panel para el documento
-//		JPanel docPanel= new JPanel();
-//		docPanel.setBounds(65,70,400,475);
-//		docPanel.setBackground(Color.white);
-//		docPanel.setLayout(null);
-//		descargaPanel.add(docPanel);
+		JButton botonCancelar = new JButton("Cancelar");  ///////////////////////////////////////////////////////////////////BORRAR
+		botonCancelar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.consultar();
+			}
+		});
+		botonCancelar.setForeground(new Color(255, 255, 255));
+		botonCancelar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonCancelar.setBorderPainted(false);
+		botonCancelar.setContentAreaFilled(false);
+		botonCancelar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonCancelar.setBounds(300, 570, 181, 51);
+		descargaPanel.add(botonCancelar);
+		
+		JLabel imgCancelar= new JLabel();
+		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgCancelar.setBounds(300, 570, 181, 51);
+		descargaPanel.add(imgCancelar);
+		
+
+		//Panel para el documento
+		JPanel docPanel= new JPanel();
+		docPanel.setBounds(65,70,400,475);
+		docPanel.setBackground(Color.white);
+		docPanel.setLayout(null);
+		descargaPanel.add(docPanel);
 		
 		emergente.getContentPane().add(descargaPanel);
 	    emergente.setLocationRelativeTo(frame);
