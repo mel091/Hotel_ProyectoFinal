@@ -79,10 +79,14 @@ public class ClientesView {
 	JTextField relacionResp  = new JTextField("");
 	JTextField noContactoResp  = new JTextField("");
 	JTextArea infoAdResp  = new JTextArea("");
+//	JLabel nombreCliente = new JLabel("");
+//	
+//	private ArrayList<String> clienteIds;
+//	private int indexActual;
 	
 	JPanel panelImagen = new JPanel();
 	
-	// borra las que tengan los cosos estos /////////////////////
+
 	
 	public ClientesView () {
 		frame = new JFrame();
@@ -368,8 +372,8 @@ public class ClientesView {
 		DefaultTableModel datosClientes = model.tablaClientes();
 		
 	
-	JTable productoTable= new JTable(datosClientes); //dentro de los parentesis mete "datosClientes" 
-															// del DefaultTable arriba
+	JTable productoTable= new JTable(datosClientes); 
+															
 	productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
 	productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
 	{
@@ -408,10 +412,8 @@ public class ClientesView {
 		    	    
 		    	    model = new ClientesModel();
 		    	    ClientesView view = new ClientesView();
-		    	    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
-		    	    		 view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus());
-		    	    
-		    	    //model.panel(view.getPanelImg());
+		    	   // model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
+		    	   // 		 view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles());
 		    	    
 		    	    frame.dispose();
 		    	    
@@ -961,6 +963,7 @@ public class ClientesView {
 		disneyFondo.setLayout(null);
 		panelDetalles.add(disneyFondo);
 		
+		//idCliente = getIdCliente();
 	
 		JButton btnDisney = new JButton();
 		btnDisney.addActionListener(new ActionListener()
@@ -1234,7 +1237,7 @@ public class ClientesView {
 		panelCentral.add(historialBtn);
 		
 		
-		JLabel nombreCliente = new JLabel("Nombre del cliente");
+		JLabel nombreCliente = new JLabel("Nombre del cliente"); ////////////////////////////////COMENTAR ESTE
 		nombreCliente.setForeground(new Color(0, 0, 0));
 		nombreCliente.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
 		nombreCliente.setBounds(445, 28, 289, 46);
@@ -1245,10 +1248,34 @@ public class ClientesView {
 		fondoCliente.setBounds(330, 21, 489, 45);
 		panelCentral.add(fondoCliente);
 		
+//		idClienteSeleccionado = infoIdCliente.getText();
+//		indexActual = Integer.parseInt(idClienteSeleccionado);
+		
+//		model = new ClientesModel();
+		
 		JButton atrasBtn = new JButton();
 		atrasBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("atras");
+				
+//				 if (indexActual > 0) {
+//	                	System.out.println("viejo indexActual: " + indexActual);
+//	                    indexActual--;
+//	                    System.out.println("Nuevo indexActual: " + indexActual);
+//	 
+//	                    clienteIds = model.cargarCliente(indexActual);
+//	                    String actual = clienteIds.get(indexActual-1);
+//	                    System.out.println("cliente act: " + actual);
+//
+//	                    ClientesView view = new ClientesView();
+//                    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(),
+//                             view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles());
+//
+//                    frame.dispose();
+//
+//                    model.mostrarDetalles(actual);
+//                    view.detalles();
+//	             }
 			}
 		});
 		atrasBtn.setBorderPainted(false);
@@ -1262,6 +1289,27 @@ public class ClientesView {
 		sigBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Siguiente");
+				
+//				clienteIds = model.cargarCliente(indexActual);
+//				
+//				if (indexActual < clienteIds.size() - 1) 
+//				{
+//					System.out.println("viejo indexActual: " + indexActual); 
+//					indexActual++;
+//					System.out.println("Nuevo indexActual: " + indexActual);
+//					
+//                    String actual = clienteIds.get(indexActual-1);
+//                    System.out.println("cliente act: " + actual);
+//                    
+//                    ClientesView view = new ClientesView();
+//					 model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
+//		    	    		 view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles());
+//
+//		    	    frame.dispose();
+//
+//		    	    model.mostrarDetalles(actual);
+//		    	    view.detalles();
+//                }
 			}
 		});
 		sigBtn.setBorderPainted(false);
@@ -1925,6 +1973,15 @@ public class ClientesView {
 		panelInfo.add(infoAdicional);
 		
 		JButton botonVacio = new JButton();
+		botonVacio.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model = new ClientesModel();
+				model.eliminarCliente(idCliente);
+			}
+	
+		});
 		botonVacio.setBorderPainted(false);
 		botonVacio.setContentAreaFilled(false);
 		botonVacio.setIcon(new ImageIcon(getClass().getResource("/contenido/eliminarCliente.png")));
@@ -2095,10 +2152,6 @@ public class ClientesView {
 		btnGuardar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
 		btnGuardar.setBounds(50, 570, 181, 51);
 		descargaPanel.add(btnGuardar);
-		
-//		model = new ClientesModel();
-//		System.out.println("id seleccionado: " + idClienteSeleccionado);
-//		model.descargar(idClienteSeleccionado);
 		
 		JLabel imgGuardar= new JLabel();
 		imgGuardar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
@@ -2624,8 +2677,8 @@ public class ClientesView {
 	
 	
 	
-	public JTextField getId() {		//añade este para todos los textField (id, nombre, correo, telefono, direccion, etc)
-        return infoIdCliente;		//el retorno es el nombre que le colocaste a los textField
+	public JTextField getId() {	
+        return infoIdCliente;		
     }
 
 	

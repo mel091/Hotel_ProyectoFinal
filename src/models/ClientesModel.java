@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -29,8 +30,11 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -63,6 +67,7 @@ public class ClientesModel
 	private JTextField relacionResp;
 	private JTextField telefonoEmergenciaResp;
 	private JTextArea infoAdicionalResp;
+	private JLabel nombreDetalles;
 	
 	private JPanel panelImg;
 	private String idRecuperado;
@@ -109,8 +114,7 @@ public class ClientesModel
 		}
 	}
 	
-	public void descargar(String id) 
-	{
+	public void descargar(String id) {
 	    Document documento = new Document();
 	    try {
 	        String ruta = System.getProperty("user.home") + File.separator + "Información_Cliente";
@@ -132,31 +136,25 @@ public class ClientesModel
 	        PdfWriter.getInstance(documento, new FileOutputStream(rutaArc));
 	        documento.open();
 
-	        // Configurar tabla con 10 columnas
-	        PdfPTable tabla = new PdfPTable(10);
-	        tabla.setWidthPercentage(100); 
-	        tabla.setSpacingBefore(10f); 
-	        tabla.setSpacingAfter(10f); 
+	        Font fontTitle = FontFactory.getFont(FontFactory.COURIER_BOLD, 20);
+	        Paragraph title = new Paragraph("DATOS DEL CLIENTE", fontTitle);
+	        title.setAlignment(Element.ALIGN_CENTER);
+	        documento.add(title);
 
-	        // Configurar anchos de columnas
-	        float[] columnWidths = {1f, 2f, 2f, 1.5f, 2f, 2f, 2f, 1.5f, 2.5f, 1.5f};
-	        tabla.setWidths(columnWidths);
-
-	        // Añadir encabezados de columnas
-	        String[] columnHeaders = {
-	            "ID", "Nombre", "Correo", "Teléfono", "Dirección",
-	            "Contacto de emergencia", "Relación con el cliente", "Teléfono de emergencia",
-	            "Información adicional", "Estatus"
-	        };
-
-	        for (String header : columnHeaders) {
-	            PdfPCell cell = new PdfPCell(new Paragraph(header, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-	            cell.setBackgroundColor(new BaseColor(168, 203, 248));
-	            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-	            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-	            cell.setPadding(5f);
-	            tabla.addCell(cell);
-	        }
+	        String imagePath = "/contenido/imgWalt.png";
+	        Image img = Image.getInstance(ClientesModel.class.getResource(imagePath));
+	        title.setAlignment(Element.ALIGN_RIGHT);
+	        img.scaleToFit(150, 150);
+	        documento.add(img);
+	        
+	        PdfPTable table = new PdfPTable(2);
+	        table.setWidthPercentage(100);
+	        
+	        String[] datos = {
+		            "ID", "Nombre", "Correo", "Teléfono", "Dirección",
+		            "Contacto de emergencia", "Relación con el cliente", "Teléfono de emergencia",
+		            "Información adicional", "Estatus"
+		        };
 
 	        try {
 	            Connection cn = Conexion.conectar();
@@ -166,24 +164,25 @@ public class ClientesModel
 	            ResultSet rs = pst.executeQuery();
 
 	            if (rs.next()) {
-	                for (int i = 1; i <= 10; i++) {
-	                    PdfPCell cell = new PdfPCell(new Paragraph(rs.getString(i), FontFactory.getFont(FontFactory.HELVETICA, 6)));
-	                    cell.setBackgroundColor(BaseColor.WHITE);
-	                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-	                    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-	                    cell.setPadding(5f);
-	                    tabla.addCell(cell);
-	                }
+	                
+	            	for (int i = 0; i < datos.length; i++) {
+	            	    PdfPCell datosR = new PdfPCell(new Phrase(datos[i]));
+	            	    datosR.setBackgroundColor(new BaseColor(168, 203, 248));
+	            	    table.addCell(datosR);
+	            	    PdfPCell dataCell = new PdfPCell(new Phrase(i == datos.length - 1 ? rs.getString("estatus") : rs.getString(i + 1)));
+	            	    table.addCell(dataCell);
+	            	}	               
 	            }
-	            documento.add(tabla);
-	            
+
 	            rs.close();
 	            pst.close();
 	            cn.close();
 
-	        } catch (DocumentException | SQLException e2) {
+	        } catch (SQLException e2) {
 	            e2.printStackTrace();
 	        }
+
+	        documento.add(table);
 
 	        documento.close();
 	        view = new ClientesView();
@@ -303,7 +302,7 @@ public class ClientesModel
 	}
 	
 	public void textField(JTextField idC, JTextField nombre, JTextField correo, JTextField telefono, JTextField direccion, JTextField nombreEmergencia, JTextField relacion,
-			JTextField telefonoEmergencia, JTextArea infoAdicional, JTextField estatus)
+			JTextField telefonoEmergencia, JTextArea infoAdicional, JTextField estatus, JLabel nombreCliente)
 	{
 		this.idC = idC;
 		this.nombre = nombre;
@@ -315,6 +314,7 @@ public class ClientesModel
 		this.telefonoEmergencia = telefonoEmergencia;
 		this.infoAdicional = infoAdicional;
 		this.estatus = estatus;
+		this.nombreDetalles = nombreCliente;
 	}
 	
 	public void textField2(JTextField nombreResp, JTextField correoResp, JTextField telResp, JTextField direccionResp, JTextField contactoResp, JTextField relacionResp, JTextField noContactoResp, JTextArea infoAdResp) 
@@ -389,6 +389,7 @@ public class ClientesModel
 	                    telefonoEmergencia.setText(rs.getString("telefonoEmergencia"));
 	                    infoAdicional.setText(rs.getString("infAdicional"));
 	                    estatus.setText(rs.getString("estatus"));
+	                    nombreDetalles.setText(rs.getString("nombreCompleto"));
 	                   
 //	                    if(imagen != null)
 //	                    {
@@ -464,7 +465,6 @@ public class ClientesModel
 	        pst.setString(6, relacionCliente);
 	        pst.setString(7, telefonoEmergencia);
 	        pst.setString(8, infAdicional);
-	        //pst.setString(9, estatus);
 	        pst.setString(9, id);
 
 	        int rowsAffected = pst.executeUpdate();
@@ -479,6 +479,56 @@ public class ClientesModel
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
+	}
+	
+	public void eliminarCliente(String id)
+	{
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement pst = cn.prepareStatement("delete from clientes where idCliente=?");
+			pst.setString(1, id);
+			
+			int cambios = pst.executeUpdate();
+			
+			if(cambios > 0)
+			{
+				System.out.println("cliente eliminado");
+			}
+			else
+			{
+				System.out.println("cliente no encontrado");
+			}
+			
+			pst.close();
+			cn.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList <String> cargarCliente(int id)
+	{
+		ArrayList <String> IDs = new ArrayList<>();
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement pst = cn.prepareStatement("select idCliente from clientes order by idCliente");
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next())
+			{
+				IDs.add(rs.getString("idCliente"));
+			}
+			
+			cn.close();
+			pst.close();
+			rs.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return IDs;
 	}
 	
 	public InputStream getImagen()
