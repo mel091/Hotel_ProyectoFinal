@@ -720,15 +720,16 @@ public class HabitacionesView {
 		
 		
 		JLabel nombreHabi = new JLabel("Nombre de la habitación");
+		nombreHabi.setHorizontalAlignment(SwingConstants.CENTER);
 		nombreHabi.setForeground(new Color(0, 0, 0));
 		nombreHabi.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		nombreHabi.setBounds(397, 30, 353, 46);
+		nombreHabi.setBounds(330, 30, 489, 45);
 		panelCentral.add(nombreHabi);
 	
-		JLabel fondoCliente = new JLabel("");
-		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
-		fondoCliente.setBounds(330, 21, 489, 45);
-		panelCentral.add(fondoCliente);
+		JLabel fondoHabitacion = new JLabel("");
+		fondoHabitacion.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoHabitacion.setBounds(330, 21, 489, 45);
+		panelCentral.add(fondoHabitacion);
 		
 		JButton atrasBtn = new JButton();
 		atrasBtn.addActionListener(new ActionListener() {

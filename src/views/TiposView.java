@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,11 +11,21 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import controllers.ClientesController;
 import controllers.HabitacionesController;
@@ -301,6 +312,8 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("editar");
 				frame.dispose();
 				tipo = new TiposController();
 				tipo.editar();
@@ -317,6 +330,8 @@ public class TiposView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Detalles");
 				frame.dispose();
 				tipo = new TiposController();
 				tipo.detalles();
@@ -326,7 +341,75 @@ public class TiposView {
 		detallesBtn.setContentAreaFilled(false);
 		detallesBtn.setBounds(145, 480, 328, 45);
 		panelCentral.add(detallesBtn);
+		
+		//Panel azul que contiene el panel de la tabla
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(50, 50, 1075, 366);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
+		
+		JPanel panelDeTabla = new JPanel();
+		panelDeTabla.setBounds(25, 25, 1023, 316);
+		panelAzul.add(panelDeTabla);
+		
+		String tableTitle[]={"Tipo de habitación", "Capacidad", "Servicios"};
+		String tableData[][] = {
+							    {"", "", "" },
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""},
+							    {"", "", ""}
+		};
 	
+		JTable productoTable= new JTable(tableData, tableTitle);
+		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+		{
+	            @Override
+	            public void valueChanged(ListSelectionEvent e) 
+	            {
+	                if (!e.getValueIsAdjusting()) 
+	                {
+	                    int selectedRow = productoTable.getSelectedRow();
+	                    if (selectedRow != -1) 
+	                    { 
+	                        System.out.println("Fila seleccionada: " + selectedRow);
+	                        
+	                    }
+	                }
+	            }
+		    });
+		panelDeTabla.setLayout(null);
+		
+		JScrollPane tableScroll=new JScrollPane(productoTable);
+		tableScroll.setBounds(0, 0, 1023, 316);
+		panelDeTabla.add(tableScroll);
 		
 		frame.getContentPane().add(panelConsultar);
 		frame.setVisible(true);
@@ -369,7 +452,6 @@ public class TiposView {
 		disneyFondo.add(btnDisney);
 		
 		//Labels
-		
 		JLabel habitaciones = new JLabel("Habitaciones");
 		habitaciones.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
 		habitaciones.setForeground(Color.white);
@@ -551,10 +633,7 @@ public class TiposView {
 		consultar.setBounds(9,  133, 130, 35);
 		consultar.setForeground(Color.white);
 		panelVertical2.add(consultar);
-		
-		
-		
-		
+
 		JButton consultarBtn = new JButton();
 		consultarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -587,11 +666,204 @@ public class TiposView {
 		panelCentral.setLayout(null);
 		panelCrear.add(panelCentral);
 		
-		JLabel crearTipo = new JLabel("Crear tipo");
-		crearTipo.setForeground(new Color(0, 0, 0));
-		crearTipo.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		crearTipo.setBounds(474, 27, 180, 40);
-		panelCentral.add(crearTipo);
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(24, 11, 1115, 539);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
+		
+		JLabel tipoHabitacion = new JLabel("Tipo de habitación");
+		tipoHabitacion.setForeground(new Color(0, 0, 0));
+		tipoHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		tipoHabitacion.setBounds(425, 30, 266, 46);
+		panelAzul.add(tipoHabitacion);
+	
+		JLabel fondoCliente = new JLabel("");
+		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoCliente.setBounds(315, 21, 489, 45);
+		panelAzul.add(fondoCliente);
+		
+		JPanel panelInfo = new JPanel();
+		panelInfo.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
+		panelInfo.setBounds(42, 87, 489, 384);
+		panelAzul.add(panelInfo);
+		panelInfo.setLayout(null);
+		
+		JLabel nombreTipo = new JLabel("Nombre del tipo de habitación");
+		nombreTipo.setForeground(Color.BLACK);
+		nombreTipo.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nombreTipo.setBounds(35, 21, 327, 46);
+		panelInfo.add(nombreTipo);
+		
+	
+		JTextField nombreHabiResp = new JTextField();
+		nombreHabiResp.setBorder(BorderFactory.createCompoundBorder(
+				nombreHabiResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		nombreHabiResp.setBackground(new Color(217, 217, 217));
+		nombreHabiResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		nombreHabiResp.setBounds(35, 59, 420, 25);
+		panelInfo.add(nombreHabiResp);
+		nombreHabiResp.setColumns(10);
+		
+		JLabel capacidad = new JLabel("Capacidad");
+		capacidad.setForeground(Color.BLACK);
+		capacidad.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		capacidad.setBounds(35, 204, 196, 46);
+		panelInfo.add(capacidad);
+		
+		JLabel serviciosInclu = new JLabel("Servicios incluidos");
+		serviciosInclu.setForeground(Color.BLACK);
+		serviciosInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		serviciosInclu.setBounds(35, 285, 216, 46);
+		panelInfo.add(serviciosInclu);
+		
+		JTextField serviciosResp = new JTextField();
+		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
+				serviciosResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		serviciosResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		serviciosResp.setColumns(10);
+		serviciosResp.setBackground(new Color(217, 217, 217));
+		serviciosResp.setBounds(35, 328, 420, 25);
+		panelInfo.add(serviciosResp);
+		
+		JLabel descripcion = new JLabel("Descripcion");
+		descripcion.setForeground(Color.BLACK);
+		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		descripcion.setBounds(35, 95, 160, 46);
+		panelInfo.add(descripcion);
+		
+		JTextArea descResp = new JTextArea();
+		descResp.setBackground(new Color(217, 217, 217));
+		descResp.setBounds(35, 133, 420, 60);
+		panelInfo.add(descResp);
+		
+		JTextField capacidadResp = new JTextField();
+		capacidadResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		capacidadResp.setColumns(10);
+		capacidadResp.setBackground(new Color(217, 217, 217));
+		capacidadResp.setBounds(35, 249, 420, 25);
+		panelInfo.add(capacidadResp);
+
+		JButton botonVacio = new JButton();
+		botonVacio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				nombreHabiResp.setText("");
+//				tipoResp.setText("");
+//				telResp.setText("");
+//				direccionResp.setText("");
+//				contactoResp.setText("");
+//				relacionResp.setText("");
+//				noContactoResp.setText("");
+//				infoAdResp.setText("");
+			}
+		});
+		botonVacio.setBorderPainted(false);
+		botonVacio.setContentAreaFilled(false);
+		botonVacio.setIcon(new ImageIcon(getClass().getResource("/contenido/vaciar.png")));
+		botonVacio.setBounds(85, 482, 380, 50);
+		panelAzul.add(botonVacio);
+		
+		JButton botonCrear = new JButton();
+		botonCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		botonCrear.setBorderPainted(false);
+		botonCrear.setContentAreaFilled(false);
+		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/crearTipo.png")));
+		botonCrear.setBounds(628, 482, 387, 50);
+		panelAzul.add(botonCrear);
+		
+		JPanel panelInfo2 = new JPanel();
+		panelInfo2.setLayout(null);
+		panelInfo2.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
+		panelInfo2.setBounds(568, 87, 496, 384);
+		panelAzul.add(panelInfo2);
+		
+		JLabel tarifa = new JLabel("Tarifas");
+		tarifa.setBounds(33, 237, 364, 46);
+		panelInfo2.add(tarifa);
+		tarifa.setForeground(Color.BLACK);
+		tarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		JPanel tarifaPanel = new JPanel();
+		tarifaPanel.setLocation(33, 285);
+		panelInfo2.add(tarifaPanel);
+		tarifaPanel.setBackground(new Color(217, 217, 217));
+		tarifaPanel.setLayout(null);
+		tarifaPanel.setSize(new Dimension(401, 73));
+		
+		JCheckBox tari1 = new JCheckBox("Tarifa #1");
+		tari1.setBounds(6, 7, 200, 31);
+		tarifaPanel.add(tari1);
+		tari1.setOpaque(false);
+		tari1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JCheckBox tarifa2 = new JCheckBox("Tarifa #2");
+		tarifa2.setBounds(6, 35, 200, 31);
+		tarifaPanel.add(tarifa2);
+		tarifa2.setOpaque(false);
+		tarifa2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JCheckBox tarifa3 = new JCheckBox("Tarifa #3");
+		tarifa3.setBounds(195, 7, 200, 31);
+		tarifaPanel.add(tarifa3);
+		tarifa3.setOpaque(false);
+		tarifa3.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JCheckBox tarifa4 = new JCheckBox("Tarifa #4");
+		tarifa4.setBounds(195, 35, 200, 31);
+		tarifaPanel.add(tarifa4);
+		tarifa4.setOpaque(false);
+		tarifa4.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(217, 217, 217));
+		panel.setBounds(33, 70, 427, 158);
+		panelInfo2.add(panel);
+		panel.setLayout(null);
+		
+		JLabel nomHabitacion = new JLabel("Nombre de la habitación");
+		nomHabitacion.setForeground(Color.BLACK);
+		nomHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nomHabitacion.setBounds(124, 29, 250, 46);
+		panelInfo2.add(nomHabitacion);
+		
+		JScrollPane scrollBar = new JScrollPane(tarifaPanel);
+		scrollBar.setBounds(33, 279, 425, 75);
+		panelInfo2.add(scrollBar);
+		scrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		
+		JButton sigHabitacion = new JButton();
+		sigHabitacion.setIcon(new ImageIcon(getClass().getResource("/contenido/siguiente.png")));
+		sigHabitacion .addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Siguiente");
+			}
+		});
+		sigHabitacion.setBounds(385, 0, 75, 61);
+		sigHabitacion.setBorderPainted(false);
+		sigHabitacion.setContentAreaFilled(false);
+		panelInfo2.add(sigHabitacion);
+		
+		JButton antHabitacion = new JButton();
+		antHabitacion.setIcon(new ImageIcon(getClass().getResource("/contenido/anterior.png")));
+		antHabitacion .addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Siguiente");
+			}
+		});
+		antHabitacion.setBounds(30, 0, 75, 61);
+		antHabitacion.setBorderPainted(false);
+		antHabitacion.setContentAreaFilled(false);
+		panelInfo2.add(antHabitacion);
+		
+
 		
 		frame.getContentPane().add(panelCrear);
 		frame.setVisible(true);
@@ -847,16 +1119,91 @@ public class TiposView {
 				}
 			}
 		};
-		panelCentral.setBounds(150,111,1175, 560);
+		panelCentral.setBounds(150,110,1175, 560);
 		panelCentral.setLayout(null);
 		panelDetalles.add(panelCentral);
+	
+		JLabel nomTipo = new JLabel("Nombre del tipo");
+		nomTipo.setHorizontalAlignment(SwingConstants.CENTER);
+		nomTipo.setForeground(new Color(0, 0, 0));
+		nomTipo.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		nomTipo.setBounds(315, 30, 489, 45);
+		panelCentral.add(nomTipo);
+	
+		JLabel fondoCliente = new JLabel("");
+		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoCliente.setBounds(315, 21, 489, 45);
+		panelCentral.add(fondoCliente);
 		
-		//Nombre del panel central
-		JLabel nomHabitacion = new JLabel("Nombre del tipo");
-		nomHabitacion.setForeground(new Color(0, 0, 0));
-		nomHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 35));
-		nomHabitacion.setBounds(373, 29, 465, 65);
-		panelCentral.add(nomHabitacion);
+		JPanel panelInfo = new JPanel();
+		panelInfo.setBackground(new Color(255, 255, 255));
+		panelInfo.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
+		panelInfo.setBounds(42, 95, 489, 410);
+		panelCentral.add(panelInfo);
+		panelInfo.setLayout(null);
+	
+		String texto=("<html><div style='text-align: center;'>"
+				+"Listado de las habitaciones <br>"
+				+ "que pertenecen a este tipo <br>"
+				+"</div></html>");
+		
+		JLabel tituloListado = new JLabel(texto);
+		tituloListado.setForeground(Color.BLACK);
+		tituloListado.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		tituloListado.setBounds(91, 11, 307, 76);
+		panelInfo.add(tituloListado);
+		
+		JPanel panelHabi = new JPanel();
+		panelHabi.setBackground(new Color(238, 243, 245));
+		panelHabi.setSize(new Dimension(421, 350));
+		panelHabi.setBorder(new LineBorder(new Color(0, 73, 102), 2));
+		panelHabi.setLayout(null);
+		
+		
+		JScrollPane scrollPane = new JScrollPane(panelHabi);
+		scrollPane.setBounds(35, 118, 421, 267);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		panelInfo.add(scrollPane);
+		
+		JPanel panelInfo2 = new JPanel();
+		panelInfo2.setBackground(new Color(0, 73, 102));
+		panelInfo2.setLayout(null);
+		panelInfo2.setBorder(null);
+		panelInfo2.setBounds(580, 95, 550, 410);
+		panelCentral.add(panelInfo2);
+		
+		JLabel imgDetalles = new JLabel();
+		imgDetalles .setIcon(new ImageIcon(getClass().getResource("/contenido/detallesImg.jpg")));
+		imgDetalles .setBounds(20, 20, 510, 370);
+		panelInfo2.add(imgDetalles );
+		
+		JButton sigHabitacion = new JButton();
+		sigHabitacion.setIcon(new ImageIcon(getClass().getResource("/contenido/siguiente.png")));
+		sigHabitacion .addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Siguiente");
+			}
+		});
+		sigHabitacion.setBounds(1060, 15, 75, 61);
+		sigHabitacion.setBorderPainted(false);
+		sigHabitacion.setContentAreaFilled(false);
+		panelCentral.add(sigHabitacion);
+		
+		JButton antHabitacion = new JButton();
+		antHabitacion.setBounds(42, 15, 75, 61);
+		panelCentral.add(antHabitacion);
+		antHabitacion.setIcon(new ImageIcon(getClass().getResource("/contenido/anterior.png")));
+		antHabitacion .addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Siguiente");
+			}
+		});
+		antHabitacion.setBorderPainted(false);
+		antHabitacion.setContentAreaFilled(false);
+
 	
 		frame.getContentPane().add(panelDetalles);
 		frame.setVisible(true);
@@ -1057,7 +1404,6 @@ public class TiposView {
 		panelVertical1.add(crearBtn);
 		
 		//Panel vertical (Crear)
-		
 		JPanel panelVertical2=new JPanel()
 		{
 			@Override
@@ -1111,16 +1457,205 @@ public class TiposView {
 				}
 			}
 		};
-		panelCentral.setBounds(150,111,1175, 560);
+		panelCentral.setBounds(150,110,1175, 560);
 		panelCentral.setLayout(null);
 		panelEditar.add(panelCentral);
+		
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(24, 11, 1115, 539);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
+		
+		JLabel editarTipo = new JLabel("Editar tipo de habitación");
+		editarTipo.setForeground(new Color(0, 0, 0));
+		editarTipo.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		editarTipo.setBounds(388, 30, 343, 46);
+		panelAzul.add(editarTipo);
 	
-		//Titulo del panel central
-		JLabel editarTipoHabi = new JLabel("Editar tipo de habitacion");
-		editarTipoHabi.setForeground(new Color(0, 0, 0));
-		editarTipoHabi.setFont(new Font("Palatino Linotype", Font.BOLD, 35));
-		editarTipoHabi.setBounds(345, 34, 465, 65);
-		panelCentral.add(editarTipoHabi);
+		JLabel fondoCliente = new JLabel("");
+		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoCliente.setBounds(315, 21, 489, 45);
+		panelAzul.add(fondoCliente);
+		
+		JPanel panelInfo = new JPanel();
+		panelInfo.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
+		panelInfo.setBounds(42, 87, 489, 384);
+		panelAzul.add(panelInfo);
+		panelInfo.setLayout(null);
+		
+		JLabel nombreTipo = new JLabel("Nombre del tipo de habitación");
+		nombreTipo.setForeground(Color.BLACK);
+		nombreTipo.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nombreTipo.setBounds(35, 21, 327, 46);
+		panelInfo.add(nombreTipo);
+		
+	
+		JTextField nombreHabiResp = new JTextField();
+		nombreHabiResp.setBorder(BorderFactory.createCompoundBorder(
+				nombreHabiResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		nombreHabiResp.setBackground(new Color(217, 217, 217));
+		nombreHabiResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		nombreHabiResp.setBounds(35, 59, 420, 25);
+		panelInfo.add(nombreHabiResp);
+		nombreHabiResp.setColumns(10);
+		
+		JLabel capacidad = new JLabel("Capacidad");
+		capacidad.setForeground(Color.BLACK);
+		capacidad.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		capacidad.setBounds(35, 204, 196, 46);
+		panelInfo.add(capacidad);
+		
+		JLabel serviciosInclu = new JLabel("Servicios incluidos");
+		serviciosInclu.setForeground(Color.BLACK);
+		serviciosInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		serviciosInclu.setBounds(35, 285, 216, 46);
+		panelInfo.add(serviciosInclu);
+		
+		JTextField serviciosResp = new JTextField();
+		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
+				serviciosResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		serviciosResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		serviciosResp.setColumns(10);
+		serviciosResp.setBackground(new Color(217, 217, 217));
+		serviciosResp.setBounds(35, 328, 420, 25);
+		panelInfo.add(serviciosResp);
+		
+		JLabel descripcion = new JLabel("Descripcion");
+		descripcion.setForeground(Color.BLACK);
+		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		descripcion.setBounds(35, 95, 160, 46);
+		panelInfo.add(descripcion);
+		
+		JTextArea descResp = new JTextArea();
+		descResp.setBackground(new Color(217, 217, 217));
+		descResp.setBounds(35, 133, 420, 60);
+		panelInfo.add(descResp);
+		
+		JTextField capResp = new JTextField();
+		capResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		capResp.setColumns(10);
+		capResp.setBackground(new Color(217, 217, 217));
+		capResp.setBounds(35, 250, 420, 25);
+		panelInfo.add(capResp);
+		
+		JButton eliminarTipoBtn = new JButton();
+		eliminarTipoBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				nombreHabiResp.setText("");
+//				tipoResp.setText("");
+//				telResp.setText("");
+//				direccionResp.setText("");
+//				contactoResp.setText("");
+//				relacionResp.setText("");
+//				noContactoResp.setText("");
+//				infoAdResp.setText("");
+			}
+		});
+		eliminarTipoBtn.setBorderPainted(false);
+		eliminarTipoBtn.setContentAreaFilled(false);
+		eliminarTipoBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/eliTipo.png")));
+		eliminarTipoBtn.setBounds(85, 482, 387, 50);
+		panelAzul.add(eliminarTipoBtn);
+		
+		JButton guardarCambiosBtn = new JButton();
+		guardarCambiosBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		guardarCambiosBtn.setBorderPainted(false);
+		guardarCambiosBtn.setContentAreaFilled(false);
+		guardarCambiosBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/guardarCambios.png")));
+		guardarCambiosBtn.setBounds(620, 482, 387, 50);
+		panelAzul.add(guardarCambiosBtn);
+		
+		JPanel panelInfo2 = new JPanel();
+		panelInfo2.setLayout(null);
+		panelInfo2.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
+		panelInfo2.setBounds(568, 87, 496, 384);
+		panelAzul.add(panelInfo2);
+		
+		JLabel tarifa = new JLabel("Tarifas");
+		tarifa.setBounds(33, 237, 364, 46);
+		panelInfo2.add(tarifa);
+		tarifa.setForeground(Color.BLACK);
+		tarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		JPanel tarifaPanel = new JPanel();
+		tarifaPanel.setLocation(33, 285);
+		panelInfo2.add(tarifaPanel);
+		tarifaPanel.setBackground(new Color(217, 217, 217));
+		tarifaPanel.setLayout(null);
+		tarifaPanel.setSize(new Dimension(401, 73));
+		
+		JCheckBox tari1 = new JCheckBox("Tarifa #1");
+		tari1.setBounds(6, 7, 200, 31);
+		tarifaPanel.add(tari1);
+		tari1.setOpaque(false);
+		tari1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JCheckBox tarifa2 = new JCheckBox("Tarifa #2");
+		tarifa2.setBounds(6, 35, 200, 31);
+		tarifaPanel.add(tarifa2);
+		tarifa2.setOpaque(false);
+		tarifa2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JCheckBox tarifa3 = new JCheckBox("Tarifa #3");
+		tarifa3.setBounds(195, 7, 200, 31);
+		tarifaPanel.add(tarifa3);
+		tarifa3.setOpaque(false);
+		tarifa3.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JCheckBox tarifa4 = new JCheckBox("Tarifa #4");
+		tarifa4.setBounds(195, 35, 200, 31);
+		tarifaPanel.add(tarifa4);
+		tarifa4.setOpaque(false);
+		tarifa4.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(217, 217, 217));
+		panel.setBounds(33, 70, 427, 158);
+		panelInfo2.add(panel);
+		panel.setLayout(null);
+		
+		JLabel nomHabitacion = new JLabel("Nombre de la habitación");
+		nomHabitacion.setForeground(Color.BLACK);
+		nomHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nomHabitacion.setBounds(124, 29, 250, 46);
+		panelInfo2.add(nomHabitacion);
+		
+		JScrollPane scrollBar = new JScrollPane(tarifaPanel);
+		scrollBar.setBounds(33, 279, 420, 75);
+		panelInfo2.add(scrollBar);
+		scrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		JButton sigHabitacion = new JButton();
+		sigHabitacion.setIcon(new ImageIcon(getClass().getResource("/contenido/siguiente.png")));
+		sigHabitacion .addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Siguiente");
+			}
+		});
+		sigHabitacion.setBounds(385, 0, 75, 61);
+		sigHabitacion.setBorderPainted(false);
+		sigHabitacion.setContentAreaFilled(false);
+		panelInfo2.add(sigHabitacion);
+		
+		JButton antHabitacion = new JButton();
+		antHabitacion.setIcon(new ImageIcon(getClass().getResource("/contenido/anterior.png")));
+		antHabitacion .addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Siguiente");
+			}
+		});
+		antHabitacion.setBounds(30, 0, 75, 61);
+		antHabitacion.setBorderPainted(false);
+		antHabitacion.setContentAreaFilled(false);
+		panelInfo2.add(antHabitacion);
 		
 		//boton de regreso
 		JButton regresarBtn = new JButton();
@@ -1134,8 +1669,35 @@ public class TiposView {
 		});
 		regresarBtn.setBorderPainted(false);
 		regresarBtn.setContentAreaFilled(false);
-		regresarBtn.setBounds(33, 11, 80, 80);
-		panelCentral.add(regresarBtn);
+		regresarBtn.setBounds(33, 8, 80, 80);
+		panelAzul.add(regresarBtn);
+		
+//		JPanel panelCentral=new JPanel()
+//		{
+//			@Override
+//			public void paintComponent(Graphics create) {
+//				super.paintComponent(create);
+//				Graphics2D g2d = (Graphics2D) create;
+//				try {
+//					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/centralDegradado.jpg"));
+//					g2d.drawImage(image, 0,0, 1174, 560, null);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		};
+//		panelCentral.setBounds(150,111,1175, 560);
+//		panelCentral.setLayout(null);
+//		panelEditar.add(panelCentral);
+//	
+//		//Titulo del panel central
+//		JLabel editarTipoHabi = new JLabel("Editar tipo de habitacion");
+//		editarTipoHabi.setForeground(new Color(0, 0, 0));
+//		editarTipoHabi.setFont(new Font("Palatino Linotype", Font.BOLD, 35));
+//		editarTipoHabi.setBounds(345, 34, 465, 65);
+//		panelCentral.add(editarTipoHabi);
+//		
+
 	
 		frame.getContentPane().add(panelEditar);
 		frame.setVisible(true);

@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -1126,9 +1127,10 @@ public class TarifasView {
 		
 		
 		JLabel nomTarifa = new JLabel("Nombre de la tarifa");
+		nomTarifa.setHorizontalAlignment(SwingConstants.CENTER);
 		nomTarifa.setForeground(new Color(0, 0, 0));
 		nomTarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		nomTarifa.setBounds(413, 28, 283, 46);
+		nomTarifa.setBounds(315, 30, 489, 45);
 		panelCentral.add(nomTarifa);
 	
 		JLabel fondoCliente = new JLabel("");
@@ -1671,8 +1673,8 @@ public class TarifasView {
 		descResp.setBounds(35, 292, 420, 60);
 		panelInfo.add(descResp);
 	
-		JButton botonVacio = new JButton();
-		botonVacio.addActionListener(new ActionListener() {
+		JButton eliminarTarifBtn = new JButton();
+		eliminarTarifBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				nombreHabiResp.setText("");
 //				tipoResp.setText("");
@@ -1684,11 +1686,11 @@ public class TarifasView {
 //				infoAdResp.setText("");
 			}
 		});
-		botonVacio.setBorderPainted(false);
-		botonVacio.setContentAreaFilled(false);
-		botonVacio.setIcon(new ImageIcon(getClass().getResource("/contenido/vaciar.png")));
-		botonVacio.setBounds(85, 482, 380, 50);
-		panelAzul.add(botonVacio);
+		eliminarTarifBtn.setBorderPainted(false);
+		eliminarTarifBtn.setContentAreaFilled(false);
+		eliminarTarifBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/eliminarTarifa.png")));
+		eliminarTarifBtn.setBounds(85, 482, 380, 50);
+		panelAzul.add(eliminarTarifBtn);
 		
 		JButton guardarCambios = new JButton();
 		guardarCambios.addActionListener(new ActionListener() {
