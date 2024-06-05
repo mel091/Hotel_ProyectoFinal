@@ -45,12 +45,45 @@ public class HabitacionesView {
 	private HabitacionesController room;
 	private HabitacionesModel model;
 	private InicioController inicio;
+	//public String idHabSeleccion;
 	
-
+//	private String idHabitacion;
+//	private String path;
+//	private Blob imgB;
+	
+//	private ArrayList<String> HabitacionIds;
+//	public JComboBox <String> tipoResp = new JComboBox <String>();
+//	String[] tiposHab = {"Estándar", "Habitación doble", "Suite"};
+//	private int indexActual;
+	
 	public TarifasController tarifa;
 	public TiposController tipo;
 	public RentasController renta;
 	public ClientesController cliente;
+	
+	JCheckBox wifi = new JCheckBox("Wi-Fi");
+	JCheckBox restaurante = new JCheckBox("Restaurante");
+	JCheckBox recreativos = new JCheckBox("Espacios recreativos");
+	JCheckBox lavanderia = new JCheckBox("Lavandería");
+//	
+//	JTextField infoIdHabitacion = new JTextField("");
+//	JTextField infoNombre = new JTextField("");
+//	JTextField infoTipo = new JTextField("");
+//	JTextField infoTam = new JTextField("");
+//	JTextArea infoDescrip = new JTextArea("");
+//	JTextArea amenidades2 = new JTextArea("");
+//	JTextArea tarifasText = new JTextArea("");
+//	JLabel nombreHabi = new JLabel("");
+//	
+//	JTextField nombreHabiResp = new JTextField("");;
+//	JTextField tamResp = new JTextField("");;
+//	JComboBox tipoResp1 = new JComboBox();
+//	JTextArea descResp = new JTextArea();
+//	JCheckBox wifi1 = new JCheckBox("Wi-Fi");
+//	JCheckBox restaurante1 = new JCheckBox("Restaurante");
+//	JCheckBox recreativos1 = new JCheckBox("Espacios recreativos");
+//	JCheckBox lavanderia1 = new JCheckBox("Lavandería");
+//	JTextArea tarifasText1 = new JTextArea("");
 	
 	
 	public HabitacionesView() {
@@ -319,17 +352,21 @@ public class HabitacionesView {
 		panelConsultar.add(panelCentral);
 		
 		//botones del panel central
-		JButton editarBtn= new JButton();
+		JButton editarBtn= new JButton(); //MOVER DESPUES DE DETALLES
 		editarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/editar.png")));
 		editarBtn.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("editar");
-				frame.dispose();
-				room = new HabitacionesController();
-				room.editar();
+//				if (idHabitacion != null && !idHabitacion.isEmpty()) {
+//					 
+//					String tipoSeleccionado = getTipoSeleccionado();
+//					System.out.println(tipoSeleccionado);
+//  		            model = new HabitacionesModel();
+//  		            model.textField2(nombreHabiResp, tamResp,  tipoResp, descResp, wifi, restaurante, recreativos, lavanderia, tarifasText1 );
+//  		            model.recuperaDatos(tipoSeleccionado, idHabitacion); // Solo recupera y establece datos
+//  		            editar();
+//  		        }
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -337,17 +374,31 @@ public class HabitacionesView {
 		editarBtn.setBounds(690, 480, 328, 45);
 		panelCentral.add(editarBtn);
 		
-		JButton detallesBtn= new JButton();
+		JButton detallesBtn= new JButton(); //MOVER DESPUES DE LA TABLA
 		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
 		detallesBtn.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Detalles");
-				frame.dispose();
-				room = new HabitacionesController();
-				room.detalles();
+//				if (idHabitacion != null && !idHabitacion.isEmpty()) {
+//		    	    System.out.println(idHabitacion);
+//		    	    
+//		    	    model = new HabitacionesModel();
+//		    	    HabitacionesView view = new HabitacionesView();
+//		    	    
+//		    	   model.textField(view.getId(), view.getNombre(), view.getTipo(), view.getTam(),
+//		    			   view.getDesc(), view.getSolicitudes(), view.getTarifas(), view.getNombreDetalles());
+//
+//		    	    frame.dispose();
+//		    	    
+//		    	    model.mostrarDetalles(idHabitacion);
+//		    	   
+//		    	    view.detalles();
+//		    	   
+//		    	} else {
+//		    	    //seleccion();
+//		    		System.out.println("ningun coso selec");
+//		    	}
 			}
 		});
 		detallesBtn.setBorderPainted(false);
@@ -366,7 +417,10 @@ public class HabitacionesView {
 		panelDeTabla.setBounds(25, 25, 1023, 316);
 		panelAzul.add(panelDeTabla);
 		
-		String tableTitle[]={"ID de la habitación", "Nombre", "Tipo de habitación", "Tamaño"};
+//		model = new HabitacionesModel();
+//		DefaultTableModel datosHab = model.tablaHabitaciones();
+		
+		String tableTitle[]={"ID de la habitación", "Nombre", "Tipo de habitación", "Tamaño"}; //borrar de aqui
 		String tableData[][] = {
 							    {"", "", "", ""},
 							    {"", "", "", ""},
@@ -417,11 +471,34 @@ public class HabitacionesView {
 	                    }
 	                }
 	            }
-		    });
+		    }); //hasta aca
+		
+
+//		JTable productoTable= new JTable(datosHab); //dentro de los parentesis mete "datosClientes" 
+//																// del DefaultTable arriba
+//		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+//		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+//		{
+//	            @Override
+//	            public void valueChanged(ListSelectionEvent e) 
+//	            {
+//	                if (!e.getValueIsAdjusting()) 
+//	                {
+//	                    int selectedRow = productoTable.getSelectedRow();
+//	                    if (selectedRow != -1) 
+//	                    { 
+//	                    	idHabitacion = (String) productoTable.getValueAt(selectedRow, 0);
+//	                    	System.out.println("ID seleccionado: " + idHabitacion);
+//	                    }
+//	                }
+//	            }
+//		    });
+		
 		panelDeTabla.setLayout(null);
 		
 		JScrollPane tableScroll=new JScrollPane(productoTable);
 		tableScroll.setBounds(0, 0, 1023, 316);
+		panelDeTabla.removeAll();
 		panelDeTabla.add(tableScroll);
 		
 
@@ -448,6 +525,7 @@ public class HabitacionesView {
 		disneyFondo.setLayout(null);
 		panelDetalles.add(disneyFondo);
 		
+		//idHabitacion = getIdHab();	///////////////////////////////////////////////////////////////////////////////////
 	
 		JButton btnDisney = new JButton();
 		btnDisney.addActionListener(new ActionListener()
@@ -692,9 +770,11 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Descargar");
-				descarga();
+//				System.out.println("Descargar ID seleccionado: " + idHabitacion);
+//				
+//				idHabSeleccion = infoIdHabitacion.getText();
+//                System.out.println("Descargar ID seleccionado: " + idHabSeleccion);
+//                descarga();
 			}
 		});
 		descargarBtn.setBorderPainted(false);
@@ -708,9 +788,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Historial");
-				historial();
+//				System.out.println("Historial");
+//				idHabSeleccion = infoIdHabitacion.getText();
+//				historial();
 			}
 		});
 		historialBtn.setBorderPainted(false);
@@ -719,7 +799,7 @@ public class HabitacionesView {
 		panelCentral.add(historialBtn);
 		
 		
-		JLabel nombreHabi = new JLabel("Nombre de la habitación");
+		JLabel nombreHabi = new JLabel("Nombre de la habitación"); //comentar
 		nombreHabi.setHorizontalAlignment(SwingConstants.CENTER);
 		nombreHabi.setForeground(new Color(0, 0, 0));
 		nombreHabi.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
@@ -731,10 +811,34 @@ public class HabitacionesView {
 		fondoHabitacion.setBounds(330, 21, 489, 45);
 		panelCentral.add(fondoHabitacion);
 		
+//		idHabSeleccion = infoIdHabitacion.getText();
+//		indexActual = Integer.parseInt(idHabSeleccion);
+//
+//		 model = new HabitacionesModel();
+		
 		JButton atrasBtn = new JButton();
 		atrasBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("atras");
+//				System.out.println("atras");
+//				
+//				 if (indexActual > 0) {
+//	                	System.out.println("viejo indexActual: " + indexActual);
+//	                    indexActual--;
+//	                    System.out.println("Nuevo indexActual: " + indexActual);
+//	 
+//	                    HabitacionIds = model.cargarHab(indexActual);
+//	                    String actual = HabitacionIds.get(indexActual-1);
+//	                    System.out.println("hab act: " + actual);
+//
+//	                    HabitacionesView view = new HabitacionesView();
+//	                    model.textField(view.getId(), view.getNombre(), view.getTipo(), view.getTam(),
+//				    			   view.getDesc(), view.getSolicitudes(), view.getTarifas(), view.getNombreDetalles());
+//
+//                   frame.dispose();
+//
+//                   model.mostrarDetalles(actual);
+//                   view.detalles();
+//	                }
 			}
 		});
 		atrasBtn.setBorderPainted(false);
@@ -747,7 +851,28 @@ public class HabitacionesView {
 		JButton sigBtn = new JButton();
 		sigBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Siguiente");
+//				System.out.println("Siguiente");
+//
+//				HabitacionIds = model.cargarHab(indexActual);
+//				
+//				if (indexActual < HabitacionIds.size() - 1) 
+//				{
+//					System.out.println("viejo indexActual: " + indexActual); 
+//					indexActual++;
+//					System.out.println("Nuevo indexActual: " + indexActual);
+//					
+//                    String actual = HabitacionIds.get(indexActual-1);
+//                    System.out.println("cliente act: " + actual);
+//                    
+//                    HabitacionesView view = new HabitacionesView();
+//                    model.textField(view.getId(), view.getNombre(), view.getTipo(), view.getTam(),
+//			    			   view.getDesc(), view.getSolicitudes(), view.getTarifas(), view.getNombreDetalles());
+//
+//		    	    frame.dispose();
+//
+//		    	    model.mostrarDetalles(actual);
+//		    	    view.detalles();
+//                }
 			}
 		});
 		sigBtn.setBorderPainted(false);
@@ -777,13 +902,13 @@ public class HabitacionesView {
 		panelImagen.setLayout(null);
 		panelInfo.setLayout(null);
 		
-		JLabel idHabitacion = new JLabel("ID de la habitación");
+		JLabel idHabitacion = new JLabel("ID de la habitación"); //borra
 		idHabitacion.setForeground(Color.BLACK);
 		idHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
 		idHabitacion.setBounds(20, 11, 354, 29);
 		panelInfo.add(idHabitacion);
 		
-		JTextField infoIdHabitacion = new JTextField("271873");
+		JTextField infoIdHabitacion = new JTextField("271873"); //borra
 		infoIdHabitacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoIdHabitacion.setBorder(BorderFactory.createCompoundBorder(
 				infoIdHabitacion.getBorder(),
@@ -800,7 +925,7 @@ public class HabitacionesView {
 		nombreHabitacion.setBounds(20, 78, 354, 29);
 		panelInfo.add(nombreHabitacion);
 		
-		JTextField infoNombre = new JTextField("Mickey");
+		JTextField infoNombre = new JTextField("Mickey"); //borra
 		infoNombre.setBorder(BorderFactory.createCompoundBorder(
 				infoNombre.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -818,7 +943,7 @@ public class HabitacionesView {
 		tipoHabitacion.setBounds(20, 143, 354, 29);
 		panelInfo.add(tipoHabitacion);
 		
-		JTextField infoTipo = new JTextField("Tipo");
+		JTextField infoTipo = new JTextField("Tipo"); //borra
 		infoTipo.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoTipo.setBorder(BorderFactory.createCompoundBorder(
 				infoTipo.getBorder(),
@@ -837,7 +962,7 @@ public class HabitacionesView {
 		tamaño.setBounds(20, 207, 354, 29);
 		panelInfo.add(tamaño);
 		
-		JTextField infoTam = new JTextField("3m");
+		JTextField infoTam = new JTextField("3m"); //borra
 		infoTam.setBorder(BorderFactory.createCompoundBorder(
 				infoTam.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -855,7 +980,7 @@ public class HabitacionesView {
 		descripcion.setBounds(20, 268, 194, 46);
 		panelInfo.add(descripcion);
 		
-		JTextArea infoDescrip = new JTextArea("Blablabla");
+		JTextArea infoDescrip = new JTextArea("Blablabla"); //borra
 		infoDescrip.setBackground(new Color(217, 217, 217));
 		infoDescrip.setFont(new Font("Monospaced", Font.PLAIN, 18));
 		infoDescrip.setBounds(20, 310, 420, 75);
@@ -879,7 +1004,18 @@ public class HabitacionesView {
 		panelInfo.add(panelito);
 		panelito.setLayout(null);
 		
-		JLabel wifi = new JLabel("Wi-Fi");
+//		amenidades2.setBorder(BorderFactory.createCompoundBorder(
+//				amenidades2.getBorder(),
+//		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+//		));
+//		amenidades2.setEditable(false);
+//		amenidades2.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+//		amenidades2.setColumns(10);
+//		amenidades2.setBackground(new Color(217, 217, 217));
+//		amenidades2.setBounds(0,0, 420, 60);
+//		panelito.add(amenidades2);
+		
+		JLabel wifi = new JLabel("Wi-Fi"); /////////////////////////borra aqui 
 		wifi.setOpaque(false);
 		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		wifi.setBounds(0, 0, 200, 31);
@@ -901,7 +1037,7 @@ public class HabitacionesView {
 		lavanderia.setOpaque(false);
 		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lavanderia.setBounds(220, 30, 200, 31);
-		panelito.add(lavanderia);
+		panelito.add(lavanderia); /////////////////////////////// hasta aqui
 		
 		JLabel tarif = new JLabel("Tarifas");
 		tarif.setForeground(Color.BLACK);
@@ -913,6 +1049,17 @@ public class HabitacionesView {
 		tarifaPanel.setBackground(new Color(217, 217, 217));
 		tarifaPanel.setLayout(null);
 		tarifaPanel.setSize(new Dimension(420,100));
+		
+//		tarifasText.setBorder(BorderFactory.createCompoundBorder(
+//				amenidades2.getBorder(),
+//		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+//		));
+//		tarifasText.setEditable(false);
+//		tarifasText.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+//		tarifasText.setColumns(10);
+//		tarifasText.setBackground(new Color(217, 217, 217));
+//		tarifasText.setBounds(0,0, 420, 100);
+//		tarifaPanel.add(tarifasText);
 		
 		JScrollPane scrollBar = new JScrollPane(tarifaPanel);
 		scrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1024,8 +1171,10 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				System.out.println("Clientes");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
 			}
 		});
 		btnClientes.setBorderPainted(false);
@@ -1234,7 +1383,7 @@ public class HabitacionesView {
 		panelInfo.add(nombreHabitacion);
 		
 	
-		JTextField nombreHabiResp = new JTextField();
+		JTextField nombreHabiResp = new JTextField(); //borra
 		nombreHabiResp.setBorder(BorderFactory.createCompoundBorder(
 				nombreHabiResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1257,7 +1406,7 @@ public class HabitacionesView {
 		tamaño.setBounds(35, 170, 216, 46);
 		panelInfo.add(tamaño);
 		
-		JTextField telResp = new JTextField();
+		JTextField telResp = new JTextField(); //borra
 		telResp.setBorder(BorderFactory.createCompoundBorder(
 				telResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1286,12 +1435,12 @@ public class HabitacionesView {
 		tarifa.setBounds(581, 250, 364, 46);
 		panelInfo.add(tarifa);
 		
-		JComboBox tipoResp = new JComboBox();
+		JComboBox tipoResp = new JComboBox(); //borra
 		tipoResp.setBackground(new Color(217, 217, 217));
 		tipoResp.setBounds(35, 138, 420, 25);
 		panelInfo.add(tipoResp);
 		
-		JTextArea descResp = new JTextArea();
+		JTextArea descResp = new JTextArea(); //borra
 		descResp.setBackground(new Color(217, 217, 217));
 		descResp.setBounds(35, 286, 420, 75);
 		panelInfo.add(descResp);
@@ -1302,25 +1451,25 @@ public class HabitacionesView {
 		panelInfo.add(panel);
 		panel.setLayout(null);
 		
-		JCheckBox wifi = new JCheckBox("Wi-Fi");
+		JCheckBox wifi = new JCheckBox("Wi-Fi"); //borra
 		wifi.setOpaque(false);
 		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		wifi.setBounds(0, 0, 200, 31);
 		panel.add(wifi);
 		
-		JCheckBox restaurante = new JCheckBox("Restaurante");
+		JCheckBox restaurante = new JCheckBox("Restaurante"); //borra
 		restaurante.setOpaque(false);
 		restaurante.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		restaurante.setBounds(0, 30, 200, 31);
 		panel.add(restaurante);
 		
-		JCheckBox recreativos = new JCheckBox("Espacios recreativos");
+		JCheckBox recreativos = new JCheckBox("Espacios recreativos"); //borra
 		recreativos.setOpaque(false);
 		recreativos.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		recreativos.setBounds(220, 0, 200, 31);
 		panel.add(recreativos);
 		
-		JCheckBox lavanderia = new JCheckBox("Lavandería");
+		JCheckBox lavanderia = new JCheckBox("Lavandería"); //borra
 		lavanderia.setOpaque(false);
 		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lavanderia.setBounds(220, 30, 200, 31);
@@ -1339,14 +1488,8 @@ public class HabitacionesView {
 		JButton eliminarHabi = new JButton();
 		eliminarHabi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				nombreHabiResp.setText("");
-//				tipoResp.setText("");
-//				telResp.setText("");
-//				direccionResp.setText("");
-//				contactoResp.setText("");
-//				relacionResp.setText("");
-//				noContactoResp.setText("");
-//				infoAdResp.setText("");
+//				model = new HabitacionesModel();
+//				model.eliminarHabitacion(idHabitacion);
 			}
 		});
 		eliminarHabi.setBorderPainted(false);
@@ -1797,11 +1940,18 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Subir");
-				frame.dispose();
-				model = new HabitacionesModel();
-				model.subirImg();
+//				model = new HabitacionesModel();
+//				path = model.subirImg();
+//				if(path != null)
+//				{
+//					imgB = model.imageToBlob(path);
+//					model.imagen(subirBtn);
+//				}
+//				else
+//				{
+//					System.out.println("ninguna img selec");
+//				}
+//				subirBtn.setEnabled(false); //el boton no sirve despues de que q se click una vez
 			}
 		});
 		subirBtn.setBorderPainted(false);
@@ -1884,25 +2034,25 @@ public class HabitacionesView {
 		panelInfo.add(panel);
 		panel.setLayout(null);
 		
-		JCheckBox wifi = new JCheckBox("Wi-Fi");
+		JCheckBox wifi = new JCheckBox("Wi-Fi"); //borra
 		wifi.setOpaque(false);
 		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		wifi.setBounds(0, 0, 200, 31);
 		panel.add(wifi);
 		
-		JCheckBox restaurante = new JCheckBox("Restaurante");
+		JCheckBox restaurante = new JCheckBox("Restaurante"); //borra
 		restaurante.setOpaque(false);
 		restaurante.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		restaurante.setBounds(0, 30, 200, 31);
 		panel.add(restaurante);
 		
-		JCheckBox recreativos = new JCheckBox("Espacios recreativos");
+		JCheckBox recreativos = new JCheckBox("Espacios recreativos"); //borra
 		recreativos.setOpaque(false);
 		recreativos.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		recreativos.setBounds(220, 0, 200, 31);
 		panel.add(recreativos);
 		
-		JCheckBox lavanderia = new JCheckBox("Lavandería");
+		JCheckBox lavanderia = new JCheckBox("Lavandería"); //borra
 		lavanderia.setOpaque(false);
 		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lavanderia.setBounds(220, 30, 200, 31);
@@ -1913,10 +2063,31 @@ public class HabitacionesView {
 		tarifaPanel.setLayout(null);
 		tarifaPanel.setSize(new Dimension(420,100));
 		
+//		JTextArea tarifasP = new JTextArea();
+//		tarifasP.setBackground(new Color(217, 217, 217));
+//		tarifasP.setBounds(0, 0, 420, 100);
+//		tarifaPanel.add(tarifasP);
+		
 		JScrollPane scrollBar = new JScrollPane(tarifaPanel);
 		scrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollBar.setBounds(581, 290, 420, 75);
 		panelInfo.add(scrollBar);
+		
+//		tipoResp = new JComboBox<>(tiposHab); //////////////////////////////////////
+//		tipoResp.addActionListener(new ActionListener()
+//		{
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				model = new HabitacionesModel();
+//				String tipo = (String) tipoResp.getSelectedItem();
+//				String tarif = model.mostrarTarifas(tipo);
+//				tarifasP.setText(tarif);	
+//			}
+//	
+//		});
+//		tipoResp.setBackground(new Color(217, 217, 217));
+//		tipoResp.setBounds(35, 138, 420, 25);
+//		panelInfo.add(tipoResp);
 	
 		JButton botonVacio = new JButton();
 		botonVacio.addActionListener(new ActionListener() {
@@ -1940,6 +2111,41 @@ public class HabitacionesView {
 		JButton botonCrear = new JButton();
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				model = new HabitacionesModel();
+//				
+//				String nombre = nombreHabiResp.getText();
+//				String tipo = (String) tipoResp.getSelectedItem();
+//				String tam = telResp.getText();
+//				String desc = descResp.getText();
+//				StringBuilder seleccion = new StringBuilder();
+				
+//				 if (wifi.isSelected()) {
+//	                    seleccion.append(wifi.getText()).append("\n");
+//	                }
+//	                if (restaurante.isSelected()) {
+//	                    seleccion.append(restaurante.getText()).append("\n");
+//	                }
+//	                if (recreativos.isSelected()) {
+//	                    seleccion.append(recreativos.getText()).append("\n");
+//	                }
+//	                if (lavanderia.isSelected()) {
+//	                    seleccion.append(lavanderia.getText()).append("\n");
+//	                }
+//	                String amenidades = seleccion.toString();
+//				
+//				System.out.println("tipo de hab: " + tipo);
+//				System.out.println("amenidades selec: "+ amenidades);
+//
+//				if(path != null)
+//				{
+//					imgB = model.imageToBlob(path);
+//				}
+//				else
+//				{
+//					System.out.println("Path no existe");
+//				}
+//
+//				model.crear(nombre, tipo, tam, desc, amenidades,imgB);
 			}
 		});
 		botonCrear.setBorderPainted(false);
@@ -1955,4 +2161,68 @@ public class HabitacionesView {
 		frame.revalidate();
 			
 	}
+	
+//	public JTextField getId() {	
+//        return infoIdHabitacion;		
+//    }
+//
+//	
+//	public JTextField getNombre() {
+//        return infoNombre;
+//    }
+//	
+//	public JTextField getTipo() {
+//        return infoTipo;
+//    }
+//	
+//	public JTextField getTam() {
+//        return infoTam;
+//    }
+//	
+//	public JTextArea getDesc()
+//	{
+//		return infoDescrip;
+//	}
+//	
+//	public JTextArea getSolicitudes()
+//	{
+//		return amenidades2;
+//	}
+//	
+//	public JTextArea getTarifas()
+//	{
+//		return tarifasText;
+//	}
+//	
+//	public JLabel getNombreDetalles() {
+//        return nomHabitacion;
+//    }
+//
+//	 
+//	 public String getIdHab()
+//	 {
+//		 return idHabitacion;
+//	 }
+//	 
+//	 public String getTipoSeleccionado() {
+//		    return (String) tipoResp.getSelectedItem();
+//		}
+//
+//	 
+	 public JCheckBox getCheckWifi() {
+	        return wifi;
+	    }
+	 
+	 public JCheckBox getCheckRest() {
+	        return restaurante;
+	    }
+	 
+	 public JCheckBox getCheckRecrea() {
+	        return recreativos;
+	    }
+	 
+	 public JCheckBox getCheckLava() {
+	        return lavanderia;
+	    }
+	 
 }
