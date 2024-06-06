@@ -2022,13 +2022,13 @@ public class ClientesView {
 		historialPanel.add(fondoTexto);
 		
 		JPanel paneltablitaAzul= new JPanel();
-		paneltablitaAzul.setBounds(50, 60, 530, 270);
+		paneltablitaAzul.setBounds(13, 60, 610, 270);
 		paneltablitaAzul.setBackground(new Color(0,73,102));
 		paneltablitaAzul.setLayout(null);
 		historialPanel.add(paneltablitaAzul);
 		
 		JPanel paneltablita= new JPanel();
-		paneltablita.setBounds(10, 10, 510, 250);
+		paneltablita.setBounds(10, 10, 590, 250);
 		paneltablita.setBackground(Color.white);
 		paneltablita.setLayout(null);
 		paneltablitaAzul.add(paneltablita);
@@ -2077,6 +2077,7 @@ public class ClientesView {
 	{
 		emergente.getContentPane().removeAll();
 		emergente.repaint();
+		
 		
 		emergente.setSize(550, 680);
 		JPanel descargaPanel= new JPanel();
@@ -2163,7 +2164,10 @@ public class ClientesView {
 
 	public void campoVacio()
 	{
-		
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
 		JPanel datos= new JPanel();
 		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
 		datos.setBackground(new Color(220,220,220));
@@ -2217,7 +2221,10 @@ public class ClientesView {
 	
 	public void datosNoValidos()
 	{
-		
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
 		JPanel datos= new JPanel();
 		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
 		datos.setBackground(new Color(220,220,220));
@@ -2331,7 +2338,10 @@ public class ClientesView {
 	
 	public void eleccion()
 	{
-		
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
 		JPanel datos= new JPanel();
 		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
 		datos.setBackground(new Color(220,220,220));
@@ -2465,7 +2475,10 @@ public class ClientesView {
 	
 	public void seleccion()
 	{
-		
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
 		JPanel datos= new JPanel();
 		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
 		datos.setBackground(new Color(220,220,220));
@@ -2576,7 +2589,10 @@ public class ClientesView {
 	
 	public void docError()
 	{
-		
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
 		JPanel datos= new JPanel();
 		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
 		datos.setBackground(new Color(220,220,220));

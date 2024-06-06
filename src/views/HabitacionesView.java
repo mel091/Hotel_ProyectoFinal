@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -29,6 +30,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.cj.jdbc.Blob;
 
 import controllers.ClientesController;
 import controllers.HabitacionesController;
@@ -36,6 +40,7 @@ import controllers.InicioController;
 import controllers.RentasController;
 import controllers.TarifasController;
 import controllers.TiposController;
+import models.ClientesModel;
 import models.HabitacionesModel;
 
 public class HabitacionesView {
@@ -45,16 +50,16 @@ public class HabitacionesView {
 	private HabitacionesController room;
 	private HabitacionesModel model;
 	private InicioController inicio;
-	//public String idHabSeleccion;
+	public String idHabSeleccion;
+	public JLabel nomHabitacion = new JLabel("");
+	private String idHabitacion;
+	private String path;
+	private Blob imgB;
 	
-//	private String idHabitacion;
-//	private String path;
-//	private Blob imgB;
-	
-//	private ArrayList<String> HabitacionIds;
-//	public JComboBox <String> tipoResp = new JComboBox <String>();
-//	String[] tiposHab = {"Estándar", "Habitación doble", "Suite"};
-//	private int indexActual;
+	private ArrayList<String> HabitacionIds;
+	public JComboBox <String> tipoResp = new JComboBox <String>();
+	String[] tiposHab = {"Estándar", "Habitación doble", "Suite"};
+	private int indexActual;
 	
 	public TarifasController tarifa;
 	public TiposController tipo;
@@ -65,25 +70,25 @@ public class HabitacionesView {
 	JCheckBox restaurante = new JCheckBox("Restaurante");
 	JCheckBox recreativos = new JCheckBox("Espacios recreativos");
 	JCheckBox lavanderia = new JCheckBox("Lavandería");
-//	
-//	JTextField infoIdHabitacion = new JTextField("");
-//	JTextField infoNombre = new JTextField("");
-//	JTextField infoTipo = new JTextField("");
-//	JTextField infoTam = new JTextField("");
-//	JTextArea infoDescrip = new JTextArea("");
-//	JTextArea amenidades2 = new JTextArea("");
-//	JTextArea tarifasText = new JTextArea("");
-//	JLabel nombreHabi = new JLabel("");
-//	
-//	JTextField nombreHabiResp = new JTextField("");;
-//	JTextField tamResp = new JTextField("");;
-//	JComboBox tipoResp1 = new JComboBox();
-//	JTextArea descResp = new JTextArea();
-//	JCheckBox wifi1 = new JCheckBox("Wi-Fi");
-//	JCheckBox restaurante1 = new JCheckBox("Restaurante");
-//	JCheckBox recreativos1 = new JCheckBox("Espacios recreativos");
-//	JCheckBox lavanderia1 = new JCheckBox("Lavandería");
-//	JTextArea tarifasText1 = new JTextArea("");
+	
+	JTextField infoIdHabitacion = new JTextField("");
+	JTextField infoNombre = new JTextField("");
+	JTextField infoTipo = new JTextField("");
+	JTextField infoTam = new JTextField("");
+	JTextArea infoDescrip = new JTextArea("");
+	JTextArea amenidades2 = new JTextArea("");
+	JTextArea tarifasText = new JTextArea("");
+	JLabel nombreHabi = new JLabel("");
+	
+	JTextField nombreHabiResp = new JTextField("");;
+	JTextField tamResp = new JTextField("");;
+	JComboBox tipoResp1 = new JComboBox();
+	JTextArea descResp = new JTextArea();
+	JCheckBox wifi1 = new JCheckBox("Wi-Fi");
+	JCheckBox restaurante1 = new JCheckBox("Restaurante");
+	JCheckBox recreativos1 = new JCheckBox("Espacios recreativos");
+	JCheckBox lavanderia1 = new JCheckBox("Lavandería");
+	JTextArea tarifasText1 = new JTextArea("");
 	
 	
 	public HabitacionesView() {
@@ -358,15 +363,15 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				if (idHabitacion != null && !idHabitacion.isEmpty()) {
-//					 
-//					String tipoSeleccionado = getTipoSeleccionado();
-//					System.out.println(tipoSeleccionado);
-//  		            model = new HabitacionesModel();
-//  		            model.textField2(nombreHabiResp, tamResp,  tipoResp, descResp, wifi, restaurante, recreativos, lavanderia, tarifasText1 );
-//  		            model.recuperaDatos(tipoSeleccionado, idHabitacion); // Solo recupera y establece datos
-//  		            editar();
-//  		        }
+				if (idHabitacion != null && !idHabitacion.isEmpty()) {
+					 
+					String tipoSeleccionado = getTipoSeleccionado();
+					System.out.println(tipoSeleccionado);
+  		            model = new HabitacionesModel();
+  		            model.textField2(nombreHabiResp, tamResp,  tipoResp, descResp, wifi, restaurante, recreativos, lavanderia, tarifasText1 );
+  		            model.recuperaDatos(tipoSeleccionado, idHabitacion); // Solo recupera y establece datos
+  		            editar();
+  		        }
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -380,25 +385,25 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				if (idHabitacion != null && !idHabitacion.isEmpty()) {
-//		    	    System.out.println(idHabitacion);
-//		    	    
-//		    	    model = new HabitacionesModel();
-//		    	    HabitacionesView view = new HabitacionesView();
-//		    	    
-//		    	   model.textField(view.getId(), view.getNombre(), view.getTipo(), view.getTam(),
-//		    			   view.getDesc(), view.getSolicitudes(), view.getTarifas(), view.getNombreDetalles());
-//
-//		    	    frame.dispose();
-//		    	    
-//		    	    model.mostrarDetalles(idHabitacion);
-//		    	   
-//		    	    view.detalles();
-//		    	   
-//		    	} else {
-//		    	    //seleccion();
-//		    		System.out.println("ningun coso selec");
-//		    	}
+				if (idHabitacion != null && !idHabitacion.isEmpty()) {
+		    	    System.out.println(idHabitacion);
+		    	    
+		    	    model = new HabitacionesModel();
+		    	    HabitacionesView view = new HabitacionesView();
+		    	    
+		    	    model.textField(view.getId(), view.getNombre(), view.getTipo(), view.getTam(),
+		    			   view.getDesc(), view.getSolicitudes(), view.getTarifas(), view.getNombreDetalles());
+
+		    	    frame.dispose();
+		    	    
+		    	    model.mostrarDetalles(idHabitacion);
+		    	   
+		    	    view.detalles();
+		    	   
+		    	} else {
+		    	    //seleccion();
+		    		System.out.println("ningun coso selec");
+		    	}
 			}
 		});
 		detallesBtn.setBorderPainted(false);
@@ -417,65 +422,44 @@ public class HabitacionesView {
 		panelDeTabla.setBounds(25, 25, 1023, 316);
 		panelAzul.add(panelDeTabla);
 		
-//		model = new HabitacionesModel();
-//		DefaultTableModel datosHab = model.tablaHabitaciones();
+		model = new HabitacionesModel();
+		DefaultTableModel datosHab = model.tablaHabitaciones();
 		
-		String tableTitle[]={"ID de la habitación", "Nombre", "Tipo de habitación", "Tamaño"}; //borrar de aqui
-		String tableData[][] = {
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""}
-		};
+//		String tableTitle[]={"ID de la habitación", "Nombre", "Tipo de habitación", "Tamaño"}; //borrar de aqui
+//		String tableData[][] = {
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""},
+//							    {"", "", "", ""}
+//		};
 	
-		JTable productoTable= new JTable(tableData, tableTitle);
-		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
-		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
-		{
-	            @Override
-	            public void valueChanged(ListSelectionEvent e) 
-	            {
-	                if (!e.getValueIsAdjusting()) 
-	                {
-	                    int selectedRow = productoTable.getSelectedRow();
-	                    if (selectedRow != -1) 
-	                    { 
-	                        System.out.println("Fila seleccionada: " + selectedRow);
-	                        
-	                    }
-	                }
-	            }
-		    }); //hasta aca
-		
-
-//		JTable productoTable= new JTable(datosHab); //dentro de los parentesis mete "datosClientes" 
-//																// del DefaultTable arriba
+//		JTable productoTable= new JTable(tableData, tableTitle);
 //		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
 //		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
 //		{
@@ -487,12 +471,33 @@ public class HabitacionesView {
 //	                    int selectedRow = productoTable.getSelectedRow();
 //	                    if (selectedRow != -1) 
 //	                    { 
-//	                    	idHabitacion = (String) productoTable.getValueAt(selectedRow, 0);
-//	                    	System.out.println("ID seleccionado: " + idHabitacion);
+//	                        System.out.println("Fila seleccionada: " + selectedRow);
+//	                        
 //	                    }
 //	                }
 //	            }
-//		    });
+//		    }); //hasta aca
+		
+
+		JTable productoTable= new JTable(datosHab); //dentro de los parentesis mete "datosClientes" 
+																// del DefaultTable arriba
+		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+		{
+	            @Override
+	            public void valueChanged(ListSelectionEvent e) 
+	            {
+	                if (!e.getValueIsAdjusting()) 
+	                {
+	                    int selectedRow = productoTable.getSelectedRow();
+	                    if (selectedRow != -1) 
+	                    { 
+	                    	idHabitacion = (String) productoTable.getValueAt(selectedRow, 0);
+	                    	System.out.println("ID seleccionado: " + idHabitacion);
+	                    }
+	                }
+	            }
+		    });
 		
 		panelDeTabla.setLayout(null);
 		
@@ -516,7 +521,6 @@ public class HabitacionesView {
 		panelDetalles.setLayout(null);
 	
 		
-		
 		//Panel de la cabecera
 		JLabel disneyFondo = new JLabel();
 		disneyFondo.setBounds(10, 10, 1313, 90);
@@ -525,7 +529,7 @@ public class HabitacionesView {
 		disneyFondo.setLayout(null);
 		panelDetalles.add(disneyFondo);
 		
-		//idHabitacion = getIdHab();	///////////////////////////////////////////////////////////////////////////////////
+		idHabitacion = getIdHab();	///////////////////////////////////////////////////////////////////////////////////
 	
 		JButton btnDisney = new JButton();
 		btnDisney.addActionListener(new ActionListener()
@@ -770,11 +774,11 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				System.out.println("Descargar ID seleccionado: " + idHabitacion);
-//				
-//				idHabSeleccion = infoIdHabitacion.getText();
-//                System.out.println("Descargar ID seleccionado: " + idHabSeleccion);
-//                descarga();
+				System.out.println("Descargar ID seleccionado: " + idHabitacion);
+				
+				idHabSeleccion = infoIdHabitacion.getText();
+                System.out.println("Descargar ID seleccionado: " + idHabSeleccion);
+                descarga();
 			}
 		});
 		descargarBtn.setBorderPainted(false);
@@ -788,9 +792,9 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				System.out.println("Historial");
-//				idHabSeleccion = infoIdHabitacion.getText();
-//				historial();
+				System.out.println("Historial");
+				idHabSeleccion = infoIdHabitacion.getText();
+				historial();
 			}
 		});
 		historialBtn.setBorderPainted(false);
@@ -799,7 +803,7 @@ public class HabitacionesView {
 		panelCentral.add(historialBtn);
 		
 		
-		JLabel nombreHabi = new JLabel("Nombre de la habitación"); //comentar
+		//JLabel nombreHabi = new JLabel("Nombre de la habitación"); //comentar
 		nombreHabi.setHorizontalAlignment(SwingConstants.CENTER);
 		nombreHabi.setForeground(new Color(0, 0, 0));
 		nombreHabi.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
@@ -811,34 +815,34 @@ public class HabitacionesView {
 		fondoHabitacion.setBounds(330, 21, 489, 45);
 		panelCentral.add(fondoHabitacion);
 		
-//		idHabSeleccion = infoIdHabitacion.getText();
-//		indexActual = Integer.parseInt(idHabSeleccion);
-//
-//		 model = new HabitacionesModel();
+		idHabSeleccion = infoIdHabitacion.getText();
+		indexActual = Integer.parseInt(idHabSeleccion);
+
+		model = new HabitacionesModel();
 		
 		JButton atrasBtn = new JButton();
 		atrasBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				System.out.println("atras");
-//				
-//				 if (indexActual > 0) {
-//	                	System.out.println("viejo indexActual: " + indexActual);
-//	                    indexActual--;
-//	                    System.out.println("Nuevo indexActual: " + indexActual);
-//	 
-//	                    HabitacionIds = model.cargarHab(indexActual);
-//	                    String actual = HabitacionIds.get(indexActual-1);
-//	                    System.out.println("hab act: " + actual);
-//
-//	                    HabitacionesView view = new HabitacionesView();
-//	                    model.textField(view.getId(), view.getNombre(), view.getTipo(), view.getTam(),
-//				    			   view.getDesc(), view.getSolicitudes(), view.getTarifas(), view.getNombreDetalles());
-//
-//                   frame.dispose();
-//
-//                   model.mostrarDetalles(actual);
-//                   view.detalles();
-//	                }
+				System.out.println("atras");
+				
+				 if (indexActual > 0) {
+	                	System.out.println("viejo indexActual: " + indexActual);
+	                    indexActual--;
+	                    System.out.println("Nuevo indexActual: " + indexActual);
+	 
+	                    HabitacionIds = model.cargarHab(indexActual);
+	                    String actual = HabitacionIds.get(indexActual-1);
+	                    System.out.println("hab act: " + actual);
+
+	                    HabitacionesView view = new HabitacionesView();
+	                    model.textField(view.getId(), view.getNombre(), view.getTipo(), view.getTam(),
+				    	 view.getDesc(), view.getSolicitudes(), view.getTarifas(), view.getNombreDetalles());
+
+                   frame.dispose();
+
+                   model.mostrarDetalles(actual);
+                   view.detalles();
+	                }
 			}
 		});
 		atrasBtn.setBorderPainted(false);
@@ -851,28 +855,28 @@ public class HabitacionesView {
 		JButton sigBtn = new JButton();
 		sigBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				System.out.println("Siguiente");
-//
-//				HabitacionIds = model.cargarHab(indexActual);
-//				
-//				if (indexActual < HabitacionIds.size() - 1) 
-//				{
-//					System.out.println("viejo indexActual: " + indexActual); 
-//					indexActual++;
-//					System.out.println("Nuevo indexActual: " + indexActual);
-//					
-//                    String actual = HabitacionIds.get(indexActual-1);
-//                    System.out.println("cliente act: " + actual);
-//                    
-//                    HabitacionesView view = new HabitacionesView();
-//                    model.textField(view.getId(), view.getNombre(), view.getTipo(), view.getTam(),
-//			    			   view.getDesc(), view.getSolicitudes(), view.getTarifas(), view.getNombreDetalles());
-//
-//		    	    frame.dispose();
-//
-//		    	    model.mostrarDetalles(actual);
-//		    	    view.detalles();
-//                }
+				System.out.println("Siguiente");
+
+				HabitacionIds = model.cargarHab(indexActual);
+				
+				if (indexActual < HabitacionIds.size() - 1) 
+				{
+					System.out.println("viejo indexActual: " + indexActual); 
+					indexActual++;
+					System.out.println("Nuevo indexActual: " + indexActual);
+					
+                    String actual = HabitacionIds.get(indexActual-1);
+                    System.out.println("cliente act: " + actual);
+                    
+                    HabitacionesView view = new HabitacionesView();
+                    model.textField(view.getId(), view.getNombre(), view.getTipo(), view.getTam(),
+			    			   view.getDesc(), view.getSolicitudes(), view.getTarifas(), view.getNombreDetalles());
+
+		    	    frame.dispose();
+
+		    	    model.mostrarDetalles(actual);
+		    	    view.detalles();
+                }
 			}
 		});
 		sigBtn.setBorderPainted(false);
@@ -1004,36 +1008,36 @@ public class HabitacionesView {
 		panelInfo.add(panelito);
 		panelito.setLayout(null);
 		
-//		amenidades2.setBorder(BorderFactory.createCompoundBorder(
-//				amenidades2.getBorder(),
-//		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-//		));
-//		amenidades2.setEditable(false);
-//		amenidades2.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-//		amenidades2.setColumns(10);
-//		amenidades2.setBackground(new Color(217, 217, 217));
-//		amenidades2.setBounds(0,0, 420, 60);
-//		panelito.add(amenidades2);
+		amenidades2.setBorder(BorderFactory.createCompoundBorder(
+				amenidades2.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		amenidades2.setEditable(false);
+		amenidades2.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		amenidades2.setColumns(10);
+		amenidades2.setBackground(new Color(217, 217, 217));
+		amenidades2.setBounds(0,0, 420, 60);
+		panelito.add(amenidades2);
 		
-		JLabel wifi = new JLabel("Wi-Fi"); /////////////////////////borra aqui 
+		
 		wifi.setOpaque(false);
 		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		wifi.setBounds(0, 0, 200, 31);
 		panelito.add(wifi);
 		
-		JLabel restaurante = new JLabel("Restaurante");
+		
 		restaurante.setOpaque(false);
 		restaurante.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		restaurante.setBounds(0, 30, 200, 31);
 		panelito.add(restaurante);
 		
-		JLabel recreativos = new JLabel("Espacios recreativos");
+		
 		recreativos.setOpaque(false);
 		recreativos.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		recreativos.setBounds(220, 0, 200, 31);
 		panelito.add(recreativos);
 		
-		JLabel lavanderia = new JLabel("Lavandería");
+		
 		lavanderia.setOpaque(false);
 		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lavanderia.setBounds(220, 30, 200, 31);
@@ -1050,16 +1054,16 @@ public class HabitacionesView {
 		tarifaPanel.setLayout(null);
 		tarifaPanel.setSize(new Dimension(420,100));
 		
-//		tarifasText.setBorder(BorderFactory.createCompoundBorder(
-//				amenidades2.getBorder(),
-//		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-//		));
-//		tarifasText.setEditable(false);
-//		tarifasText.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-//		tarifasText.setColumns(10);
-//		tarifasText.setBackground(new Color(217, 217, 217));
-//		tarifasText.setBounds(0,0, 420, 100);
-//		tarifaPanel.add(tarifasText);
+		tarifasText.setBorder(BorderFactory.createCompoundBorder(
+				amenidades2.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		tarifasText.setEditable(false);
+		tarifasText.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		tarifasText.setColumns(10);
+		tarifasText.setBackground(new Color(217, 217, 217));
+		tarifasText.setBounds(0,0, 420, 100);
+		tarifaPanel.add(tarifasText);
 		
 		JScrollPane scrollBar = new JScrollPane(tarifaPanel);
 		scrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1366,9 +1370,9 @@ public class HabitacionesView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Subir");
+//				System.out.println("Subir");
 //				model = new ClientesModel();
-//				model.subirImg();
+				model.subirImg();
 			}
 		});
 		subirBtn.setBorderPainted(false);
@@ -1435,12 +1439,12 @@ public class HabitacionesView {
 		tarifa.setBounds(581, 250, 364, 46);
 		panelInfo.add(tarifa);
 		
-		JComboBox tipoResp = new JComboBox(); //borra
+		
 		tipoResp.setBackground(new Color(217, 217, 217));
 		tipoResp.setBounds(35, 138, 420, 25);
 		panelInfo.add(tipoResp);
 		
-		JTextArea descResp = new JTextArea(); //borra
+		
 		descResp.setBackground(new Color(217, 217, 217));
 		descResp.setBounds(35, 286, 420, 75);
 		panelInfo.add(descResp);
@@ -1451,25 +1455,25 @@ public class HabitacionesView {
 		panelInfo.add(panel);
 		panel.setLayout(null);
 		
-		JCheckBox wifi = new JCheckBox("Wi-Fi"); //borra
+		
 		wifi.setOpaque(false);
 		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		wifi.setBounds(0, 0, 200, 31);
 		panel.add(wifi);
 		
-		JCheckBox restaurante = new JCheckBox("Restaurante"); //borra
+		
 		restaurante.setOpaque(false);
 		restaurante.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		restaurante.setBounds(0, 30, 200, 31);
 		panel.add(restaurante);
 		
-		JCheckBox recreativos = new JCheckBox("Espacios recreativos"); //borra
+		
 		recreativos.setOpaque(false);
 		recreativos.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		recreativos.setBounds(220, 0, 200, 31);
 		panel.add(recreativos);
 		
-		JCheckBox lavanderia = new JCheckBox("Lavandería"); //borra
+		
 		lavanderia.setOpaque(false);
 		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lavanderia.setBounds(220, 30, 200, 31);
@@ -1488,8 +1492,8 @@ public class HabitacionesView {
 		JButton eliminarHabi = new JButton();
 		eliminarHabi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				model = new HabitacionesModel();
-//				model.eliminarHabitacion(idHabitacion);
+				model = new HabitacionesModel();
+				model.eliminarHabitacion(idHabitacion);
 			}
 		});
 		eliminarHabi.setBorderPainted(false);
@@ -1548,9 +1552,7 @@ public class HabitacionesView {
 		historialPanel.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
 		historialPanel.setBackground(new Color(220,220,220));
 		historialPanel.setLayout(null);
-		
-		
-		
+
 		JLabel text = new JLabel("Historial");
 		text.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
 		text.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1558,11 +1560,36 @@ public class HabitacionesView {
 		text.setBounds(225,15,150,40);
 		historialPanel.add(text);
 		
+		//checar eto
+		idHabitacion = getIdHab();
+		
 		JLabel fondoTexto = new JLabel();
 		fondoTexto.setOpaque(true);
 		fondoTexto.setBackground(new Color(0,73,102));
 		fondoTexto.setBounds(0,0,emergente.getWidth(),50);
 		historialPanel.add(fondoTexto);
+		
+		JPanel paneltablitaAzul= new JPanel();
+		paneltablitaAzul.setBounds(13, 60, 610, 270);
+		paneltablitaAzul.setBackground(new Color(0,73,102));
+		paneltablitaAzul.setLayout(null);
+		historialPanel.add(paneltablitaAzul);
+		
+		JPanel paneltablita= new JPanel();
+		paneltablita.setBounds(10, 10, 590, 250);
+		paneltablita.setBackground(Color.white);
+		paneltablita.setLayout(null);
+		paneltablitaAzul.add(paneltablita);
+
+		//Checar eto
+//		model=new HabitacionesModel();
+//		DefaultTableModel historialHabitaciones= model.tablaHistorialHabitaciones(idHabitacion);
+//		JTable productoTable= new JTable(historialHabitaciones); //dentro de los parentesis mete "datosClientes" 
+//		
+		//productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+//		JScrollPane scrollPane = new JScrollPane(productoTable);
+//		scrollPane.setBounds(0, 0, 600, 400);
+//		paneltablita.add(scrollPane);
 		
 		JButton botonAceptar = new JButton("Aceptar");
 		botonAceptar.addActionListener(new ActionListener()
@@ -1570,8 +1597,8 @@ public class HabitacionesView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				room = new HabitacionesController();
-				room.detalles();
+				cliente = new ClientesController();
+				cliente.detalles();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
@@ -1579,23 +1606,23 @@ public class HabitacionesView {
 		botonAceptar.setBorderPainted(false);
 		botonAceptar.setContentAreaFilled(false);
 		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		botonAceptar.setBounds(220, 330, 181, 51);
+		botonAceptar.setBounds(220, 345, 181, 51);
 		historialPanel.add(botonAceptar);
 		
 		JLabel imgAceptar= new JLabel();
 		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgAceptar.setBounds(220, 330, 181, 51);
+		imgAceptar.setBounds(220, 345, 181, 51);
 		historialPanel.add(imgAceptar);
-		
 		
 		emergente.getContentPane().add(historialPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
 	    emergente.repaint();
-		emergente.revalidate();
+	    emergente.revalidate();
 	    
 		
 	}
+
 	
 	public void descarga()
 	{
@@ -1940,18 +1967,18 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				model = new HabitacionesModel();
-//				path = model.subirImg();
-//				if(path != null)
-//				{
-//					imgB = model.imageToBlob(path);
-//					model.imagen(subirBtn);
-//				}
-//				else
-//				{
-//					System.out.println("ninguna img selec");
-//				}
-//				subirBtn.setEnabled(false); //el boton no sirve despues de que q se click una vez
+				model = new HabitacionesModel();
+				path = model.subirImg();
+				if(path != null)
+				{
+					imgB = model.imageToBlob(path);
+					model.imagen(subirBtn);
+				}
+				else
+				{
+					System.out.println("ninguna img selec");
+				}
+				subirBtn.setEnabled(false); //el boton no sirve despues de que q se click una vez
 			}
 		});
 		subirBtn.setBorderPainted(false);
@@ -2018,10 +2045,10 @@ public class HabitacionesView {
 		tarifa.setBounds(581, 250, 364, 46);
 		panelInfo.add(tarifa);
 		
-		JComboBox tipoResp = new JComboBox();
-		tipoResp.setBackground(new Color(217, 217, 217));
-		tipoResp.setBounds(35, 138, 420, 25);
-		panelInfo.add(tipoResp);
+//		JComboBox tipoResp = new JComboBox();
+//		tipoResp.setBackground(new Color(217, 217, 217));
+//		tipoResp.setBounds(35, 138, 420, 25);
+//		panelInfo.add(tipoResp);
 		
 		JTextArea descResp = new JTextArea();
 		descResp.setBackground(new Color(217, 217, 217));
@@ -2034,25 +2061,25 @@ public class HabitacionesView {
 		panelInfo.add(panel);
 		panel.setLayout(null);
 		
-		JCheckBox wifi = new JCheckBox("Wi-Fi"); //borra
+		
 		wifi.setOpaque(false);
 		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		wifi.setBounds(0, 0, 200, 31);
 		panel.add(wifi);
 		
-		JCheckBox restaurante = new JCheckBox("Restaurante"); //borra
+		
 		restaurante.setOpaque(false);
 		restaurante.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		restaurante.setBounds(0, 30, 200, 31);
 		panel.add(restaurante);
 		
-		JCheckBox recreativos = new JCheckBox("Espacios recreativos"); //borra
+		
 		recreativos.setOpaque(false);
 		recreativos.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		recreativos.setBounds(220, 0, 200, 31);
 		panel.add(recreativos);
 		
-		JCheckBox lavanderia = new JCheckBox("Lavandería"); //borra
+		
 		lavanderia.setOpaque(false);
 		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lavanderia.setBounds(220, 30, 200, 31);
@@ -2063,31 +2090,32 @@ public class HabitacionesView {
 		tarifaPanel.setLayout(null);
 		tarifaPanel.setSize(new Dimension(420,100));
 		
-//		JTextArea tarifasP = new JTextArea();
-//		tarifasP.setBackground(new Color(217, 217, 217));
-//		tarifasP.setBounds(0, 0, 420, 100);
-//		tarifaPanel.add(tarifasP);
+		JTextArea tarifasP = new JTextArea();
+		tarifasP.setBackground(new Color(217, 217, 217));
+		tarifasP.setBounds(0, 0, 420, 100);
+		tarifaPanel.add(tarifasP);
 		
 		JScrollPane scrollBar = new JScrollPane(tarifaPanel);
 		scrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollBar.setBounds(581, 290, 420, 75);
 		panelInfo.add(scrollBar);
 		
-//		tipoResp = new JComboBox<>(tiposHab); //////////////////////////////////////
-//		tipoResp.addActionListener(new ActionListener()
-//		{
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				model = new HabitacionesModel();
-//				String tipo = (String) tipoResp.getSelectedItem();
-//				String tarif = model.mostrarTarifas(tipo);
-//				tarifasP.setText(tarif);	
-//			}
-//	
-//		});
-//		tipoResp.setBackground(new Color(217, 217, 217));
-//		tipoResp.setBounds(35, 138, 420, 25);
-//		panelInfo.add(tipoResp);
+		
+		tipoResp = new JComboBox<>(tiposHab); //////////////////////////////////////
+		tipoResp.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model = new HabitacionesModel();
+				String tipo = (String) tipoResp.getSelectedItem();
+				String tarif = model.mostrarTarifas(tipo);
+				tarifasP.setText(tarif);	
+			}
+	
+		});
+		tipoResp.setBackground(new Color(217, 217, 217));
+		tipoResp.setBounds(35, 138, 420, 25);
+		panelInfo.add(tipoResp);
 	
 		JButton botonVacio = new JButton();
 		botonVacio.addActionListener(new ActionListener() {
@@ -2111,41 +2139,41 @@ public class HabitacionesView {
 		JButton botonCrear = new JButton();
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				model = new HabitacionesModel();
-//				
-//				String nombre = nombreHabiResp.getText();
-//				String tipo = (String) tipoResp.getSelectedItem();
-//				String tam = telResp.getText();
-//				String desc = descResp.getText();
-//				StringBuilder seleccion = new StringBuilder();
+				model = new HabitacionesModel();
 				
-//				 if (wifi.isSelected()) {
-//	                    seleccion.append(wifi.getText()).append("\n");
-//	                }
-//	                if (restaurante.isSelected()) {
-//	                    seleccion.append(restaurante.getText()).append("\n");
-//	                }
-//	                if (recreativos.isSelected()) {
-//	                    seleccion.append(recreativos.getText()).append("\n");
-//	                }
-//	                if (lavanderia.isSelected()) {
-//	                    seleccion.append(lavanderia.getText()).append("\n");
-//	                }
-//	                String amenidades = seleccion.toString();
-//				
-//				System.out.println("tipo de hab: " + tipo);
-//				System.out.println("amenidades selec: "+ amenidades);
-//
-//				if(path != null)
-//				{
-//					imgB = model.imageToBlob(path);
-//				}
-//				else
-//				{
-//					System.out.println("Path no existe");
-//				}
-//
-//				model.crear(nombre, tipo, tam, desc, amenidades,imgB);
+				String nombre = nombreHabiResp.getText();
+				String tipo = (String) tipoResp.getSelectedItem();
+				String tam = telResp.getText();
+				String desc = descResp.getText();
+				StringBuilder seleccion = new StringBuilder();
+				
+				 if (wifi.isSelected()) {
+	                    seleccion.append(wifi.getText()).append("\n");
+	                }
+	                if (restaurante.isSelected()) {
+	                    seleccion.append(restaurante.getText()).append("\n");
+	                }
+	                if (recreativos.isSelected()) {
+	                    seleccion.append(recreativos.getText()).append("\n");
+	                }
+	                if (lavanderia.isSelected()) {
+	                    seleccion.append(lavanderia.getText()).append("\n");
+	                }
+	                String amenidades = seleccion.toString();
+				
+				System.out.println("tipo de hab: " + tipo);
+				System.out.println("amenidades selec: "+ amenidades);
+
+				if(path != null)
+				{
+					imgB = model.imageToBlob(path);
+				}
+				else
+				{
+					System.out.println("Path no existe");
+				}
+
+				model.crear(nombre, tipo, tam, desc, amenidades,imgB);
 			}
 		});
 		botonCrear.setBorderPainted(false);
@@ -2162,53 +2190,549 @@ public class HabitacionesView {
 			
 	}
 	
-//	public JTextField getId() {	
-//        return infoIdHabitacion;		
-//    }
-//
-//	
-//	public JTextField getNombre() {
-//        return infoNombre;
-//    }
-//	
-//	public JTextField getTipo() {
-//        return infoTipo;
-//    }
-//	
-//	public JTextField getTam() {
-//        return infoTam;
-//    }
-//	
-//	public JTextArea getDesc()
-//	{
-//		return infoDescrip;
-//	}
-//	
-//	public JTextArea getSolicitudes()
-//	{
-//		return amenidades2;
-//	}
-//	
-//	public JTextArea getTarifas()
-//	{
-//		return tarifasText;
-//	}
-//	
-//	public JLabel getNombreDetalles() {
-//        return nomHabitacion;
-//    }
-//
-//	 
-//	 public String getIdHab()
-//	 {
-//		 return idHabitacion;
-//	 }
-//	 
-//	 public String getTipoSeleccionado() {
-//		    return (String) tipoResp.getSelectedItem();
-//		}
-//
-//	 
+	public void campoVacio()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"Hay campos vacíos, por favor <br>"+
+		"rellene los campos faltantes. <br>"+
+		"</div></html>");
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,23,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	public void datosNoValidos()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"El tipo de dato que estás  <br>"+
+		"intentando ingresar no es válido <br>"+
+		"para este campo. Por favor, <br>"+
+		"inténtalo de nuevo con un dato <br>"+
+		"diferente.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,12,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	
+	public void eleccion()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"¿Estás seguro de que deseas  <br>"+
+		"continuar? <br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,17,487,168);
+		datos.add(text);
+		
+		JButton cancelarBtn = new JButton("Cancelar");
+		cancelarBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("cancelar");
+				emergente.dispose();
+			}
+		});
+		cancelarBtn.setForeground(new Color(255, 255, 255));
+		cancelarBtn.setVerticalAlignment(SwingConstants.BOTTOM);
+		cancelarBtn.setBorderPainted(false);
+		cancelarBtn.setContentAreaFilled(false);
+		cancelarBtn.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		cancelarBtn.setBounds(50, 190, 181, 51);
+		datos.add(cancelarBtn);
+		
+		JLabel imgCancelar= new JLabel();
+		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgCancelar.setBounds(50, 190, 181, 51);
+		datos.add(imgCancelar);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Aceptar");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(313, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(313, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/veneno.png")));
+		iconPosion.setBounds(20, 50, 80, 91);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	public void docExito()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"El documento se ha guardado  <br>"+
+		"exitosamente.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(30,10,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/completado.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void exito()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"Esta acción se ha completado  <br>"+
+		"exitosamente. <br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,20,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(181, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/exito.png")));
+		iconPosion.setBounds(17, 50, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void docError()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"EL documento no se pudo  <br>"+
+		"guardar.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(30,13,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/noCompletado.png")));
+		iconPosion.setBounds(22, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void errorImagen()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"La imagen no se pudo cargar,<br>"+
+		"por favor ingrese otra imagen.<br>"+
+		"</div></html>");
+		 
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,17,487,168);
+		datos.add(text);
+		
+		JButton botonContinuar = new JButton("Continuar");
+		botonContinuar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonContinuar.setForeground(new Color(255, 255, 255));
+		botonContinuar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonContinuar.setBorderPainted(false);
+		botonContinuar.setContentAreaFilled(false);
+		botonContinuar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonContinuar.setBounds(182, 190, 181, 51);
+		datos.add(botonContinuar);
+		
+		JLabel imgContinuar= new JLabel();
+		imgContinuar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgContinuar.setBounds(183, 190, 181, 51);
+		datos.add(imgContinuar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/error.png")));
+		iconPosion.setBounds(20, 65, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void seleccion()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		
+		emergente.setSize( 560, 290);
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"No has seleccionado ninguna <br>"+
+		"habitacion, favor de seleccionarla.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,12,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public JTextField getId() {	
+        return infoIdHabitacion;		
+    }
+
+	
+	public JTextField getNombre() {
+        return infoNombre;
+    }
+	
+	public JTextField getTipo() {
+        return infoTipo;
+    }
+	
+	public JTextField getTam() {
+        return infoTam;
+    }
+	
+	public JTextArea getDesc()
+	{
+		return infoDescrip;
+	}
+	
+	public JTextArea getSolicitudes()
+	{
+		return amenidades2;
+	}
+	
+	public JTextArea getTarifas()
+	{
+		return tarifasText;
+	}
+	
+	public JLabel getNombreDetalles() {
+        return nomHabitacion;
+    }
+
+	 
+	 public String getIdHab()
+	 {
+		 return idHabitacion;
+	 }
+	 
+	 public String getTipoSeleccionado() {
+		    return (String) tipoResp.getSelectedItem();
+		}
+
+	 
 	 public JCheckBox getCheckWifi() {
 	        return wifi;
 	    }

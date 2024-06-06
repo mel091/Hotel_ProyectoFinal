@@ -10,11 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Calendar;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,13 +43,13 @@ public class TarifasView {
 	private InicioController inicio;
 	private TarifasController tarifa;
 	private TarifasModel model;
-	
-
-
+	private JDialog emergente;
 	public TiposController tipo;
 	public RentasController renta;
 	public HabitacionesController room;
 	public ClientesController cliente;
+	public JTextField fechaInicialResp;
+	public JTextField fechaFinalResp;
 	
 	public TarifasView(){
 		frame = new JFrame();
@@ -54,6 +57,10 @@ public class TarifasView {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		
+		emergente=new JDialog(frame,"Emergente", true);
+		emergente.setSize( 560, 290);
+		emergente.setResizable(false);
 	}
 	
 	public void consultar()
@@ -731,7 +738,6 @@ public class TarifasView {
 		panelInfo.add(fechaInicialResp);
 		
 		
-		
 		JLabel descripcion = new JLabel("Descripción");
 		descripcion.setForeground(Color.BLACK);
 		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
@@ -829,7 +835,7 @@ public class TarifasView {
 		capacidad.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
 		
 		JLabel serviciosInclu = new JLabel("Servicios incluidos");
-		serviciosInclu.setBounds(533, 22, 216, 46);
+		serviciosInclu.setBounds(563, 22, 216, 46);
 		panelInfo.add(serviciosInclu);
 		serviciosInclu.setForeground(Color.BLACK);
 		serviciosInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
@@ -1689,7 +1695,7 @@ public class TarifasView {
 		eliminarTarifBtn.setBorderPainted(false);
 		eliminarTarifBtn.setContentAreaFilled(false);
 		eliminarTarifBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/eliminarTarifa.png")));
-		eliminarTarifBtn.setBounds(85, 482, 380, 50);
+		eliminarTarifBtn.setBounds(85, 482, 387, 50);
 		panelAzul.add(eliminarTarifBtn);
 		
 		JButton guardarCambios = new JButton();
@@ -1716,7 +1722,7 @@ public class TarifasView {
 		capacidad.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
 		
 		JLabel serviciosInclu = new JLabel("Servicios incluidos");
-		serviciosInclu.setBounds(533, 22, 216, 46);
+		serviciosInclu.setBounds(563, 22, 216, 46);
 		panelInfo.add(serviciosInclu);
 		serviciosInclu.setForeground(Color.BLACK);
 		serviciosInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
@@ -1774,4 +1780,473 @@ public class TarifasView {
 		frame.repaint();
 		frame.revalidate();	
 	}
+	public void fechas(int opcion)
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		String[] dias = new String[31];
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        String[] años = new String[80]; 
+        
+        for (int i = 0; i < 31; i++) {
+            dias[i] = Integer.toString(i + 1);
+        }
+        
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 0; i < 80; i++) {
+            años[i] = Integer.toString(currentYear+ i);
+        }
+        JPanel fechasPanel= new JPanel();
+        fechasPanel.setBackground(new Color(220,220,220));
+        fechasPanel.setLayout(null);
+        
+        JComboBox<String> comboDias = new JComboBox<>(dias);
+        comboDias.setBackground(Color.white);
+        comboDias.setBounds(200,65,250,25);
+        fechasPanel.add(comboDias);
+        
+        JComboBox<String> comboMes = new JComboBox<>(meses);
+        comboMes.setBackground(Color.white);
+        comboMes.setBounds(200,105,250,25);
+        fechasPanel.add(comboMes);
+
+        JComboBox<String> comboAño = new JComboBox<>(años);
+        comboAño.setBackground(Color.white);
+        comboAño.setBounds(200,145,250,25);
+        fechasPanel.add(comboAño);
+        String text="";
+        if(opcion==1)
+        {
+        	text="Seleccione la fecha inicial";
+        }
+        else
+        {
+        	if(opcion==2)
+        	{
+        		text="Seleccione la fecha final";
+        	}
+        	else
+        	{
+        		System.out.println("Error");
+        	}
+        }
+        JLabel tituloFechas=new JLabel(text);
+		tituloFechas.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		tituloFechas.setForeground(Color.black);
+		tituloFechas.setBounds(100, 15, 350, 45);
+		fechasPanel.add(tituloFechas);
+       
+        JLabel dia=new JLabel("Día: ");
+		dia.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		dia.setForeground(Color.black);
+		dia.setBounds(120, 65, 70, 40);
+		fechasPanel.add(dia);
+        
+        JLabel mes=new JLabel("Mes: ");
+        mes.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		mes.setForeground(Color.black);
+		mes.setBounds(120, 105, 70, 40);
+        fechasPanel.add(mes);
+        
+        JLabel año=new JLabel("Año:");
+        año.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		año.setForeground(Color.black);
+		año.setBounds(120, 145, 70, 40);
+        fechasPanel.add(año);
+       
+        JButton botonCancelar = new JButton("Cancelar");
+		botonCancelar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Cancelar");
+				emergente.getContentPane().removeAll();
+				emergente.dispose();
+			}
+		});
+		botonCancelar.setForeground(new Color(255, 255, 255));
+		botonCancelar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonCancelar.setBorderPainted(false);
+		botonCancelar.setContentAreaFilled(false);
+		botonCancelar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonCancelar.setBounds(40, 190, 181, 51);
+		fechasPanel.add(botonCancelar);
+		
+		JLabel imgCancelar= new JLabel();
+		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgCancelar.setBounds(40, 190, 181, 51);
+		fechasPanel.add(imgCancelar);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Aceptar");
+				String fechaNacimiento = (String) comboDias.getSelectedItem() + "/" + (String) comboMes.getSelectedItem() + "/" + (String) comboAño.getSelectedItem();
+				 if(opcion==1)
+			        {
+					 //fechaInicialResp.setText(fechaNacimiento);
+			        }
+			        else
+			        {
+			        	if(opcion==2)
+			        	{
+			        		//fechaFinalResp.setText(fechaNacimiento);
+			        	}
+			        	else
+			        	{
+			        		System.out.println("Error");
+			        	}
+			        }
+				emergente.getContentPane().removeAll();
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(325, 190, 181, 51);
+		fechasPanel.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(325, 190, 181, 51);
+		fechasPanel.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/tiempo.png")));
+		iconPosion.setBounds(15, 74, 90, 94);
+		fechasPanel.add(iconPosion);
+
+		emergente.getContentPane().add(fechasPanel);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);
+	    emergente.repaint();
+	    emergente.revalidate();
+		
+	}
+	public void datosNoValidos()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"El tipo de dato que estás  <br>"+
+		"intentando ingresar no es válido <br>"+
+		"para este campo. Por favor, <br>"+
+		"inténtalo de nuevo con un dato <br>"+
+		"diferente.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,12,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void exito()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"Esta acción se ha completado  <br>"+
+		"exitosamente. <br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,20,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(181, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/exito.png")));
+		iconPosion.setBounds(17, 50, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void seleccion()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"No has seleccionado ninguna  <br>"+
+		"tarifa, favor de seleccionarla.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,12,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void eleccion()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"¿Estás seguro de que deseas  <br>"+
+		"continuar? <br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,17,487,168);
+		datos.add(text);
+		
+		JButton cancelarBtn = new JButton("Cancelar");
+		cancelarBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("cancelar");
+				emergente.dispose();
+			}
+		});
+		cancelarBtn.setForeground(new Color(255, 255, 255));
+		cancelarBtn.setVerticalAlignment(SwingConstants.BOTTOM);
+		cancelarBtn.setBorderPainted(false);
+		cancelarBtn.setContentAreaFilled(false);
+		cancelarBtn.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		cancelarBtn.setBounds(50, 190, 181, 51);
+		datos.add(cancelarBtn);
+		
+		JLabel imgCancelar= new JLabel();
+		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgCancelar.setBounds(50, 190, 181, 51);
+		datos.add(imgCancelar);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Aceptar");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(313, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(313, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/veneno.png")));
+		iconPosion.setBounds(20, 50, 80, 91);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void campoVacio()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"Hay campos vacíos, por favor <br>"+
+		"rellene los campos faltantes. <br>"+
+		"</div></html>");
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,23,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
 }

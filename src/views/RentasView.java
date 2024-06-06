@@ -1,22 +1,35 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Calendar;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import controllers.ClientesController;
 import controllers.HabitacionesController;
@@ -36,6 +49,8 @@ public class RentasView {
 	public TiposController tipo;
 	public HabitacionesController room;
 	public ClientesController cliente;
+	public JTextField fechaInicialResp;
+	public JTextField fechaFinalResp;
 	
 	public RentasView() {
 		frame = new JFrame();
@@ -307,6 +322,8 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("editar");
 				frame.dispose();
 				renta = new RentasController();
 				renta.editar();
@@ -314,7 +331,7 @@ public class RentasView {
 		});
 		editarBtn.setBorderPainted(false);
 		editarBtn.setContentAreaFilled(false);
-		editarBtn.setBounds(690, 480, 328, 45);
+		editarBtn.setBounds(690, 470, 328, 45);
 		panelCentral.add(editarBtn);
 		
 		JButton detallesBtn= new JButton();
@@ -323,6 +340,8 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Detalles");
 				frame.dispose();
 				model = new RentasModel();
 				model.detalles();
@@ -330,9 +349,77 @@ public class RentasView {
 		});
 		detallesBtn.setBorderPainted(false);
 		detallesBtn.setContentAreaFilled(false);
-		detallesBtn.setBounds(145, 480, 328, 45);
+		detallesBtn.setBounds(143, 470, 328, 45);
 		panelCentral.add(detallesBtn);
+		
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(50, 50, 1075, 366);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
+		
+		JPanel panelDeTabla = new JPanel();
+		panelDeTabla.setBounds(25, 25, 1023, 316);
+		panelAzul.add(panelDeTabla);
+		
+		String tableTitle[]={"ID de la renta", "ID del cliente", "Fecha inicial", "Fecha final", "Estatus"};
+		String tableData[][] = {
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""},
+							    {"", "", "", "", ""}
+		};
 	
+		JTable productoTable= new JTable(tableData, tableTitle);
+		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+		{
+	            @Override
+	            public void valueChanged(ListSelectionEvent e) 
+	            {
+	                if (!e.getValueIsAdjusting()) 
+	                {
+	                    int selectedRow = productoTable.getSelectedRow();
+	                    if (selectedRow != -1) 
+	                    { 
+	                        System.out.println("Fila seleccionada: " + selectedRow);
+	                        
+	                    }
+	                }
+	            }
+		    });
+		panelDeTabla.setLayout(null);
+		
+		JScrollPane tableScroll=new JScrollPane(productoTable);
+		tableScroll.setBounds(0, 0, 1023, 316);
+		panelDeTabla.add(tableScroll);
+		
 		
 		frame.getContentPane().add(panelConsultar);
 		frame.setVisible(true);
@@ -349,8 +436,6 @@ public class RentasView {
 		panelCrear.setBounds(0, 0, 1200, 700);
 		panelCrear.setLayout(null);
 	
-		
-		
 		//Panel de la cabecera
 		JLabel disneyFondo = new JLabel();
 		disneyFondo.setBounds(10, 10, 1313, 90);
@@ -596,30 +681,264 @@ public class RentasView {
 		panelCentral.setLayout(null);
 		panelCrear.add(panelCentral);
 		
-		JLabel rentasTitulo = new JLabel("Rentas");
-		rentasTitulo.setForeground(new Color(0, 0, 0));
-		rentasTitulo.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		rentasTitulo.setBounds(509, 35, 120, 40);
-		panelCentral.add(rentasTitulo);
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(24, 11, 1115, 539);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
 		
-		JButton rentarBtn= new JButton();
-		rentarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/rentar.png")));
-		rentarBtn.addActionListener(new ActionListener()
+		JLabel rentarTitulo = new JLabel("Rentar");
+		rentarTitulo.setForeground(new Color(0, 0, 0));
+		rentarTitulo.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		rentarTitulo.setBounds(503, 30, 266, 46);
+		panelAzul.add(rentarTitulo);
+	
+		JLabel fondoRentar = new JLabel("");
+		fondoRentar.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoRentar.setBounds(315, 21, 489, 45);
+		panelAzul.add(fondoRentar);
+		
+		JPanel panelInfo = new JPanel();
+		panelInfo.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
+		panelInfo.setBounds(42, 87, 1022, 384);
+		panelAzul.add(panelInfo);
+		panelInfo.setLayout(null);
+		
+		JLabel idCliente = new JLabel("ID del cliente");
+		idCliente.setForeground(Color.BLACK);
+		idCliente.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		idCliente.setBounds(35, 21, 327, 46);
+		panelInfo.add(idCliente);
+		
+	
+		JTextField idClienteResp = new JTextField();
+		idClienteResp.setBorder(BorderFactory.createCompoundBorder(
+				idClienteResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		idClienteResp.setBackground(new Color(217, 217, 217));
+		idClienteResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		idClienteResp.setBounds(35, 70, 420, 25);
+		panelInfo.add(idClienteResp);
+		idClienteResp.setColumns(10);
+		
+		JLabel fechaInicial = new JLabel("Fecha inicial");
+		fechaInicial.setForeground(Color.BLACK);
+		fechaInicial.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		fechaInicial.setBounds(35, 107, 160, 46);
+		panelInfo.add(fechaInicial);
+		
+		JLabel fechaFinal = new JLabel("Fecha final");
+		fechaFinal.setForeground(Color.BLACK);
+		fechaFinal.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		fechaFinal.setBounds(35, 199, 160, 46);
+		panelInfo.add(fechaFinal);
+		
+		fechaInicialResp = new JTextField();
+		fechaInicialResp.setBorder(BorderFactory.createCompoundBorder(
+				fechaInicialResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		fechaInicialResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		fechaInicialResp.setColumns(10);
+		fechaInicialResp.setBackground(new Color(217, 217, 217));
+		fechaInicialResp.setBounds(35, 159, 360, 25);
+		panelInfo.add(fechaInicialResp);
+		
+		
+		JLabel tarifaTitulo = new JLabel("Tarifas");
+		tarifaTitulo.setForeground(Color.BLACK);
+		tarifaTitulo.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		tarifaTitulo.setBounds(35, 282, 160, 46);
+		panelInfo.add(tarifaTitulo);
+		
+		fechaFinalResp = new JTextField();
+		fechaFinalResp.setBorder(BorderFactory.createCompoundBorder(
+				fechaFinalResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		fechaFinalResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		fechaFinalResp.setColumns(10);
+		fechaFinalResp.setBackground(new Color(217, 217, 217));
+		fechaFinalResp.setBounds(35, 246, 360, 25);
+		panelInfo.add(fechaFinalResp);
+		
+		//Botones de fecha
+		JButton fechaInicialBtn = new JButton();
+		fechaInicialBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/fecha.png")));
+		fechaInicialBtn.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Rentar");
-				pagoInicial();
-				
+				System.out.println("Fecha incial");
+				fechas(1);
 			}
 		});
-		rentarBtn.setBorderPainted(false);
-		rentarBtn.setContentAreaFilled(false);
-		rentarBtn.setBounds(690, 480, 450, 54);
-		panelCentral.add(rentarBtn);
+		fechaInicialBtn.setBounds(395, 159, 60, 25);
+		fechaInicialBtn.setBorderPainted(false);
+		fechaInicialBtn.setContentAreaFilled(false);
+		panelInfo.add(fechaInicialBtn);
 		
 		
+		JButton fechaFinalBtn = new JButton();
+		fechaFinalBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Fecha final");
+				fechas(2);
+			}
+		});
+		fechaFinalBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/fecha.png")));
+		fechaInicialBtn.setBorderPainted(false);
+		fechaInicialBtn.setContentAreaFilled(false);
+		fechaFinalBtn.setBounds(395, 246, 60, 25);
+		panelInfo.add(fechaFinalBtn);
+		
+		
+		
+		JButton botonVacio = new JButton();
+		botonVacio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//						nombreHabiResp.setText("");
+//						tipoResp.setText("");
+//						telResp.setText("");
+//						direccionResp.setText("");
+//						contactoResp.setText("");
+//						relacionResp.setText("");
+//						noContactoResp.setText("");
+//						infoAdResp.setText("");
+			}
+		});
+		botonVacio.setBorderPainted(false);
+		botonVacio.setContentAreaFilled(false);
+		botonVacio.setIcon(new ImageIcon(getClass().getResource("/contenido/vaciar.png")));
+		botonVacio.setBounds(85, 482, 380, 50);
+		panelAzul.add(botonVacio);
+		
+		JButton botonCrear = new JButton();
+		botonCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pagoInicial();
+			}
+		});
+		botonCrear.setBorderPainted(false);
+		botonCrear.setContentAreaFilled(false);
+		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/crearRenta.png")));
+		botonCrear.setBounds(628, 482, 387, 50);
+		panelAzul.add(botonCrear);
+		
+		
+		JLabel costoFinal = new JLabel("Costo final");
+		costoFinal.setBounds(563, 292, 364, 46);
+		panelInfo.add(costoFinal);
+		costoFinal.setForeground(Color.BLACK);
+		costoFinal.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		JLabel capacidad = new JLabel("Condiciones");
+		capacidad.setBounds(563, 180, 196, 46);
+		panelInfo.add(capacidad);
+		capacidad.setForeground(Color.BLACK);
+		capacidad.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		JPanel panelito = new JPanel();
+		panelito.setBackground(new Color(217, 217, 217));
+		panelito.setBounds(563, 220, 420, 60);
+		panelInfo.add(panelito);
+		panelito.setLayout(null);
+		
+		JCheckBox wifi = new JCheckBox("Wi-Fi");
+		wifi.setOpaque(false);
+		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		wifi.setBounds(0, 0, 200, 31);
+		panelito.add(wifi);
+		
+		JCheckBox restaurante = new JCheckBox("Restaurante");
+		restaurante.setOpaque(false);
+		restaurante.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		restaurante.setBounds(0, 30, 200, 31);
+		panelito.add(restaurante);
+		
+		JCheckBox recreativos = new JCheckBox("Espacios recreativos");
+		recreativos.setOpaque(false);
+		recreativos.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		recreativos.setBounds(220, 0, 200, 31);
+		panelito.add(recreativos);
+		
+		JCheckBox lavanderia = new JCheckBox("Lavandería");
+		lavanderia.setOpaque(false);
+		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lavanderia.setBounds(220, 30, 200, 31);
+		panelito.add(lavanderia);
+		
+		JTextField costoFinalResp = new JTextField();
+		costoFinalResp.setBorder(BorderFactory.createCompoundBorder(
+				costoFinalResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		costoFinalResp.setBounds(563, 326, 420, 25);
+		panelInfo.add(costoFinalResp);
+		costoFinalResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		costoFinalResp.setColumns(10);
+		costoFinalResp.setBackground(new Color(217, 217, 217));
+		
+		JComboBox tarifasResp = new JComboBox();
+		tarifasResp.setBackground(new Color(217, 217, 217));
+		tarifasResp.setBounds(35, 329, 420, 25);
+		panelInfo.add(tarifasResp);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 73, 102));
+		panel.setBounds(563, 21, 420, 152);
+		panelInfo.add(panel);
+		panel.setLayout(null);
+		
+		JLabel tituloNomHabi = new JLabel("Nombre de la habitación");
+		tituloNomHabi.setOpaque(true);
+		tituloNomHabi.setBackground(Color.white);
+		tituloNomHabi.setBorder(BorderFactory.createCompoundBorder(
+				tituloNomHabi.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		tituloNomHabi.setHorizontalAlignment(SwingConstants.CENTER);
+		tituloNomHabi.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		tituloNomHabi.setBounds(10, 11, 400, 25);
+		panel.add(tituloNomHabi);
+		
+		JLabel tipo = new JLabel("Tipo");
+		tipo.setForeground(Color.white);
+		tipo.setOpaque(false);
+		tipo.setHorizontalAlignment(SwingConstants.CENTER);
+		tipo.setFont(new Font("Palatino Linotype", Font.BOLD, 18));;
+		tipo.setBounds(10, 47, 46, 25);
+		panel.add(tipo);
+		
+		JLabel descripcion = new JLabel("Descripción ");
+		descripcion.setOpaque(false);
+		descripcion.setHorizontalAlignment(SwingConstants.CENTER);
+		descripcion.setForeground(Color.WHITE);
+		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		descripcion.setBounds(10, 88, 115, 25);
+		panel.add(descripcion);
+		
+		JLabel infoTipo = new JLabel("");
+		infoTipo.setOpaque(true);
+		infoTipo.setHorizontalAlignment(SwingConstants.CENTER);
+		infoTipo.setForeground(new Color(255, 255, 255));
+		infoTipo.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		infoTipo.setBounds(135, 47, 275, 25);
+		panel.add(infoTipo);
+		
+		JLabel infoDesc = new JLabel("");
+		infoDesc.setOpaque(true);
+		infoDesc.setHorizontalAlignment(SwingConstants.CENTER);
+		infoDesc.setForeground(Color.WHITE);
+		infoDesc.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		infoDesc.setBounds(135, 90, 275, 51);
+		panel.add(infoDesc);
+
 		frame.getContentPane().add(panelCrear);
 		frame.setVisible(true);
 		frame.repaint();
@@ -858,6 +1177,7 @@ public class RentasView {
 		consultarBtn.setContentAreaFilled(false);
 		consultarBtn.setBounds(0, 0, 130, 277);
 		panelVertical2.add(consultarBtn);		
+		
 		//panel central
 		JPanel panelCentral=new JPanel()
 		{
@@ -877,7 +1197,6 @@ public class RentasView {
 		panelCentral.setLayout(null);
 		panelDetalles.add(panelCentral);
 		
-		//botones del panel central
 		JButton checkOutBtn= new JButton();
 		checkOutBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/checkOut.png")));
 		checkOutBtn.addActionListener(new ActionListener()
@@ -885,20 +1204,272 @@ public class RentasView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				//System.out.println("Descargar");
+				System.out.println("check out");
 				checkOut();
 			}
 		});
 		checkOutBtn.setBorderPainted(false);
 		checkOutBtn.setContentAreaFilled(false);
-		checkOutBtn.setBounds(817, 448, 200, 49);
+		checkOutBtn.setBounds(770, 472, 200, 49);
 		panelCentral.add(checkOutBtn);
 		
-		JLabel detalleRenta = new JLabel("Detalles de la renta");
-		detalleRenta.setForeground(new Color(0, 0, 0));
-		detalleRenta.setFont(new Font("Palatino Linotype", Font.BOLD, 35));
-		detalleRenta.setBounds(396, 28, 465, 65);
-		panelCentral.add(detalleRenta);
+		
+		JLabel nombreHabitacion = new JLabel("Nombre de la habitación");
+		nombreHabitacion.setHorizontalAlignment(SwingConstants.CENTER);
+		nombreHabitacion.setForeground(new Color(0, 0, 0));
+		nombreHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		nombreHabitacion.setBounds(330, 28, 489, 46);
+		panelCentral.add(nombreHabitacion);
+	
+		JLabel fondoCliente = new JLabel("");
+		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoCliente.setBounds(330, 21, 489, 45);
+		panelCentral.add(fondoCliente);
+		
+		JButton atrasBtn = new JButton();
+		atrasBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("atras");
+			}
+		});
+		atrasBtn.setBorderPainted(false);
+		atrasBtn.setContentAreaFilled(false);
+		atrasBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/anterior.png")));
+		atrasBtn.setBounds(50, 11, 75, 61);
+		panelCentral.add(atrasBtn);
+		
+		
+		JButton sigBtn = new JButton();
+		sigBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Siguiente");
+			}
+		});
+		sigBtn.setBorderPainted(false);
+		sigBtn.setContentAreaFilled(false);
+		sigBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/siguiente.png")));
+		sigBtn.setBounds(1050, 15,75, 61);
+		panelCentral.add(sigBtn);
+		
+		JPanel paneAzulFondo = new JPanel();
+		paneAzulFondo.setBackground(new Color(0, 73, 102));
+		paneAzulFondo.setBounds(50, 109, 517, 412);
+		panelCentral.add(paneAzulFondo);
+		paneAzulFondo.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 73, 102));
+		panel.setBounds(610, 109, 515, 333);
+		panelCentral.add(panel);
+		panel.setLayout(null);
+		
+		JPanel panelImagen = new JPanel();
+		panelImagen.setBounds(20, 20, 472, 291);
+		panel.add(panelImagen);
+		panelImagen.setLayout(null);
+		
+		JPanel panelInfo = new JPanel();
+		panelInfo.setLayout(null);
+		panelInfo.setPreferredSize(new Dimension(400, 690));
+		
+		
+		//Datos
+		JLabel idRentaLbl = new JLabel("ID de la renta");
+		idRentaLbl.setForeground(Color.BLACK);
+		idRentaLbl.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		idRentaLbl.setBounds(20, 11, 354, 29);
+		panelInfo.add(idRentaLbl);
+		
+		JTextField infoIdRenta = new JTextField("271873");
+		infoIdRenta.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoIdRenta.setBorder(BorderFactory.createCompoundBorder(
+				infoIdRenta.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoIdRenta.setEditable(false);
+		infoIdRenta.setBackground(new Color(217, 217, 217));
+		infoIdRenta.setBounds(20, 40, 420, 25);
+		panelInfo.add(infoIdRenta);
+		
+		JLabel nomCompleto = new JLabel("Nombre del cliente");
+		nomCompleto.setForeground(Color.BLACK);
+		nomCompleto.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nomCompleto.setBounds(20, 78, 354, 29);
+		panelInfo.add(nomCompleto);
+		
+		JTextField infoNombre = new JTextField("Juan Dominguez");
+		infoNombre.setBorder(BorderFactory.createCompoundBorder(
+				infoNombre.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoNombre.setEditable(false);
+		infoNombre.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoNombre.setColumns(10);
+		infoNombre.setBackground(new Color(217, 217, 217));
+		infoNombre.setBounds(20, 107, 420, 25);
+		panelInfo.add(infoNombre);
+		
+		JLabel correoElect = new JLabel("Correo electrónico");
+		correoElect.setForeground(Color.BLACK);
+		correoElect.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		correoElect.setBounds(20, 143, 354, 29);
+		panelInfo.add(correoElect);
+		
+		JTextField infoCorreo = new JTextField("pepe@gmail.com");
+		infoCorreo.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoCorreo.setBorder(BorderFactory.createCompoundBorder(
+				infoCorreo.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoCorreo.setEditable(false);
+		infoCorreo.setColumns(10);
+		infoCorreo.setBackground(new Color(217, 217, 217));
+		infoCorreo.setBounds(20, 171, 420, 25);
+		panelInfo.add(infoCorreo);
+		
+		
+		JLabel fechaInicial = new JLabel("Fecha inicial");
+		fechaInicial.setForeground(Color.BLACK);
+		fechaInicial.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		fechaInicial.setBounds(20, 207, 354, 29);
+		panelInfo.add(fechaInicial);
+		
+		JTextField infoFechaInicial = new JTextField("2/02/23");
+		infoFechaInicial.setBorder(BorderFactory.createCompoundBorder(
+				infoFechaInicial.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoFechaInicial.setEditable(false);
+		infoFechaInicial.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoFechaInicial.setColumns(10);
+		infoFechaInicial.setBackground(new Color(217, 217, 217));
+		infoFechaInicial.setBounds(20, 238, 420, 25);
+		panelInfo.add(infoFechaInicial);
+		
+		JLabel fechaFinal = new JLabel("Fecha final");
+		fechaFinal.setForeground(Color.BLACK);
+		fechaFinal.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		fechaFinal.setBounds(20, 274, 354, 29);
+		panelInfo.add(fechaFinal);
+		
+		JTextField infoFechaFinal = new JTextField("12/02/23");
+		infoFechaFinal.setBorder(BorderFactory.createCompoundBorder(
+				infoFechaFinal.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoFechaFinal.setEditable(false);
+		infoFechaFinal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoFechaFinal.setColumns(10);
+		infoFechaFinal.setBackground(new Color(217, 217, 217));
+		infoFechaFinal.setBounds(20, 303, 420, 25);
+		panelInfo.add(infoFechaFinal);
+		
+		
+		JLabel tarifa = new JLabel("Tarifa");
+		tarifa.setForeground(Color.BLACK);
+		tarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		tarifa.setBounds(20, 335, 354, 29);
+		panelInfo.add(tarifa);
+		
+		
+		JTextField infoNomEmerg = new JTextField("blabla");
+		infoNomEmerg.setBorder(BorderFactory.createCompoundBorder(
+				infoNomEmerg.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoNomEmerg.setEditable(false);
+		infoNomEmerg.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoNomEmerg.setColumns(10);
+		infoNomEmerg.setBackground(new Color(217, 217, 217));
+		infoNomEmerg.setBounds(20,360, 420, 25);
+		panelInfo.add(infoNomEmerg);
+		
+		JLabel amenidades = new JLabel("Amenidades");
+		amenidades.setForeground(Color.BLACK);
+		amenidades.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		amenidades.setBounds(20, 395, 354, 29);
+		panelInfo.add(amenidades);
+		
+		
+		JTextArea infoAmenidades = new JTextArea("laslas");
+		infoAmenidades.setBorder(BorderFactory.createCompoundBorder(
+				infoAmenidades.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoAmenidades.setEditable(false);
+		infoAmenidades.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoAmenidades.setColumns(10);
+		infoAmenidades.setBackground(new Color(217, 217, 217));
+		infoAmenidades.setBounds(20,425, 420, 50);
+		panelInfo.add(infoAmenidades);
+		
+
+		JLabel subtotal = new JLabel("Subtotal");
+		subtotal.setForeground(Color.BLACK);
+		subtotal.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		subtotal.setBounds(20, 485, 354, 29);
+		panelInfo.add(subtotal);
+		
+		
+		JTextField infoSubtotal = new JTextField("2133");
+		infoSubtotal.setBorder(BorderFactory.createCompoundBorder(
+				infoSubtotal.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoSubtotal.setEditable(false);
+		infoSubtotal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoSubtotal.setColumns(10);
+		infoSubtotal.setBackground(new Color(217, 217, 217));
+		infoSubtotal.setBounds(20,515, 420, 25);
+		panelInfo.add(infoSubtotal);
+		
+		JLabel total = new JLabel("Total");
+		total.setForeground(Color.BLACK);
+		total.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		total.setBounds(20, 555, 354, 29);
+		panelInfo.add(total);
+		
+		
+		JTextField infoTotal = new JTextField("2671");
+		infoTotal.setBorder(BorderFactory.createCompoundBorder(
+				infoTotal.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoTotal.setEditable(false);
+		infoTotal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoTotal.setColumns(10);
+		infoTotal.setBackground(new Color(217, 217, 217));
+		infoTotal.setBounds(20,580, 420, 25);
+		panelInfo.add(infoTotal);
+		
+		JLabel estatus = new JLabel("Estatus");
+		estatus.setForeground(Color.BLACK);
+		estatus.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		estatus.setBounds(20, 615, 354, 29);
+		panelInfo.add(estatus);
+		
+		
+		JTextField infoEstatus = new JTextField("En hospedaje");
+		infoEstatus.setBorder(BorderFactory.createCompoundBorder(
+				infoEstatus.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoEstatus.setEditable(false);
+		infoEstatus.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoEstatus.setColumns(10);
+		infoEstatus.setBackground(new Color(217, 217, 217));
+		infoEstatus.setBounds(20,640, 420, 25);
+		panelInfo.add(infoEstatus);
+		
+		JScrollPane scrollPane = new JScrollPane(panelInfo);
+		scrollPane.setBounds(20, 20, 477, 370);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+		SwingUtilities.invokeLater(()->scrollPane.getViewport().setViewPosition(new Point(0, 0)));
+		paneAzulFondo.add(scrollPane);
+		
+
 	
 		frame.getContentPane().add(panelDetalles);
 		frame.setVisible(true);
@@ -1154,18 +1725,304 @@ public class RentasView {
 				}
 			}
 		};
-		panelCentral.setBounds(150,111,1175, 560);
+		panelCentral.setBounds(150,110,1175, 560);
 		panelCentral.setLayout(null);
 		panelEditar.add(panelCentral);
-	
-		//Titulo del panel central
-		JLabel editarRenta = new JLabel("Editar renta");
-		editarRenta.setForeground(new Color(0, 0, 0));
-		editarRenta.setFont(new Font("Palatino Linotype", Font.BOLD, 35));
-		editarRenta.setBounds(439, 33, 465, 65);
-		panelCentral.add(editarRenta);
 		
-		//boton de regreso
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(24, 11, 1115, 539);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
+		
+		JLabel editarRentaTitulo = new JLabel("Editar renta");
+		editarRentaTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		editarRentaTitulo.setForeground(new Color(0, 0, 0));
+		editarRentaTitulo.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		editarRentaTitulo.setBounds(315, 30, 489, 46);
+		panelAzul.add(editarRentaTitulo);
+	
+		JLabel fondoRentar = new JLabel("");
+		fondoRentar.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoRentar.setBounds(315, 21, 489, 45);
+		panelAzul.add(fondoRentar);
+		
+		JPanel panelInfo = new JPanel();
+		panelInfo.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
+		panelInfo.setBounds(42, 87, 1022, 384);
+		panelAzul.add(panelInfo);
+		panelInfo.setLayout(null);
+		
+		JLabel idCliente = new JLabel("ID del cliente");
+		idCliente.setForeground(Color.BLACK);
+		idCliente.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		idCliente.setBounds(35, 11, 327, 46);
+		panelInfo.add(idCliente);
+		
+	
+		JTextField idClienteResp = new JTextField();
+		idClienteResp.setBorder(BorderFactory.createCompoundBorder(
+				idClienteResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		idClienteResp.setBackground(new Color(217, 217, 217));
+		idClienteResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		idClienteResp.setBounds(35, 44, 420, 25);
+		panelInfo.add(idClienteResp);
+		idClienteResp.setColumns(10);
+		
+		JLabel fechaInicial = new JLabel("Fecha inicial");
+		fechaInicial.setForeground(Color.BLACK);
+		fechaInicial.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		fechaInicial.setBounds(35, 68, 160, 46);
+		panelInfo.add(fechaInicial);
+		
+		JLabel fechaFinal = new JLabel("Fecha final");
+		fechaFinal.setForeground(Color.BLACK);
+		fechaFinal.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		fechaFinal.setBounds(35, 137, 160, 46);
+		panelInfo.add(fechaFinal);
+		
+		fechaInicialResp = new JTextField();
+		fechaInicialResp.setBorder(BorderFactory.createCompoundBorder(
+				fechaInicialResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		fechaInicialResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		fechaInicialResp.setColumns(10);
+		fechaInicialResp.setBackground(new Color(217, 217, 217));
+		fechaInicialResp.setBounds(35, 109, 360, 25);
+		panelInfo.add(fechaInicialResp);
+		
+		
+		JLabel tarifaTitulo = new JLabel("Tarifas");
+		tarifaTitulo.setForeground(Color.BLACK);
+		tarifaTitulo.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		tarifaTitulo.setBounds(35, 206, 160, 46);
+		panelInfo.add(tarifaTitulo);
+		
+		fechaFinalResp = new JTextField();
+		fechaFinalResp.setBorder(BorderFactory.createCompoundBorder(
+				fechaFinalResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		fechaFinalResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		fechaFinalResp.setColumns(10);
+		fechaFinalResp.setBackground(new Color(217, 217, 217));
+		fechaFinalResp.setBounds(35, 180, 360, 25);
+		panelInfo.add(fechaFinalResp);
+		
+		//Botones de fecha
+		JButton fechaInicialBtn = new JButton();
+		fechaInicialBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/fecha.png")));
+		fechaInicialBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Fecha incial");
+				fechas(1);
+			}
+		});
+		fechaInicialBtn.setBounds(395, 109, 60, 25);
+		fechaInicialBtn.setBorderPainted(false);
+		fechaInicialBtn.setContentAreaFilled(false);
+		panelInfo.add(fechaInicialBtn);
+		
+		
+		JButton fechaFinalBtn = new JButton();
+		fechaFinalBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Fecha final");
+				fechas(2);
+			}
+		});
+		fechaFinalBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/fecha.png")));
+		fechaInicialBtn.setBorderPainted(false);
+		fechaInicialBtn.setContentAreaFilled(false);
+		fechaFinalBtn.setBounds(395, 180, 60, 25);
+		panelInfo.add(fechaFinalBtn);
+		
+		
+		
+		JButton botonVacio = new JButton();
+		botonVacio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//						nombreHabiResp.setText("");
+//						tipoResp.setText("");
+//						telResp.setText("");
+//						direccionResp.setText("");
+//						contactoResp.setText("");
+//						relacionResp.setText("");
+//						noContactoResp.setText("");
+//						infoAdResp.setText("");
+			}
+		});
+		botonVacio.setBorderPainted(false);
+		botonVacio.setContentAreaFilled(false);
+		botonVacio.setIcon(new ImageIcon(getClass().getResource("/contenido/eliminarRenta.png")));
+		botonVacio.setBounds(85, 482, 387, 50);
+		panelAzul.add(botonVacio);
+		
+		JButton botonCrear = new JButton();
+		botonCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Cambios");
+				edicionPago();
+			}
+		});
+		botonCrear.setBorderPainted(false);
+		botonCrear.setContentAreaFilled(false);
+		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/guardarCambios.png")));
+		botonCrear.setBounds(628, 482, 387, 50);
+		panelAzul.add(botonCrear);
+
+		
+		JLabel total = new JLabel("Total");
+		total.setBounds(563, 305, 364, 46);
+		panelInfo.add(total);
+		total.setForeground(Color.BLACK);
+		total.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		JLabel capacidad = new JLabel("Condiciones");
+		capacidad.setBounds(35, 267, 196, 46);
+		panelInfo.add(capacidad);
+		capacidad.setForeground(Color.BLACK);
+		capacidad.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		JPanel panelito = new JPanel();
+		panelito.setBackground(new Color(217, 217, 217));
+		panelito.setBounds(35, 305, 420, 60);
+		panelInfo.add(panelito);
+		panelito.setLayout(null);
+		
+		JCheckBox wifi = new JCheckBox("Wi-Fi");
+		wifi.setOpaque(false);
+		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		wifi.setBounds(0, 0, 200, 31);
+		panelito.add(wifi);
+		
+		JCheckBox restaurante = new JCheckBox("Restaurante");
+		restaurante.setOpaque(false);
+		restaurante.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		restaurante.setBounds(0, 30, 200, 31);
+		panelito.add(restaurante);
+		
+		JCheckBox recreativos = new JCheckBox("Espacios recreativos");
+		recreativos.setOpaque(false);
+		recreativos.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		recreativos.setBounds(220, 0, 200, 31);
+		panelito.add(recreativos);
+		
+		JCheckBox lavanderia = new JCheckBox("Lavandería");
+		lavanderia.setOpaque(false);
+		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lavanderia.setBounds(220, 30, 200, 31);
+		panelito.add(lavanderia);
+		
+		JTextField costoFinalResp = new JTextField();
+		costoFinalResp.setBorder(BorderFactory.createCompoundBorder(
+				costoFinalResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		costoFinalResp.setBounds(563, 340, 420, 25);
+		panelInfo.add(costoFinalResp);
+		costoFinalResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		costoFinalResp.setColumns(10);
+		costoFinalResp.setBackground(new Color(217, 217, 217));
+		
+		JComboBox tarifasResp = new JComboBox();
+		tarifasResp.setBackground(new Color(217, 217, 217));
+		tarifasResp.setBounds(35, 244, 420, 25);
+		panelInfo.add(tarifasResp);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 73, 102));
+		panel.setBounds(563, 21, 420, 152);
+		panelInfo.add(panel);
+		panel.setLayout(null);
+		
+		JLabel tituloNomHabi = new JLabel("Nombre de la habitación");
+		tituloNomHabi.setOpaque(true);
+		tituloNomHabi.setBackground(Color.white);
+		tituloNomHabi.setBorder(BorderFactory.createCompoundBorder(
+				tituloNomHabi.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		tituloNomHabi.setHorizontalAlignment(SwingConstants.CENTER);
+		tituloNomHabi.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		tituloNomHabi.setBounds(10, 11, 400, 25);
+		panel.add(tituloNomHabi);
+		
+		JLabel tipo = new JLabel("Tipo");
+		tipo.setForeground(Color.white);
+		tipo.setOpaque(false);
+		tipo.setHorizontalAlignment(SwingConstants.CENTER);
+		tipo.setFont(new Font("Palatino Linotype", Font.BOLD, 18));;
+		tipo.setBounds(10, 47, 46, 25);
+		panel.add(tipo);
+		
+		JLabel descripcion = new JLabel("Descripción ");
+		descripcion.setOpaque(false);
+		descripcion.setHorizontalAlignment(SwingConstants.CENTER);
+		descripcion.setForeground(Color.WHITE);
+		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		descripcion.setBounds(10, 88, 115, 25);
+		panel.add(descripcion);
+		
+		JLabel infoTipo = new JLabel("");
+		infoTipo.setBorder(BorderFactory.createCompoundBorder(
+				infoTipo.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoTipo.setOpaque(true);
+		infoTipo.setHorizontalAlignment(SwingConstants.CENTER);
+		infoTipo.setForeground(new Color(255, 255, 255));
+		infoTipo.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		infoTipo.setBounds(135, 47, 275, 25);
+		panel.add(infoTipo);
+		
+		JLabel infoDesc = new JLabel("");
+		infoDesc.setOpaque(true);
+		infoDesc.setHorizontalAlignment(SwingConstants.CENTER);
+		infoDesc.setForeground(Color.WHITE);
+		infoDesc.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		infoDesc.setBounds(135, 90, 275, 51);
+		panel.add(infoDesc);
+		
+		JLabel estatus = new JLabel("Estatus");
+		estatus.setForeground(Color.BLACK);
+		estatus.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		estatus.setBounds(563, 180, 364, 46);
+		panelInfo.add(estatus);
+		
+		JTextField subtotalResp = new JTextField();
+		subtotalResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		subtotalResp.setColumns(10);
+		subtotalResp.setBackground(new Color(217, 217, 217));
+		subtotalResp.setBounds(563, 278, 420, 25);
+		panelInfo.add(subtotalResp);
+		
+		JLabel subtotal = new JLabel("Subtotal");
+		subtotal.setForeground(Color.BLACK);
+		subtotal.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		subtotal.setBounds(563, 248, 364, 46);
+		panelInfo.add(subtotal);
+		
+		String[] posibles= {"Check-In","Cancelada", "Check-Out"};
+		JComboBox estatusResp = new JComboBox(posibles);
+		estatusResp.setBorder(BorderFactory.createCompoundBorder(
+				estatusResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		estatusResp.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		estatusResp.setBackground(new Color(217, 217, 217));
+		estatusResp.setBounds(563, 216, 420, 30);
+		panelInfo.add(estatusResp);
+		
 		JButton regresarBtn = new JButton();
 		regresarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/regresar.png")));
 		regresarBtn.addActionListener(new ActionListener() {
@@ -1177,25 +2034,65 @@ public class RentasView {
 		});
 		regresarBtn.setBorderPainted(false);
 		regresarBtn.setContentAreaFilled(false);
-		regresarBtn.setBounds(33, 11, 80, 80);
-		panelCentral.add(regresarBtn);
-	
-
-		JButton guardarCambiosBtn= new JButton();
-		guardarCambiosBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/guardarCambios.png")));
-		guardarCambiosBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Cambios");
-				edicionPago();
-			}
-		});
-		guardarCambiosBtn.setBorderPainted(false);
-		guardarCambiosBtn.setContentAreaFilled(false);
-		guardarCambiosBtn.setBounds(690, 480, 450, 54);
-		panelCentral.add(guardarCambiosBtn);
+		regresarBtn.setBounds(33, 8, 80, 80);
+		panelAzul.add(regresarBtn);
+		
+//		JPanel panelCentral=new JPanel()
+//		{
+//			@Override
+//			public void paintComponent(Graphics create) {
+//				super.paintComponent(create);
+//				Graphics2D g2d = (Graphics2D) create;
+//				try {
+//					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/centralDegradado.jpg"));
+//					g2d.drawImage(image, 0,0, 1174, 560, null);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		};
+//		panelCentral.setBounds(150,111,1175, 560);
+//		panelCentral.setLayout(null);
+//		panelEditar.add(panelCentral);
+//	
+//		//Titulo del panel central
+//		JLabel editarRenta = new JLabel("Editar renta");
+//		editarRenta.setForeground(new Color(0, 0, 0));
+//		editarRenta.setFont(new Font("Palatino Linotype", Font.BOLD, 35));
+//		editarRenta.setBounds(439, 33, 465, 65);
+//		panelCentral.add(editarRenta);
+//		
+//		//boton de regreso
+//		JButton regresarBtn = new JButton();
+//		regresarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/regresar.png")));
+//		regresarBtn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				frame.dispose();
+//				renta = new RentasController();
+//				renta.consultar();
+//			}
+//		});
+//		regresarBtn.setBorderPainted(false);
+//		regresarBtn.setContentAreaFilled(false);
+//		regresarBtn.setBounds(33, 11, 80, 80);
+//		panelCentral.add(regresarBtn);
+//	
+//
+//		JButton guardarCambiosBtn= new JButton();
+//		guardarCambiosBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/guardarCambios.png")));
+//		guardarCambiosBtn.addActionListener(new ActionListener()
+//		{
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				System.out.println("Cambios");
+//				edicionPago();
+//			}
+//		});
+//		guardarCambiosBtn.setBorderPainted(false);
+//		guardarCambiosBtn.setContentAreaFilled(false);
+//		guardarCambiosBtn.setBounds(690, 480, 450, 54);
+//		panelCentral.add(guardarCambiosBtn);
 		
 		frame.getContentPane().add(panelEditar);
 		frame.setVisible(true);
@@ -1457,22 +2354,274 @@ public class RentasView {
 		panelCentral.setLayout(null);
 		panelPrincipal.add(panelCentral);
 		
-
-		JButton opciones = new JButton();
-		opciones.setForeground(new Color(255, 255, 255));
-		opciones.setFont(new Font("Palatino Linotype", Font.BOLD, 20));
-		opciones.setText("Informacion de las habitaciones");
-		opciones.addActionListener(new ActionListener() {
+		JPanel habi1 = new JPanel();
+		habi1.setBackground(new Color(0, 72, 103));
+		habi1.setBounds(28, 26, 1120, 144);
+		panelCentral.add(habi1);
+		habi1.setLayout(null);
+		
+		JLabel labelImagen = new JLabel("");
+		labelImagen.setOpaque(true);
+		labelImagen.setBackground(new Color(214, 252, 254));
+		labelImagen.setBounds(10, 11, 257, 122);
+		habi1.add(labelImagen);
+		
+		JPanel infopan = new JPanel();
+		infopan.setBackground(new Color(255, 255, 255));
+		infopan.setBounds(277, 11, 833, 122);
+		habi1.add(infopan);
+		infopan.setLayout(null);
+		
+		JLabel nomHabitacion = new JLabel("Nombre de la habitación");
+		nomHabitacion.setHorizontalAlignment(SwingConstants.LEFT);
+		nomHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		nomHabitacion.setBounds(10, 8, 343, 35);
+		infopan.add(nomHabitacion);
+		
+		JLabel tipoHabitacion = new JLabel("Tipo de habitación");
+		tipoHabitacion.setHorizontalAlignment(SwingConstants.LEFT);
+		tipoHabitacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
+		tipoHabitacion.setBounds(10, 37, 343, 35);
+		infopan.add(tipoHabitacion);
+		
+		JLabel tamaño = new JLabel("Tamaño");
+		tamaño.setHorizontalAlignment(SwingConstants.LEFT);
+		tamaño.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
+		tamaño.setBounds(10, 64, 343, 35);
+		infopan.add(tamaño);
+		
+		JLabel desc = new JLabel("Descripción");
+		desc.setHorizontalAlignment(SwingConstants.LEFT);
+		desc.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
+		desc.setBounds(10, 95, 343, 29);
+		infopan.add(desc);
+		
+		JLabel desde = new JLabel("Desde");
+		desde.setHorizontalAlignment(SwingConstants.LEFT);
+		desde.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		desde.setBounds(763, 9, 49, 35);
+		infopan.add(desde);
+		
+		JLabel desde_1 = new JLabel("$");
+		desde_1.setHorizontalAlignment(SwingConstants.LEFT);
+		desde_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		desde_1.setBounds(655, 37, 18, 35);
+		infopan.add(desde_1);
+		
+		JLabel cantidad = new JLabel("000.00");
+		cantidad.setHorizontalAlignment(SwingConstants.LEFT);
+		cantidad.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		cantidad.setBounds(668, 45, 104, 47);
+		infopan.add(cantidad);
+		
+		JLabel usd = new JLabel("USD");
+		usd.setHorizontalAlignment(SwingConstants.LEFT);
+		usd.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		usd.setBounds(773, 53, 39, 35);
+		infopan.add(usd);
+		
+		JLabel leyenda = new JLabel("por noche, incluidos los impuestos");
+		leyenda.setHorizontalAlignment(SwingConstants.LEFT);
+		leyenda.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		leyenda.setBounds(583, 89, 250, 35);
+		infopan.add(leyenda);
+		
+		
+		
+		JPanel habi2 = new JPanel();
+		habi2.setLayout(null);
+		habi2.setBackground(new Color(0, 72, 103));
+		habi2.setBounds(28, 208, 1120, 144);
+		panelCentral.add(habi2);
+		
+		JLabel labelImagen_1 = new JLabel("");
+		labelImagen_1.setOpaque(true);
+		labelImagen_1.setBackground(new Color(214, 252, 254));
+		labelImagen_1.setBounds(10, 11, 257, 122);
+		habi2.add(labelImagen_1);
+		
+		JPanel panelConInfo_1 = new JPanel();
+		panelConInfo_1.setLayout(null);
+		panelConInfo_1.setBackground(Color.WHITE);
+		panelConInfo_1.setBounds(277, 11, 833, 122);
+		habi2.add(panelConInfo_1);
+		
+		JLabel nomHabitacion_1 = new JLabel("Nombre de la habitación");
+		nomHabitacion_1.setHorizontalAlignment(SwingConstants.LEFT);
+		nomHabitacion_1.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		nomHabitacion_1.setBounds(10, 8, 343, 35);
+		panelConInfo_1.add(nomHabitacion_1);
+		
+		JLabel tipoHabitacion_1 = new JLabel("Tipo de habitación");
+		tipoHabitacion_1.setHorizontalAlignment(SwingConstants.LEFT);
+		tipoHabitacion_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
+		tipoHabitacion_1.setBounds(10, 37, 343, 35);
+		panelConInfo_1.add(tipoHabitacion_1);
+		
+		JLabel tamaño_1 = new JLabel("Tamaño");
+		tamaño_1.setHorizontalAlignment(SwingConstants.LEFT);
+		tamaño_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
+		tamaño_1.setBounds(10, 64, 343, 35);
+		panelConInfo_1.add(tamaño_1);
+		
+		JLabel desc_1 = new JLabel("Descripción");
+		desc_1.setHorizontalAlignment(SwingConstants.LEFT);
+		desc_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
+		desc_1.setBounds(10, 95, 343, 29);
+		panelConInfo_1.add(desc_1);
+		
+		JLabel desde_2 = new JLabel("Desde");
+		desde_2.setHorizontalAlignment(SwingConstants.LEFT);
+		desde_2.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		desde_2.setBounds(763, 9, 49, 35);
+		panelConInfo_1.add(desde_2);
+		
+		JLabel desde_1_1 = new JLabel("$");
+		desde_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		desde_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		desde_1_1.setBounds(655, 37, 18, 35);
+		panelConInfo_1.add(desde_1_1);
+		
+		JLabel cantidad_1 = new JLabel("000.00");
+		cantidad_1.setHorizontalAlignment(SwingConstants.LEFT);
+		cantidad_1.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		cantidad_1.setBounds(668, 45, 104, 47);
+		panelConInfo_1.add(cantidad_1);
+		
+		JLabel usd_1 = new JLabel("USD");
+		usd_1.setHorizontalAlignment(SwingConstants.LEFT);
+		usd_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		usd_1.setBounds(773, 53, 39, 35);
+		panelConInfo_1.add(usd_1);
+		
+		JLabel leyenda_1 = new JLabel("por noche, incluidos los impuestos");
+		leyenda_1.setHorizontalAlignment(SwingConstants.LEFT);
+		leyenda_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		leyenda_1.setBounds(583, 89, 250, 35);
+		panelConInfo_1.add(leyenda_1);
+		
+		JPanel habi3 = new JPanel();
+		habi3.setLayout(null);
+		habi3.setBackground(new Color(0, 72, 103));
+		habi3.setBounds(28, 388, 1120, 144);
+		panelCentral.add(habi3);
+		
+		JLabel labelImagen_1_1 = new JLabel("");
+		labelImagen_1_1.setOpaque(true);
+		labelImagen_1_1.setBackground(new Color(214, 252, 254));
+		labelImagen_1_1.setBounds(10, 11, 257, 122);
+		habi3.add(labelImagen_1_1);
+		
+		JPanel panelConInfo_1_1 = new JPanel();
+		panelConInfo_1_1.setLayout(null);
+		panelConInfo_1_1.setBackground(Color.WHITE);
+		panelConInfo_1_1.setBounds(277, 11, 833, 122);
+		habi3.add(panelConInfo_1_1);
+		
+		JLabel nomHabitacion_1_1 = new JLabel("Nombre de la habitación");
+		nomHabitacion_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		nomHabitacion_1_1.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		nomHabitacion_1_1.setBounds(10, 8, 343, 35);
+		panelConInfo_1_1.add(nomHabitacion_1_1);
+		
+		JLabel tipoHabitacion_1_1 = new JLabel("Tipo de habitación");
+		tipoHabitacion_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		tipoHabitacion_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
+		tipoHabitacion_1_1.setBounds(10, 37, 343, 35);
+		panelConInfo_1_1.add(tipoHabitacion_1_1);
+		
+		JLabel tamaño_1_1 = new JLabel("Tamaño");
+		tamaño_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		tamaño_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
+		tamaño_1_1.setBounds(10, 64, 343, 35);
+		panelConInfo_1_1.add(tamaño_1_1);
+		
+		JLabel desc_1_1 = new JLabel("Descripción");
+		desc_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		desc_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
+		desc_1_1.setBounds(10, 95, 343, 29);
+		panelConInfo_1_1.add(desc_1_1);
+		
+		JLabel desde_2_1 = new JLabel("Desde");
+		desde_2_1.setHorizontalAlignment(SwingConstants.LEFT);
+		desde_2_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		desde_2_1.setBounds(763, 9, 49, 35);
+		panelConInfo_1_1.add(desde_2_1);
+		
+		JLabel desde_1_1_1 = new JLabel("$");
+		desde_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		desde_1_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		desde_1_1_1.setBounds(655, 37, 18, 35);
+		panelConInfo_1_1.add(desde_1_1_1);
+		
+		JLabel cantidad_1_1 = new JLabel("000.00");
+		cantidad_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		cantidad_1_1.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		cantidad_1_1.setBounds(668, 45, 104, 47);
+		panelConInfo_1_1.add(cantidad_1_1);
+		
+		JLabel usd_1_1 = new JLabel("USD");
+		usd_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		usd_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		usd_1_1.setBounds(773, 53, 39, 35);
+		panelConInfo_1_1.add(usd_1_1);
+		
+		JLabel leyenda_1_1 = new JLabel("por noche, incluidos los impuestos");
+		leyenda_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		leyenda_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
+		leyenda_1_1.setBounds(583, 89, 250, 35);
+		panelConInfo_1_1.add(leyenda_1_1);
+		
+		JButton btnHab1 = new JButton();
+		btnHab1.addActionListener(new ActionListener()
+		{
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("hab1");
 				frame.dispose();
 				renta = new RentasController();
 				renta.crear();
 			}
 		});
-		opciones.setBorderPainted(false);
-		opciones.setBackground(new Color(0,73,102));
-		opciones.setBounds(28, 26, 1120, 144);
-		panelCentral.add(opciones);
+		btnHab1.setBounds(28, 26, 1120, 144);
+		btnHab1.setBorderPainted(false);
+		btnHab1.setContentAreaFilled(false);
+		panelCentral.add(btnHab1);
+		
+		JButton btnHab2 = new JButton();
+		btnHab2.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("hab2");
+				frame.dispose();
+				renta = new RentasController();
+				renta.crear();
+			}
+		});
+		btnHab2.setBounds(28, 208, 1120, 144);
+		btnHab2.setBorderPainted(false);
+		btnHab2.setContentAreaFilled(false);
+		panelCentral.add(btnHab2);
+		
+		JButton btnHab3 = new JButton();
+		btnHab3.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("hab3");
+				frame.dispose();
+				renta = new RentasController();
+				renta.crear();
+			}
+		});
+		btnHab3.setBounds(28, 388, 1120, 144);
+		btnHab3.setBorderPainted(false);
+		btnHab3.setContentAreaFilled(false);
+		panelCentral.add(btnHab3);
 		
 		frame.getContentPane().add(panelPrincipal);
 		frame.setVisible(true);
@@ -1482,6 +2631,7 @@ public class RentasView {
 	
 	public void pagoInicial()
 	{
+		
 		emergente.getContentPane().removeAll();
 		emergente.repaint();
 		emergente.setSize(650, 450);
@@ -1492,12 +2642,11 @@ public class RentasView {
 		pagoInicialPanel.setLayout(null);
 		
 		
-		
 		JLabel text = new JLabel("Pago en efectivo");
 		text.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
 		text.setHorizontalAlignment(SwingConstants.CENTER);
 		text.setForeground(Color.white);
-		text.setBounds(205,15,250,40);
+		text.setBounds(195,15,250,40);
 		pagoInicialPanel.add(text);
 		
 		JLabel fondoTexto = new JLabel();
@@ -1506,30 +2655,126 @@ public class RentasView {
 		fondoTexto.setBounds(0,0,emergente.getWidth(),50);
 		pagoInicialPanel.add(fondoTexto);
 		
-		JButton botonAceptar = new JButton("Cancelar");
+		JButton botonAceptar = new JButton();
+		botonAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/continuarCheck.png")));
 		botonAceptar.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				// TODO Auto-generated method stub
+				System.out.println("Continuar");
+				emergente.dispose();
 				renta = new RentasController();
-				renta.detalles();
+				renta.crear();
+				reservaExitosa();
+				
 			}
 		});
-		botonAceptar.setForeground(new Color(255, 255, 255));
-		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setVerticalAlignment(SwingConstants.CENTER);
 		botonAceptar.setBorderPainted(false);
 		botonAceptar.setContentAreaFilled(false);
-		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		botonAceptar.setBounds(220, 330, 181, 51);
+		botonAceptar.setBounds(440, 350, 165, 50);
 		pagoInicialPanel.add(botonAceptar);
 		
-		JLabel imgAceptar= new JLabel();
-		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgAceptar.setBounds(220, 330, 181, 51);
-		pagoInicialPanel.add(imgAceptar);
+		
+		JButton botonCancelar = new JButton();
+		botonCancelar .setIcon(new ImageIcon(getClass().getResource("/contenido/cancelarCheck.png")));
+		botonCancelar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Cancelar");
+				emergente.dispose();
+				
+			}
+		});
+		botonCancelar.setBorderPainted(false);
+		botonCancelar.setContentAreaFilled(false);
+		botonCancelar.setBounds(30, 350, 166, 50);
+		pagoInicialPanel.add(botonCancelar);
+	
+		
+		JPanel panelAzulImagen=new JPanel();
+		panelAzulImagen.setBackground(new Color(0,72,103));
+		panelAzulImagen.setBounds(40, 65, 550, 270);
+		pagoInicialPanel.add(panelAzulImagen);
+		panelAzulImagen.setLayout(null);
+		
+		JLabel panelDinero=new JLabel();
+		panelDinero.setOpaque(true);
+		panelDinero.setLayout(null);
+		panelDinero.setBackground(Color.white);
+		panelDinero.setBounds(20, 20, 510, 233);
+		panelAzulImagen.add(panelDinero);
+		
+		JLabel imgDinero = new JLabel("");
+		imgDinero.setIcon(new ImageIcon(getClass().getResource("/contenido/dinero.png")));
+		imgDinero.setHorizontalAlignment(SwingConstants.CENTER);
+		imgDinero.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		imgDinero.setBounds(160, 18, 47, 40);
+		panelDinero.add(imgDinero);
 		
 		
+		JLabel tituloEfectivo_1 = new JLabel("Efectivo");
+		tituloEfectivo_1.setHorizontalAlignment(SwingConstants.CENTER);
+		tituloEfectivo_1.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		tituloEfectivo_1.setBounds(195, 25, 163, 40);
+		panelDinero.add(tituloEfectivo_1);
+		
+		JLabel monto = new JLabel("Monto");
+		monto.setHorizontalAlignment(SwingConstants.LEFT);
+		monto.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		monto.setBounds(20, 75, 100, 35);
+		panelDinero.add(monto);
+		
+		JLabel recibido = new JLabel("Recibido");
+		recibido.setHorizontalAlignment(SwingConstants.LEFT);
+		recibido.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		recibido.setBounds(20, 130, 100, 35);
+		panelDinero.add(recibido);
+		
+		JLabel cambio = new JLabel("Cambio");
+		cambio.setHorizontalAlignment(SwingConstants.LEFT);
+		cambio.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		cambio.setBounds(20, 185, 100, 35);
+		panelDinero.add(cambio);
+		
+		//Salida de datos sobre el monto
+		JTextField infoMonto = new JTextField("271873");
+		infoMonto.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoMonto.setBorder(BorderFactory.createCompoundBorder(
+				infoMonto.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoMonto.setEditable(false);
+		infoMonto.setBackground(new Color(217, 217, 217));
+		infoMonto.setBounds(140, 75, 350, 25);
+		panelDinero.add(infoMonto);
+		
+		JTextField infoRecibido = new JTextField();
+		infoRecibido.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoRecibido.setBorder(BorderFactory.createCompoundBorder(
+				infoRecibido.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoRecibido.setEditable(true);
+		infoRecibido.setBackground(new Color(217, 217, 217));
+		infoRecibido.setBounds(140, 130, 350, 25);
+		panelDinero.add(infoRecibido);
+		
+		//Aparece en automatico con una operacion
+		JTextField infoCambio = new JTextField();
+		infoCambio.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoCambio.setBorder(BorderFactory.createCompoundBorder(
+				infoCambio.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoCambio.setEditable(false);
+		infoCambio.setBackground(new Color(217, 217, 217));
+		infoCambio.setBounds(140, 185, 350, 25);
+		panelDinero.add(infoCambio);
+
 		emergente.getContentPane().add(pagoInicialPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
@@ -1549,12 +2794,11 @@ public class RentasView {
 		edicionPagoPanel.setLayout(null);
 		
 		
-		
-		JLabel text = new JLabel("Edicion del pago en efectivo");
+		JLabel text = new JLabel("Pago en efectivo");
 		text.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
 		text.setHorizontalAlignment(SwingConstants.CENTER);
 		text.setForeground(Color.white);
-		text.setBounds(100,15,400,40);
+		text.setBounds(195,15,250,40);
 		edicionPagoPanel.add(text);
 		
 		JLabel fondoTexto = new JLabel();
@@ -1563,8 +2807,30 @@ public class RentasView {
 		fondoTexto.setBounds(0,0,emergente.getWidth(),50);
 		edicionPagoPanel.add(fondoTexto);
 		
-		JButton botonAceptar = new JButton("Cancelar");
+		JButton botonAceptar = new JButton();
+		botonAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/continuarCheck.png")));
 		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Continuar");
+				emergente.dispose();
+				renta = new RentasController();
+				renta.editar();
+				reservaExitosa();
+			}
+		});
+		botonAceptar.setVerticalAlignment(SwingConstants.CENTER);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setBounds(440, 350, 165, 50);
+		edicionPagoPanel.add(botonAceptar);
+		
+		
+		JButton botonCancelar = new JButton();
+		botonCancelar .setIcon(new ImageIcon(getClass().getResource("/contenido/cancelarCheck.png")));
+		botonCancelar.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1573,19 +2839,111 @@ public class RentasView {
 				emergente.dispose();
 			}
 		});
-		botonAceptar.setForeground(new Color(255, 255, 255));
-		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
-		botonAceptar.setBorderPainted(false);
-		botonAceptar.setContentAreaFilled(false);
-		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		botonAceptar.setBounds(220, 330, 181, 51);
-		edicionPagoPanel.add(botonAceptar);
+		botonCancelar.setBorderPainted(false);
+		botonCancelar.setContentAreaFilled(false);
+		botonCancelar.setBounds(30, 350, 166, 50);
+		edicionPagoPanel.add(botonCancelar);
+	
 		
-		JLabel imgAceptar= new JLabel();
-		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgAceptar.setBounds(220, 330, 181, 51);
-		edicionPagoPanel.add(imgAceptar);
+		JPanel panelAzulImagen=new JPanel();
+		panelAzulImagen.setBackground(new Color(0,72,103));
+		panelAzulImagen.setBounds(40, 65, 550, 270);
+		edicionPagoPanel.add(panelAzulImagen);
+		panelAzulImagen.setLayout(null);
 		
+		JLabel panelDinero=new JLabel();
+		panelDinero.setOpaque(true);
+		panelDinero.setLayout(null);
+		panelDinero.setBackground(Color.white);
+		panelDinero.setBounds(20, 20, 510, 233);
+		panelAzulImagen.add(panelDinero);
+		
+		JLabel imgDinero = new JLabel("");
+		imgDinero.setIcon(new ImageIcon(getClass().getResource("/contenido/dinero.png")));
+		imgDinero.setHorizontalAlignment(SwingConstants.CENTER);
+		imgDinero.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		imgDinero.setBounds(160, 18, 47, 40);
+		panelDinero.add(imgDinero);
+		
+		
+		JLabel tituloEfectivo_1 = new JLabel("Efectivo");
+		tituloEfectivo_1.setHorizontalAlignment(SwingConstants.CENTER);
+		tituloEfectivo_1.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		tituloEfectivo_1.setBounds(195, 25, 163, 40);
+		panelDinero.add(tituloEfectivo_1);
+		
+		JLabel subtotal = new JLabel("Subtotal");
+		subtotal.setHorizontalAlignment(SwingConstants.LEFT);
+		subtotal.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		subtotal.setBounds(20, 75, 120, 35);
+		panelDinero.add(subtotal);
+		
+		JLabel total = new JLabel("Total");
+		total.setHorizontalAlignment(SwingConstants.LEFT);
+		total.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		total.setBounds(20, 115, 100, 35);
+		panelDinero.add(total);
+		
+		JLabel recibido = new JLabel("Recibido");
+		recibido.setHorizontalAlignment(SwingConstants.LEFT);
+		recibido.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		recibido.setBounds(20, 155, 100, 35);
+		panelDinero.add(recibido);
+		
+		JLabel cambio = new JLabel("Cambio");
+		cambio.setHorizontalAlignment(SwingConstants.LEFT);
+		cambio.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		cambio.setBounds(20, 195, 100, 35);
+		panelDinero.add(cambio);
+		
+		//Salida de datos sobre el monto
+		
+		JTextField infoSubtotal = new JTextField("271873");
+		infoSubtotal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoSubtotal.setBorder(BorderFactory.createCompoundBorder(
+				infoSubtotal.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoSubtotal.setEditable(false);
+		infoSubtotal.setBackground(new Color(217, 217, 217));
+		infoSubtotal.setBounds(140, 75, 350, 25);
+		panelDinero.add(infoSubtotal);
+		
+		JTextField infoTotal = new JTextField("271873");
+		infoTotal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoTotal.setBorder(BorderFactory.createCompoundBorder(
+				infoTotal.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoTotal.setEditable(false);
+		infoTotal.setBackground(new Color(217, 217, 217));
+		infoTotal.setBounds(140, 115, 350, 25);
+		panelDinero.add(infoTotal);
+		
+		JTextField infoRecibido = new JTextField();
+		infoRecibido.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoRecibido.setBorder(BorderFactory.createCompoundBorder(
+				infoRecibido.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoRecibido.setEditable(true);
+		infoRecibido.setBackground(new Color(217, 217, 217));
+		infoRecibido.setBounds(140, 155, 350, 25);
+		panelDinero.add(infoRecibido);
+		
+		//Aparece en automatico con una operacion
+		JTextField infoCambio = new JTextField("7832");
+		infoCambio.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		infoCambio.setBorder(BorderFactory.createCompoundBorder(
+				infoCambio.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		infoCambio.setEditable(false);
+		infoCambio.setBackground(new Color(217, 217, 217));
+		infoCambio.setBounds(140, 195, 350, 25);
+		panelDinero.add(infoCambio);
+
+
 		
 		emergente.getContentPane().add(edicionPagoPanel);
 	    emergente.setLocationRelativeTo(frame);
@@ -1625,7 +2983,8 @@ public class RentasView {
 		fondoTexto.setBounds(0,0,emergente.getWidth(),80);
 		checkOutPanel.add(fondoTexto);
 		
-		JButton botonAceptar = new JButton("Continuar");
+		JButton botonAceptar = new JButton();
+		botonAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/continuarCheck.png")));
 		botonAceptar.addActionListener(new ActionListener()
 		{
 			@Override
@@ -1635,22 +2994,19 @@ public class RentasView {
 				emergente.dispose();
 				renta = new RentasController();
 				renta.detalles();
+				checkOutExitoso();
+			
 			}
 		});
-		botonAceptar.setForeground(new Color(255, 255, 255));
-		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setVerticalAlignment(SwingConstants.CENTER);
 		botonAceptar.setBorderPainted(false);
 		botonAceptar.setContentAreaFilled(false);
-		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		botonAceptar.setBounds(390, 330, 181, 51);
+		botonAceptar.setBounds(440, 350, 165, 50);
 		checkOutPanel.add(botonAceptar);
 		
-		JLabel imgContinuar= new JLabel();
-		imgContinuar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgContinuar.setBounds(390, 330, 181, 51);
-		checkOutPanel.add(imgContinuar);
 		
-		JButton botonCancelar = new JButton("Cancelar");
+		JButton botonCancelar = new JButton();
+		botonCancelar .setIcon(new ImageIcon(getClass().getResource("/contenido/cancelarCheck.png")));
 		botonCancelar.addActionListener(new ActionListener()
 		{
 			@Override
@@ -1660,25 +3016,28 @@ public class RentasView {
 				emergente.dispose();
 				renta = new RentasController();
 				renta.detalles();
+				
 			}
 		});
-		botonCancelar.setForeground(new Color(255, 255, 255));
-		botonCancelar.setVerticalAlignment(SwingConstants.BOTTOM);
 		botonCancelar.setBorderPainted(false);
 		botonCancelar.setContentAreaFilled(false);
-		botonCancelar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		botonCancelar.setBounds(60, 330, 181, 51);
+		botonCancelar.setBounds(20, 350, 166, 50);
 		checkOutPanel.add(botonCancelar);
+	
+	
+		JPanel panelAzulImagen=new JPanel();
+		panelAzulImagen.setBackground(new Color(0,72,103));
+		panelAzulImagen.setBounds(40, 90, 550, 250);
+		panelAzulImagen.setLayout(null);
+		checkOutPanel.add(panelAzulImagen);
 		
-		
-		
-		
-		JLabel imgCancelar= new JLabel();
-		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgCancelar.setBounds(60, 330, 181, 51);
-		checkOutPanel.add(imgCancelar);
-		
-		
+		JLabel imagenCheck=new JLabel();
+		imagenCheck.setOpaque(true);
+		imagenCheck.setIcon(new ImageIcon(getClass().getResource("/contenido/castle.jpg")));
+		imagenCheck.setBounds(20, 20, 510, 210);
+		panelAzulImagen.add(imagenCheck);
+
+
 		emergente.getContentPane().add(checkOutPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
@@ -1686,4 +3045,600 @@ public class RentasView {
 		emergente.revalidate();
 		
 	}
+	public void fechas(int opcion)
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		String[] dias = new String[31];
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        String[] años = new String[80]; 
+        
+        for (int i = 0; i < 31; i++) {
+            dias[i] = Integer.toString(i + 1);
+        }
+        
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 0; i < 80; i++) {
+            años[i] = Integer.toString(currentYear+ i);
+        }
+        JPanel fechasPanel= new JPanel();
+        fechasPanel.setBackground(new Color(220,220,220));
+        fechasPanel.setLayout(null);
+        
+        JComboBox<String> comboDias = new JComboBox<>(dias);
+        comboDias.setBackground(Color.white);
+        comboDias.setBounds(200,65,250,25);
+        fechasPanel.add(comboDias);
+        
+        JComboBox<String> comboMes = new JComboBox<>(meses);
+        comboMes.setBackground(Color.white);
+        comboMes.setBounds(200,105,250,25);
+        fechasPanel.add(comboMes);
+
+        JComboBox<String> comboAño = new JComboBox<>(años);
+        comboAño.setBackground(Color.white);
+        comboAño.setBounds(200,145,250,25);
+        fechasPanel.add(comboAño);
+        String text="";
+        if(opcion==1)
+        {
+        	text="Seleccione la fecha inicial";
+        }
+        else
+        {
+        	if(opcion==2)
+        	{
+        		text="Seleccione la fecha final";
+        	}
+        	else
+        	{
+        		System.out.println("Error");
+        	}
+        }
+        JLabel tituloFechas=new JLabel(text);
+		tituloFechas.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		tituloFechas.setForeground(Color.black);
+		tituloFechas.setBounds(100, 15, 350, 45);
+		fechasPanel.add(tituloFechas);
+       
+        JLabel dia=new JLabel("Día: ");
+		dia.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		dia.setForeground(Color.black);
+		dia.setBounds(120, 65, 70, 40);
+		fechasPanel.add(dia);
+        
+        JLabel mes=new JLabel("Mes: ");
+        mes.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		mes.setForeground(Color.black);
+		mes.setBounds(120, 105, 70, 40);
+        fechasPanel.add(mes);
+        
+        JLabel año=new JLabel("Año:");
+        año.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		año.setForeground(Color.black);
+		año.setBounds(120, 145, 70, 40);
+        fechasPanel.add(año);
+       
+        JButton botonCancelar = new JButton("Cancelar");
+		botonCancelar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Cancelar");
+				emergente.getContentPane().removeAll();
+				emergente.dispose();
+			}
+		});
+		botonCancelar.setForeground(new Color(255, 255, 255));
+		botonCancelar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonCancelar.setBorderPainted(false);
+		botonCancelar.setContentAreaFilled(false);
+		botonCancelar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonCancelar.setBounds(40, 190, 181, 51);
+		fechasPanel.add(botonCancelar);
+		
+		JLabel imgCancelar= new JLabel();
+		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgCancelar.setBounds(40, 190, 181, 51);
+		fechasPanel.add(imgCancelar);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Aceptar");
+				String fechaNacimiento = (String) comboDias.getSelectedItem() + "/" + (String) comboMes.getSelectedItem() + "/" + (String) comboAño.getSelectedItem();
+				 if(opcion==1)
+			        {
+					 fechaInicialResp.setText(fechaNacimiento);
+			        }
+			        else
+			        {
+			        	if(opcion==2)
+			        	{
+			        		fechaFinalResp.setText(fechaNacimiento);
+			        	}
+			        	else
+			        	{
+			        		System.out.println("Error");
+			        	}
+			        }
+				emergente.getContentPane().removeAll();
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(325, 190, 181, 51);
+		fechasPanel.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(325, 190, 181, 51);
+		fechasPanel.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/tiempo.png")));
+		iconPosion.setBounds(15, 74, 90, 94);
+		fechasPanel.add(iconPosion);
+
+		emergente.getContentPane().add(fechasPanel);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);
+	    emergente.repaint();
+	    emergente.revalidate();
+		
+	}
+	
+	public void checkOutExitoso()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		String info=("<html><div style='text-align: center;'>"
+		+"El check-out se ha completado<br>"+
+		"exitosamente<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(40,20,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/exito.png")));
+		iconPosion.setBounds(10, 55, 80, 87);
+		datos.add(iconPosion);
+		
+		emergente.getContentPane().add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void errorFechas()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		String info=("<html><div style='text-align: center;'>"
+		+"Las fechas seleccionadas ya<br>"+
+		"tienen una reserva. Por favor,<br>"+
+		"elige otras fechas para continuar.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(40,20,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Continuar");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/error.png")));
+		iconPosion.setBounds(15, 55, 80, 87);
+		datos.add(iconPosion);
+		
+		emergente.getContentPane().add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	public void reservaExitosa()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		
+		String info=("<html><div style='text-align: center;'>"
+		+"El pago se ha realizado de<br>"+
+		"manera exitosa. La reservación se<br>"+
+		"ha completado."+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(40,10,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/cofrecito.png")));
+		iconPosion.setBounds(10, 48, 80, 87);
+		datos.add(iconPosion);
+		
+		emergente.getContentPane().add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	public void campoVacio()
+	{
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"Hay campos vacíos, por favor <br>"+
+		"rellene los campos faltantes. <br>"+
+		"</div></html>");
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,23,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	public void datosNoValidos()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"El tipo de dato que estás  <br>"+
+		"intentando ingresar no es válido <br>"+
+		"para este campo. Por favor, <br>"+
+		"inténtalo de nuevo con un dato <br>"+
+		"diferente.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,12,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	
+	public void eleccion()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"¿Estás seguro de que deseas  <br>"+
+		"continuar? <br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,17,487,168);
+		datos.add(text);
+		
+		JButton cancelarBtn = new JButton("Cancelar");
+		cancelarBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("cancelar");
+				emergente.dispose();
+			}
+		});
+		cancelarBtn.setForeground(new Color(255, 255, 255));
+		cancelarBtn.setVerticalAlignment(SwingConstants.BOTTOM);
+		cancelarBtn.setBorderPainted(false);
+		cancelarBtn.setContentAreaFilled(false);
+		cancelarBtn.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		cancelarBtn.setBounds(50, 190, 181, 51);
+		datos.add(cancelarBtn);
+		
+		JLabel imgCancelar= new JLabel();
+		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgCancelar.setBounds(50, 190, 181, 51);
+		datos.add(imgCancelar);
+		
+		JButton botonAceptar = new JButton("Aceptar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Aceptar");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(313, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(313, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/veneno.png")));
+		iconPosion.setBounds(20, 50, 80, 91);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	
+	public void seleccion()
+	{
+		emergente.getContentPane().removeAll();
+		emergente.repaint();
+		emergente.revalidate();
+		emergente.setSize( 560, 290);
+		JPanel datos= new JPanel();
+		datos.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+		datos.setBackground(new Color(220,220,220));
+		datos.setLayout(null);
+		
+		//String info="Los datos que ha ingresado son "+"\n"+ "incorrectos, favor de ingresarlos"+ "\n"+ "correctamente";
+		String info=("<html><div style='text-align: center;'>"
+		+"No has seleccionado ninguna <br>"+
+		"renta, favor de seleccionarla.<br>"+
+		"</div></html>");
+		
+		
+		JLabel text = new JLabel(info);
+		text.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+		text.setForeground(Color.black);
+		text.setBounds(34,12,487,168);
+		datos.add(text);
+		
+		JButton botonAceptar = new JButton("Continuar");
+		botonAceptar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Acceso");
+				emergente.dispose();
+			}
+		});
+		botonAceptar.setForeground(new Color(255, 255, 255));
+		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
+		botonAceptar.setBorderPainted(false);
+		botonAceptar.setContentAreaFilled(false);
+		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		botonAceptar.setBounds(182, 190, 181, 51);
+		datos.add(botonAceptar);
+		
+		JLabel imgAceptar= new JLabel();
+		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
+		imgAceptar.setBounds(183, 190, 181, 51);
+		datos.add(imgAceptar);
+		
+		JLabel iconPosion= new JLabel();
+		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/camposVacios.png")));
+		iconPosion.setBounds(15, 57, 80, 80);
+		datos.add(iconPosion);
+		
+		emergente.add(datos);
+	    emergente.setLocationRelativeTo(frame);
+	    emergente.setVisible(true);;
+		
+	}
+	
+	
 }
