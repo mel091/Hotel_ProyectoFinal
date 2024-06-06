@@ -5,10 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -27,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import controllers.ClientesController;
 import controllers.HabitacionesController;
@@ -42,11 +45,26 @@ public class TiposView {
 	private JDialog emergente;
 	private TiposController tipo;
 	private TiposModel model;
+	
+	private String nombreTipo;
+	private JTextArea listaHab = new JTextArea();
 
 	public TarifasController tarifa;
 	public RentasController renta;
 	public HabitacionesController room;
 	public ClientesController cliente;
+	
+	JCheckBox tari1 = new JCheckBox("Estándar");
+	JCheckBox tarifa2 = new JCheckBox("Tarifa #2");
+	JCheckBox tarifa3 = new JCheckBox("Tarifa #3");
+	JCheckBox tarifa4 = new JCheckBox("Tarifa #4");
+	
+	JTextField nombreHabiResp = new JTextField();
+	JTextField serviciosResp = new JTextField();
+	JTextArea descResp = new JTextArea();
+	JTextField capResp = new JTextField();
+	
+	JLabel nombreDetalles = new JLabel("");
 	
 	public TiposView() {
 		frame = new JFrame();
@@ -310,44 +328,7 @@ public class TiposView {
 		panelCentral.setBounds(150,110,1175, 560);
 		panelCentral.setLayout(null);
 		panelConsultar.add(panelCentral);
-		
-		//botones del panel central
-		JButton editarBtn= new JButton();
-		editarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/editar.png")));
-		editarBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("editar");
-				frame.dispose();
-				tipo = new TiposController();
-				tipo.editar();
-			}
-		});
-		editarBtn.setBorderPainted(false);
-		editarBtn.setContentAreaFilled(false);
-		editarBtn.setBounds(690, 480, 328, 45);
-		panelCentral.add(editarBtn);
-		
-		JButton detallesBtn= new JButton();
-		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
-		detallesBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Detalles");
-				frame.dispose();
-				tipo = new TiposController();
-				tipo.detalles();
-			}
-		});
-		detallesBtn.setBorderPainted(false);
-		detallesBtn.setContentAreaFilled(false);
-		detallesBtn.setBounds(145, 480, 328, 45);
-		panelCentral.add(detallesBtn);
-		
+
 		//Panel azul que contiene el panel de la tabla
 		JPanel panelAzul = new JPanel();
 		panelAzul.setBackground(new Color(0, 73, 102));
@@ -359,41 +340,11 @@ public class TiposView {
 		panelDeTabla.setBounds(25, 25, 1023, 316);
 		panelAzul.add(panelDeTabla);
 		
-		String tableTitle[]={"Tipo de habitación", "Capacidad", "Servicios"};
-		String tableData[][] = {
-							    {"", "", "" },
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""},
-							    {"", "", ""}
-		};
+		model=new TiposModel();
+		DefaultTableModel datosClientes = model.tablaTipos();
 	
-		JTable productoTable= new JTable(tableData, tableTitle);
+		JTable productoTable= new JTable(datosClientes); 
+		
 		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
 		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
 		{
@@ -405,8 +356,8 @@ public class TiposView {
 	                    int selectedRow = productoTable.getSelectedRow();
 	                    if (selectedRow != -1) 
 	                    { 
-	                        System.out.println("Fila seleccionada: " + selectedRow);
-	                        
+	                    	 nombreTipo = (String) productoTable.getValueAt(selectedRow, 0);
+	                         System.out.println("Nombre seleccionado: " + nombreTipo);
 	                    }
 	                }
 	            }
@@ -416,6 +367,52 @@ public class TiposView {
 		JScrollPane tableScroll=new JScrollPane(productoTable);
 		tableScroll.setBounds(0, 0, 1023, 316);
 		panelDeTabla.add(tableScroll);
+		
+		JButton detallesBtn= new JButton();
+		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
+		detallesBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(nombreTipo != null)
+				{
+					System.out.println(nombreTipo);
+					
+					model = new TiposModel();
+					TiposView view = new TiposView();
+					
+					model.listado(view.getLista(), view.getNombreDetalles());
+					model.detalles(nombreTipo);
+					view.detalles();
+					
+				}
+			}
+		});
+		detallesBtn.setBorderPainted(false);
+		detallesBtn.setContentAreaFilled(false);
+		detallesBtn.setBounds(145, 480, 328, 45);
+		panelCentral.add(detallesBtn);
+		
+		//botones del panel central
+		JButton editarBtn= new JButton();
+		editarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/editar.png")));
+		editarBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(nombreTipo != null)
+				{
+					model = new TiposModel();
+					model.textField(nombreHabiResp, descResp, capResp, serviciosResp);
+					model.editar(nombreTipo);
+					editar();
+				}
+			}
+		});
+		editarBtn.setBorderPainted(false);
+		editarBtn.setContentAreaFilled(false);
+		editarBtn.setBounds(690, 480, 328, 45);
+		panelCentral.add(editarBtn);
 		
 		frame.getContentPane().add(panelConsultar);
 		frame.setVisible(true);
@@ -776,6 +773,35 @@ public class TiposView {
 		JButton botonCrear = new JButton();
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				model = new TiposModel();
+				
+				String nombre = nombreHabiResp.getText();
+				String desc = descResp.getText();
+				String capacidad = capacidadResp.getText();
+				String servicios = serviciosResp.getText();
+				
+				StringBuilder seleccion = new StringBuilder();
+				if(tari1.isSelected())
+				{
+					seleccion.append(tari1.getText()).append("\n");
+				}
+				if(tarifa2.isSelected())
+				{
+					seleccion.append(tarifa2.getText()).append("\n");
+				}
+				if(tarifa3.isSelected())
+				{
+					seleccion.append(tarifa3.getText()).append("\n");
+				}
+				if(tarifa4.isSelected())
+				{
+					seleccion.append(tarifa4.getText()).append("\n");
+				}
+				String tarifas = seleccion.toString();
+				
+				model.crear(nombre, desc, capacidad, servicios, tarifas);
+				System.out.println("tipo creado");
+				
 			}
 		});
 		botonCrear.setBorderPainted(false);
@@ -796,36 +822,47 @@ public class TiposView {
 		tarifa.setForeground(Color.BLACK);
 		tarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
 		
+		model = new TiposModel();
+		List<String> tarifasList = model.getTarifasName();
+		
 		JPanel tarifaPanel = new JPanel();
+		tarifaPanel.setLayout(new GridLayout(tarifasList.size(), 1));
 		tarifaPanel.setLocation(33, 285);
 		panelInfo2.add(tarifaPanel);
 		tarifaPanel.setBackground(new Color(217, 217, 217));
-		tarifaPanel.setLayout(null);
 		tarifaPanel.setSize(new Dimension(401, 73));
 		
-		JCheckBox tari1 = new JCheckBox("Tarifa #1");
-		tari1.setBounds(6, 7, 200, 31);
-		tarifaPanel.add(tari1);
-		tari1.setOpaque(false);
-		tari1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		for(String tari : tarifasList)
+		{
+			JCheckBox checkBox = new JCheckBox(tari);
+			checkBox.setOpaque(false);
+			checkBox.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			tarifaPanel.add(checkBox);
+		}
 		
-		JCheckBox tarifa2 = new JCheckBox("Tarifa #2");
-		tarifa2.setBounds(6, 35, 200, 31);
-		tarifaPanel.add(tarifa2);
-		tarifa2.setOpaque(false);
-		tarifa2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		
-		JCheckBox tarifa3 = new JCheckBox("Tarifa #3");
-		tarifa3.setBounds(195, 7, 200, 31);
-		tarifaPanel.add(tarifa3);
-		tarifa3.setOpaque(false);
-		tarifa3.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		
-		JCheckBox tarifa4 = new JCheckBox("Tarifa #4");
-		tarifa4.setBounds(195, 35, 200, 31);
-		tarifaPanel.add(tarifa4);
-		tarifa4.setOpaque(false);
-		tarifa4.setFont(new Font("Tahoma", Font.PLAIN, 18));
+//		JCheckBox tari1 = new JCheckBox("Tarifa #1");
+//		tari1.setBounds(6, 7, 200, 31);
+//		tarifaPanel.add(tari1);
+//		tari1.setOpaque(false);
+//		tari1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+//		
+//		JCheckBox tarifa2 = new JCheckBox("Tarifa #2");
+//		tarifa2.setBounds(6, 35, 200, 31);
+//		tarifaPanel.add(tarifa2);
+//		tarifa2.setOpaque(false);
+//		tarifa2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+//		
+//		JCheckBox tarifa3 = new JCheckBox("Tarifa #3");
+//		tarifa3.setBounds(195, 7, 200, 31);
+//		tarifaPanel.add(tarifa3);
+//		tarifa3.setOpaque(false);
+//		tarifa3.setFont(new Font("Tahoma", Font.PLAIN, 18));
+//		
+//		JCheckBox tarifa4 = new JCheckBox("Tarifa #4");
+//		tarifa4.setBounds(195, 35, 200, 31);
+//		tarifaPanel.add(tarifa4);
+//		tarifa4.setOpaque(false);
+//		tarifa4.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(217, 217, 217));
@@ -1129,12 +1166,12 @@ public class TiposView {
 		panelCentral.setLayout(null);
 		panelDetalles.add(panelCentral);
 	
-		JLabel nomTipo = new JLabel("Nombre del tipo");
-		nomTipo.setHorizontalAlignment(SwingConstants.CENTER);
-		nomTipo.setForeground(new Color(0, 0, 0));
-		nomTipo.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		nomTipo.setBounds(315, 30, 489, 45);
-		panelCentral.add(nomTipo);
+		//JLabel nomTipo = new JLabel("Nombre del tipo");
+		nombreDetalles.setHorizontalAlignment(SwingConstants.CENTER);
+		nombreDetalles.setForeground(new Color(0, 0, 0));
+		nombreDetalles.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		nombreDetalles.setBounds(315, 30, 489, 45);
+		panelCentral.add(nombreDetalles);
 	
 		JLabel fondoCliente = new JLabel("");
 		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
@@ -1164,6 +1201,14 @@ public class TiposView {
 		panelHabi.setSize(new Dimension(421, 350));
 		panelHabi.setBorder(new LineBorder(new Color(0, 73, 102), 2));
 		panelHabi.setLayout(null);
+		
+		//listaHab = new JTextArea();
+		listaHab.setEditable(false);
+		listaHab.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		listaHab.setColumns(10);
+		listaHab.setBackground(new Color(217, 217, 217));
+		listaHab.setBounds(0,0, 420, 350);
+		panelHabi.add(listaHab);
 		
 		
 		JScrollPane scrollPane = new JScrollPane(panelHabi);
@@ -1497,7 +1542,7 @@ public class TiposView {
 		panelInfo.add(nombreTipo);
 		
 	
-		JTextField nombreHabiResp = new JTextField();
+		//JTextField nombreHabiResp = new JTextField();
 		nombreHabiResp.setBorder(BorderFactory.createCompoundBorder(
 				nombreHabiResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1520,7 +1565,7 @@ public class TiposView {
 		serviciosInclu.setBounds(35, 285, 216, 46);
 		panelInfo.add(serviciosInclu);
 		
-		JTextField serviciosResp = new JTextField();
+		//JTextField serviciosResp = new JTextField();
 		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
 				serviciosResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1537,12 +1582,12 @@ public class TiposView {
 		descripcion.setBounds(35, 95, 160, 46);
 		panelInfo.add(descripcion);
 		
-		JTextArea descResp = new JTextArea();
+		//JTextArea descResp = new JTextArea();
 		descResp.setBackground(new Color(217, 217, 217));
 		descResp.setBounds(35, 133, 420, 60);
 		panelInfo.add(descResp);
 		
-		JTextField capResp = new JTextField();
+		//JTextField capResp = new JTextField();
 		capResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		capResp.setColumns(10);
 		capResp.setBackground(new Color(217, 217, 217));
@@ -2027,4 +2072,13 @@ public class TiposView {
 	    emergente.setVisible(true);;
 		
 	}
+	
+	public JTextArea getLista()
+	{
+		return listaHab;
+	}
+	
+	 public JLabel getNombreDetalles() {
+	        return nombreDetalles;
+	 }
 }

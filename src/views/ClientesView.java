@@ -31,6 +31,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.mysql.cj.jdbc.Blob;
+
 import controllers.Auth;
 import controllers.ClientesController;
 import controllers.HabitacionesController;
@@ -57,6 +59,8 @@ public class ClientesView {
 	public RentasController renta;
 	public HabitacionesController room;
 
+	private Blob imgB;
+	private String path;
 	private String idCliente;
 	Clientes clienteDetalles;
 	
@@ -409,7 +413,7 @@ public class ClientesView {
 		    	    model = new ClientesModel();
 		    	    ClientesView view = new ClientesView();
 		    	    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
-		    	    view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles());
+		    	    view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles(), view.getPanelImg());
 		    	    
 		    	    frame.dispose();
 		    	    
@@ -736,8 +740,16 @@ public class ClientesView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				model = new ClientesModel();
-				model.subirImg();
-				model.imagen(subirBtn);
+				path = model.subirImg();
+				if(path != null)
+				{
+					imgB = model.imageToBlob(path);
+					model.imagen(subirBtn);
+				}
+				else
+				{
+					System.out.println("ninguna img selec");
+				}
 				subirBtn.setEnabled(false); //el boton no sirve despues de que q se click una vez
 			}
 		});
@@ -914,7 +926,16 @@ public class ClientesView {
 				
 				InputStream img = model.getImagen();
 				model = new ClientesModel();
-				model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, img);
+				if(path != null)
+				{
+					imgB = model.imageToBlob(path);
+				}
+				else
+				{
+					System.out.println("Path no existe");
+				}
+				
+				model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, imgB);
 				exito();
 				
 			}
@@ -1252,8 +1273,8 @@ public class ClientesView {
 	                    System.out.println("cliente act: " + actual);
 
 	                    ClientesView view = new ClientesView();
-                    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(),
-                             view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles());
+	                    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(),
+	                             view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles(), view.getPanelImg());
 
                     frame.dispose();
 
@@ -1286,8 +1307,8 @@ public class ClientesView {
                     System.out.println("cliente act: " + actual);
                     
                     ClientesView view = new ClientesView();
-					 model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
-		    	    		 view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles());
+                    model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getTelefono(), view.getDireccion(), view.getNombreEmergencia(), 
+		    	    		 view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles(), view.getPanelImg());
 
 		    	    frame.dispose();
 
@@ -2047,9 +2068,7 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				cliente = new ClientesController();
-				cliente.detalles();
+				emergente.dispose();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));

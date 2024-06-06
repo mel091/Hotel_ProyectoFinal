@@ -1,8 +1,11 @@
 package models;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -38,6 +41,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.mysql.cj.jdbc.Blob;
 
 import controllers.ClientesController;
 import controllers.HabitacionesController;
@@ -69,6 +73,8 @@ public class ClientesModel
 	private JTextArea infoAdicionalResp;
 	private JLabel nombreDetalles;
 	
+	private String pathImg;
+	
 	private JPanel panelImg;
 	private String idRecuperado;
 	
@@ -78,7 +84,7 @@ public class ClientesModel
 	}
 	
 	public void crear(String nombreC, String correo, String tel, String dir, String contactoEmergencia, 
-			String relacion, String telEmergencia, String inf, InputStream img)
+			String relacion, String telEmergencia, String inf, Blob img)
 	{
 		try 
 		{
@@ -195,7 +201,7 @@ public class ClientesModel
 	    }
 	}
 
-	public void subirImg() //especificaciones al seleccionar imagen en crear
+	public String subirImg() //especificaciones al seleccionar imagen en crear
 	{
 		fc = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("archivo de imagen", "png");
@@ -207,11 +213,14 @@ public class ClientesModel
 			try {
 				File selectFile = fc.getSelectedFile();
 				imagenSeleccionada = new FileInputStream(selectFile);
+				pathImg = selectFile.getAbsolutePath();
+	            return pathImg;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 		}
+		return null;
 	}
 	
 	public void imagen(JButton btn) //mostrar imagen encima del btn
@@ -270,13 +279,13 @@ public class ClientesModel
 		tabla.addColumn("Fecha inicial");
 		tabla.addColumn("Fecha final");
 		tabla.addColumn("Costo final");
-		tabla.addColumn("Estatus de la reserva");
-		tabla.addColumn("Estado de la reserva");
+		tabla.addColumn("Estatus reserva");
+		tabla.addColumn("Estado");
 		
 		try {
 			Connection cn = Conexion.conectar();
 			PreparedStatement pst = cn.prepareStatement("select rentas.idRenta, rentas.fecha_inicial, rentas.fecha_final, rentas.costo_final, "
-					+ "rentas.estatus AS estatus_reserva, clientes.estatus AS estatus_cliente from rentas join clientes on rentas.idCliente = clientes.idCliente");
+					+ "rentas.estatus AS estatus_reserva, clientes.estatus AS estatus_cliente from rentas join clientes on rentas.idCliente = clientes.idCliente where clientes.idCliente = ?");
 			pst.setString(1, id);
 			ResultSet rs = pst.executeQuery();
 			
@@ -302,7 +311,7 @@ public class ClientesModel
 	}
 	
 	public void textField(JTextField idC, JTextField nombre, JTextField correo, JTextField telefono, JTextField direccion, JTextField nombreEmergencia, JTextField relacion,
-			JTextField telefonoEmergencia, JTextArea infoAdicional, JTextField estatus, JLabel nombreCliente)
+			JTextField telefonoEmergencia, JTextArea infoAdicional, JTextField estatus, JLabel nombreCliente, JPanel panel)
 	{
 		this.idC = idC;
 		this.nombre = nombre;
@@ -315,6 +324,7 @@ public class ClientesModel
 		this.infoAdicional = infoAdicional;
 		this.estatus = estatus;
 		this.nombreDetalles = nombreCliente;
+		this.panelImg = panel;
 	}
 	
 	public void textField2(JTextField nombreResp, JTextField correoResp, JTextField telResp, JTextField direccionResp, JTextField contactoResp, JTextField relacionResp, JTextField noContactoResp, JTextArea infoAdResp) 
@@ -329,23 +339,7 @@ public class ClientesModel
 	    this.infoAdicionalResp = infoAdResp;
 	    
 	}
-	public void panel(JPanel panelImg)
-	{
-		this.panelImg = panelImg;
-	}
 	
-	public BufferedImage byteToImage(byte[] imgByte) // saca la img de la base de datos y convierte 
-	{
-		if(imgByte != null && imgByte.length > 0)
-		{
-			try {
-				return ImageIO.read(new ByteArrayInputStream(imgByte));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
 	
 	public Clientes mostrarDetalles(String id) //aparece en la ventana de detalles
 	{
@@ -361,7 +355,7 @@ public class ClientesModel
 			if(rs.next())
 				
 			{
-				byte[] imagen = rs.getBytes("img");
+				java.sql.Blob imagenBlob = rs.getBlob("img");
 				cliente = new Clientes(
 				rs.getString("idCliente"),
 				rs.getString("nombreCompleto"),
@@ -373,7 +367,7 @@ public class ClientesModel
 				rs.getString("telefonoEmergencia"),
 				rs.getString("infAdicional"),
 				rs.getString("estatus"),
-				imagen
+				imagenBlob
 				);
 				
 				System.out.println("encontrado: " + cliente.toString());
@@ -391,22 +385,38 @@ public class ClientesModel
 	                    estatus.setText(rs.getString("estatus"));
 	                    nombreDetalles.setText(rs.getString("nombreCompleto"));
 	                   
-//	                    if(imagen != null)
-//	                    {
-//	                    	ImageIcon icon = new ImageIcon(imagen);
-//	                    	JLabel label = new JLabel(icon);
-//	                    	 panelImg.removeAll(); // Limpiar el panel antes de agregar la nueva imagen
-//	                         panelImg.add(label);
-//	                         panelImg.revalidate(); // Actualizar el panel
-//	                         panelImg.repaint();
-//	                    }
-//	                    else
-//	                    {
-//	                    	System.out.println("no se puede cargar");
-//	                    }
+	                    if(imagenBlob != null)
+	                    {
+	                    	ImageIcon icon = blobToImageIcon(imagenBlob);
+	                    	System.out.println("blob no null");
+	                    
+	                    if(icon != null)
+	                    {
+	                    	JLabel label = new JLabel(icon);
+	                    	label.setPreferredSize(new Dimension(472, 291));
+	                    	label.setOpaque(true);
+	                    	panelImg.removeAll();
+	                    	panelImg.add(label);
+	                    	panelImg.revalidate();
+	                    	panelImg.repaint();
+	                    	System.out.println("icon no null");
+	                    	Component[] components = panelImg.getComponents();
+	                    	for (Component component : components) {
+	                    	    System.out.println("Componente en el panel: " + component.getClass().getName());
+	                    	}
+
+	                    }else
+	                    {
+	                    	System.out.println("no se puede cargar la imagen");
+	                    }
+				 } else
+				 {
+					 System.out.println("imagen null");
+				 }
+	                    
 				 }
 	            } else {
-	                System.out.println("no");
+	                System.out.println("no se encontro cliente");
 	            }
 			
 			rs.close();
@@ -529,6 +539,43 @@ public class ClientesModel
 		}
 		
 		return IDs;
+	}
+	
+	public Blob imageToBlob(String path) {
+		try {
+			BufferedImage buffImage = ImageIO.read(new File(path));
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			
+			if (path.endsWith("jpg")) {
+				ImageIO.write(buffImage, "jpg", baos);
+			} else if (path.endsWith("png")) {
+				ImageIO.write(buffImage, "png", baos);
+			}
+			
+			byte[] imageInBytes = baos.toByteArray();
+			Blob imageBlob = new Blob(imageInBytes, null);
+			return imageBlob;
+		} catch(IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public static ImageIcon blobToImageIcon(java.sql.Blob imagenBlob) {
+		try {
+			byte[] imageBytes = imagenBlob.getBytes(1, (int) imagenBlob.length());
+			ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
+			BufferedImage buffImage = ImageIO.read(bais);
+			 if (buffImage != null) {
+	                return new ImageIcon(buffImage); // BufferedImage is a subclass of Image, so this works directly ahaja
+	            } else {
+	                System.err.println("BufferedImage is null");
+	            }
+		} catch (SQLException | IOException ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 	
 	public InputStream getImagen()

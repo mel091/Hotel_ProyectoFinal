@@ -12,10 +12,10 @@ public class Clientes
 	private String telefonoEmergencia;
 	private String infAdicional;
 	private String estatus;
-	private byte[] imagen;
+	private java.sql.Blob imagen;
 	
 	public Clientes(String idCliente, String nombreCompleto, String correo, String telefono, String direccion,
-			String contactoEmergencia, String relacionCliente, String telefonoEmergencia, String infAdicional, String estatus,  byte[] imagen)
+			String contactoEmergencia, String relacionCliente, String telefonoEmergencia, String infAdicional, String estatus,  java.sql.Blob imagen)
 	{
 		this.idCliente = idCliente;
 		this.nombreCompleto = nombreCompleto;
@@ -70,7 +70,7 @@ public class Clientes
 		return estatus;
 	}
 
-	public byte[] getImagen() {
+	public java.sql.Blob getImagen() {
 		return imagen;
 	}
 

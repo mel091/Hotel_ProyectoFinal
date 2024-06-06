@@ -1596,9 +1596,7 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				cliente = new ClientesController();
-				cliente.detalles();
+				emergente.dispose();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));

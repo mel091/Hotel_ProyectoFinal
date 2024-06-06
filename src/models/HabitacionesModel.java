@@ -350,11 +350,6 @@ public class HabitacionesModel {
 	    }
 	}
 	
-	public void historial()
-	{
-		
-	}
-	
 	public String subirImg() {
 	    fc = new JFileChooser();
 	    FileNameExtensionFilter filter = new FileNameExtensionFilter("archivo de imagen", "png", "jpg");
