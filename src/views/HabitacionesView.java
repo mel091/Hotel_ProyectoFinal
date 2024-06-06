@@ -804,11 +804,11 @@ public class HabitacionesView {
 		
 		
 		//JLabel nombreHabi = new JLabel("Nombre de la habitación"); //comentar
-		nombreHabi.setHorizontalAlignment(SwingConstants.CENTER);
-		nombreHabi.setForeground(new Color(0, 0, 0));
-		nombreHabi.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		nombreHabi.setBounds(330, 30, 489, 45);
-		panelCentral.add(nombreHabi);
+		nomHabitacion.setHorizontalAlignment(SwingConstants.CENTER);
+		nomHabitacion.setForeground(new Color(0, 0, 0));
+		nomHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		nomHabitacion.setBounds(330, 30, 489, 45);
+		panelCentral.add(nomHabitacion);
 	
 		JLabel fondoHabitacion = new JLabel("");
 		fondoHabitacion.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
@@ -1646,14 +1646,15 @@ public class HabitacionesView {
 		fondoTexto.setBounds(0,0,emergente.getWidth(),50);
 		descargaPanel.add(fondoTexto);
 		
+		model = new HabitacionesModel();
+		model.descargar(idHabSeleccion);
+		
 		JButton botonAceptar = new JButton("Cancelar");
 		botonAceptar.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				room = new HabitacionesController();
-				room.detalles();
+				emergente.dispose();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));

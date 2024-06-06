@@ -171,13 +171,13 @@ public class ClientesModel
 
 	            if (rs.next()) {
 	                
-	            	for (int i = 0; i < datos.length; i++) {
-	            	    PdfPCell datosR = new PdfPCell(new Phrase(datos[i]));
-	            	    datosR.setBackgroundColor(new BaseColor(168, 203, 248));
-	            	    table.addCell(datosR);
-	            	    PdfPCell dataCell = new PdfPCell(new Phrase(i == datos.length - 1 ? rs.getString("estatus") : rs.getString(i + 1)));
-	            	    table.addCell(dataCell);
-	            	}	               
+	                for (int i = 0; i < datos.length; i++) {
+	                    PdfPCell datosR = new PdfPCell(new Phrase(datos[i]));
+	                    datosR.setBackgroundColor(new BaseColor(168, 203, 248));
+	                    table.addCell(datosR);
+	                    PdfPCell dataCell = new PdfPCell(new Phrase(rs.getString(i + 1)));
+	                    table.addCell(dataCell);
+	                }               
 	            }
 
 	            rs.close();

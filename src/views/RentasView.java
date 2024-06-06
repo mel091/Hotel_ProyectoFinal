@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -30,6 +31,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import controllers.ClientesController;
 import controllers.HabitacionesController;
@@ -51,6 +53,29 @@ public class RentasView {
 	public ClientesController cliente;
 	public JTextField fechaInicialResp;
 	public JTextField fechaFinalResp;
+	
+	private int cambio1; /////////////////////////////////
+	
+	private String idRenta;
+	
+	JComboBox<String> tarifasResp = new JComboBox<>();
+	JCheckBox wifi = new JCheckBox("Wi-Fi");
+	JCheckBox restaurante = new JCheckBox("Restaurante");
+	JCheckBox recreativos = new JCheckBox("Espacios recreativos");
+	JCheckBox lavanderia = new JCheckBox("Lavandería");
+	JTextField costoFinalResp = new JTextField();
+	JTextField infoCambio = new JTextField();
+	
+	JTextField infoIdRenta = new JTextField();
+	JTextField infoNombre = new JTextField();
+	JTextField infoCorreo = new JTextField();
+	JTextField infoFechaInicial = new JTextField();
+	JTextField infoFechaFinal = new JTextField();
+	JTextField infoNomEmerg = new JTextField();
+	JTextArea infoAmenidades = new JTextArea();
+	JTextField infoSubtotal = new JTextField();
+	JTextField infoTotal = new JTextField();
+	JTextField infoEstatus = new JTextField();  /////////////////////////////////
 	
 	public RentasView() {
 		frame = new JFrame();
@@ -315,6 +340,71 @@ public class RentasView {
 		panelCentral.setLayout(null);
 		panelConsultar.add(panelCentral);
 		
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(50, 50, 1075, 366);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
+		
+		JPanel panelDeTabla = new JPanel();
+		panelDeTabla.setBounds(25, 25, 1023, 316);
+		panelAzul.add(panelDeTabla);
+		
+		model = new RentasModel();
+		DefaultTableModel datosHab = model.tablaRentas();	
+		
+		JTable productoTable= new JTable(datosHab); //dentro de los parentesis mete "datosClientes" 
+		// del DefaultTable arriba
+		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
+		{
+		@Override
+		public void valueChanged(ListSelectionEvent e) 
+		{
+			if (!e.getValueIsAdjusting()) 
+			{
+				int selectedRow = productoTable.getSelectedRow();
+				if (selectedRow != -1) 
+				{ 
+					idRenta = (String) productoTable.getValueAt(selectedRow, 0);
+					System.out.println("ID seleccionado: " + idRenta);
+				}
+			}
+		}
+		});
+		panelDeTabla.setLayout(null);
+		
+		JScrollPane tableScroll=new JScrollPane(productoTable);
+		tableScroll.setBounds(0, 0, 1023, 316);
+		panelDeTabla.removeAll();
+		panelDeTabla.add(tableScroll);
+		
+		JButton detallesBtn= new JButton();
+		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
+		detallesBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(idRenta != null && !idRenta.isEmpty())
+				{
+					System.out.println(idRenta);
+					model = new RentasModel();
+					
+					RentasView view = new RentasView();
+					
+					model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getFecha1(), view.getFecha2(), 
+							view.getTarifasD(), view.getAmenidades(), view.getSubtotal(), view.getTotal(), view.getEstatus());
+					
+					model.mostrarDetalles(idRenta);
+					view.detalles();
+				}
+			}
+		});
+		detallesBtn.setBorderPainted(false);
+		detallesBtn.setContentAreaFilled(false);
+		detallesBtn.setBounds(143, 470, 328, 45);
+		panelCentral.add(detallesBtn);
+		
 		//botones del panel central
 		JButton editarBtn= new JButton();
 		editarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/editar.png")));
@@ -333,93 +423,6 @@ public class RentasView {
 		editarBtn.setContentAreaFilled(false);
 		editarBtn.setBounds(690, 470, 328, 45);
 		panelCentral.add(editarBtn);
-		
-		JButton detallesBtn= new JButton();
-		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
-		detallesBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Detalles");
-				frame.dispose();
-				model = new RentasModel();
-				model.detalles();
-			}
-		});
-		detallesBtn.setBorderPainted(false);
-		detallesBtn.setContentAreaFilled(false);
-		detallesBtn.setBounds(143, 470, 328, 45);
-		panelCentral.add(detallesBtn);
-		
-		JPanel panelAzul = new JPanel();
-		panelAzul.setBackground(new Color(0, 73, 102));
-		panelAzul.setBounds(50, 50, 1075, 366);
-		panelCentral.add(panelAzul);
-		panelAzul.setLayout(null);
-		
-		JPanel panelDeTabla = new JPanel();
-		panelDeTabla.setBounds(25, 25, 1023, 316);
-		panelAzul.add(panelDeTabla);
-		
-		String tableTitle[]={"ID de la renta", "ID del cliente", "Fecha inicial", "Fecha final", "Estatus"};
-		String tableData[][] = {
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""},
-							    {"", "", "", "", ""}
-		};
-	
-		JTable productoTable= new JTable(tableData, tableTitle);
-		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
-		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
-		{
-	            @Override
-	            public void valueChanged(ListSelectionEvent e) 
-	            {
-	                if (!e.getValueIsAdjusting()) 
-	                {
-	                    int selectedRow = productoTable.getSelectedRow();
-	                    if (selectedRow != -1) 
-	                    { 
-	                        System.out.println("Fila seleccionada: " + selectedRow);
-	                        
-	                    }
-	                }
-	            }
-		    });
-		panelDeTabla.setLayout(null);
-		
-		JScrollPane tableScroll=new JScrollPane(productoTable);
-		tableScroll.setBounds(0, 0, 1023, 316);
-		panelDeTabla.add(tableScroll);
-		
 		
 		frame.getContentPane().add(panelConsultar);
 		frame.setVisible(true);
@@ -734,7 +737,7 @@ public class RentasView {
 		fechaFinal.setBounds(35, 199, 160, 46);
 		panelInfo.add(fechaFinal);
 		
-		fechaInicialResp = new JTextField();
+		fechaInicialResp = new JTextField();	////////////////////////////////////////////////////////
 		fechaInicialResp.setBorder(BorderFactory.createCompoundBorder(
 				fechaInicialResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -752,7 +755,7 @@ public class RentasView {
 		tarifaTitulo.setBounds(35, 282, 160, 46);
 		panelInfo.add(tarifaTitulo);
 		
-		fechaFinalResp = new JTextField();
+		fechaFinalResp = new JTextField(); ///////////////////////////////////////////////////
 		fechaFinalResp.setBorder(BorderFactory.createCompoundBorder(
 				fechaFinalResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -802,9 +805,9 @@ public class RentasView {
 		JButton botonVacio = new JButton();
 		botonVacio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//						nombreHabiResp.setText("");
-//						tipoResp.setText("");
-//						telResp.setText("");
+//				idClienteResp.setText("");
+//				fechaInicialResp.setText("");
+//				fechaFinalResp.setText("");
 //						direccionResp.setText("");
 //						contactoResp.setText("");
 //						relacionResp.setText("");
@@ -818,9 +821,42 @@ public class RentasView {
 		botonVacio.setBounds(85, 482, 380, 50);
 		panelAzul.add(botonVacio);
 		
-		JButton botonCrear = new JButton();
+		JButton botonCrear = new JButton(); ////////////////////////////////////////////////////////
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				model = new RentasModel();
+				
+				String idC = idClienteResp.getText();
+				String fechaInicial =  fechaInicialResp.getText();
+				String fechaFinal = fechaFinalResp.getText();
+				String tarifaSeleccionada = (String) tarifasResp.getSelectedItem();
+				
+				StringBuilder seleccion = new StringBuilder();
+				 if (wifi.isSelected()) {
+	                    seleccion.append(wifi.getText()).append("\n");
+	                }
+	                if (restaurante.isSelected()) {
+	                    seleccion.append(restaurante.getText()).append("\n");
+	                }
+	                if (recreativos.isSelected()) {
+	                    seleccion.append(recreativos.getText()).append("\n");
+	                }
+	                if (lavanderia.isSelected()) {
+	                    seleccion.append(lavanderia.getText()).append("\n");
+	                }
+	                String amenidades = seleccion.toString();
+	                
+	            String costo = costoFinalResp.getText();
+	            int costoDef = 0;
+	            
+	            try {
+	            	costoDef = Integer.parseInt(costo);
+	            } catch (NumberFormatException e1) {
+	                System.out.println("Error: El valor ingresado no es un número entero válido");
+	                e1.printStackTrace();
+	            }
+	            
+	            model.crear(idC, fechaInicial, fechaFinal, tarifaSeleccionada, amenidades, costoDef);
 				pagoInicial();
 			}
 		});
@@ -849,31 +885,31 @@ public class RentasView {
 		panelInfo.add(panelito);
 		panelito.setLayout(null);
 		
-		JCheckBox wifi = new JCheckBox("Wi-Fi");
+		//JCheckBox wifi = new JCheckBox("Wi-Fi");
 		wifi.setOpaque(false);
 		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		wifi.setBounds(0, 0, 200, 31);
 		panelito.add(wifi);
 		
-		JCheckBox restaurante = new JCheckBox("Restaurante");
+		//JCheckBox restaurante = new JCheckBox("Restaurante");
 		restaurante.setOpaque(false);
 		restaurante.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		restaurante.setBounds(0, 30, 200, 31);
 		panelito.add(restaurante);
 		
-		JCheckBox recreativos = new JCheckBox("Espacios recreativos");
+		//JCheckBox recreativos = new JCheckBox("Espacios recreativos");
 		recreativos.setOpaque(false);
 		recreativos.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		recreativos.setBounds(220, 0, 200, 31);
 		panelito.add(recreativos);
 		
-		JCheckBox lavanderia = new JCheckBox("Lavandería");
+		//JCheckBox lavanderia = new JCheckBox("Lavandería");
 		lavanderia.setOpaque(false);
 		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lavanderia.setBounds(220, 30, 200, 31);
 		panelito.add(lavanderia);
 		
-		JTextField costoFinalResp = new JTextField();
+		//JTextField costoFinalResp = new JTextField();
 		costoFinalResp.setBorder(BorderFactory.createCompoundBorder(
 				costoFinalResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -884,7 +920,16 @@ public class RentasView {
 		costoFinalResp.setColumns(10);
 		costoFinalResp.setBackground(new Color(217, 217, 217));
 		
-		JComboBox tarifasResp = new JComboBox();
+		model = new RentasModel();
+		List<String> tarifas1 = model.obtenerNombresDeTarifas();
+		
+		
+		for(String tarifa : tarifas1)
+		{
+			tarifasResp.addItem(tarifa);
+		}
+		
+		//JComboBox tarifasResp = new JComboBox();
 		tarifasResp.setBackground(new Color(217, 217, 217));
 		tarifasResp.setBounds(35, 329, 420, 25);
 		panelInfo.add(tarifasResp);
@@ -1280,7 +1325,7 @@ public class RentasView {
 		idRentaLbl.setBounds(20, 11, 354, 29);
 		panelInfo.add(idRentaLbl);
 		
-		JTextField infoIdRenta = new JTextField("271873");
+		//JTextField infoIdRenta = new JTextField("271873");
 		infoIdRenta.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoIdRenta.setBorder(BorderFactory.createCompoundBorder(
 				infoIdRenta.getBorder(),
@@ -1297,7 +1342,7 @@ public class RentasView {
 		nomCompleto.setBounds(20, 78, 354, 29);
 		panelInfo.add(nomCompleto);
 		
-		JTextField infoNombre = new JTextField("Juan Dominguez");
+		//JTextField infoNombre = new JTextField("Juan Dominguez");
 		infoNombre.setBorder(BorderFactory.createCompoundBorder(
 				infoNombre.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1315,7 +1360,7 @@ public class RentasView {
 		correoElect.setBounds(20, 143, 354, 29);
 		panelInfo.add(correoElect);
 		
-		JTextField infoCorreo = new JTextField("pepe@gmail.com");
+		//JTextField infoCorreo = new JTextField("pepe@gmail.com");
 		infoCorreo.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoCorreo.setBorder(BorderFactory.createCompoundBorder(
 				infoCorreo.getBorder(),
@@ -1334,7 +1379,7 @@ public class RentasView {
 		fechaInicial.setBounds(20, 207, 354, 29);
 		panelInfo.add(fechaInicial);
 		
-		JTextField infoFechaInicial = new JTextField("2/02/23");
+		//JTextField infoFechaInicial = new JTextField("2/02/23");
 		infoFechaInicial.setBorder(BorderFactory.createCompoundBorder(
 				infoFechaInicial.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1352,7 +1397,7 @@ public class RentasView {
 		fechaFinal.setBounds(20, 274, 354, 29);
 		panelInfo.add(fechaFinal);
 		
-		JTextField infoFechaFinal = new JTextField("12/02/23");
+		//JTextField infoFechaFinal = new JTextField("12/02/23");
 		infoFechaFinal.setBorder(BorderFactory.createCompoundBorder(
 				infoFechaFinal.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1391,7 +1436,7 @@ public class RentasView {
 		panelInfo.add(amenidades);
 		
 		
-		JTextArea infoAmenidades = new JTextArea("laslas");
+		//JTextArea infoAmenidades = new JTextArea("laslas");
 		infoAmenidades.setBorder(BorderFactory.createCompoundBorder(
 				infoAmenidades.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1411,7 +1456,7 @@ public class RentasView {
 		panelInfo.add(subtotal);
 		
 		
-		JTextField infoSubtotal = new JTextField("2133");
+		//JTextField infoSubtotal = new JTextField("2133");
 		infoSubtotal.setBorder(BorderFactory.createCompoundBorder(
 				infoSubtotal.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1430,7 +1475,7 @@ public class RentasView {
 		panelInfo.add(total);
 		
 		
-		JTextField infoTotal = new JTextField("2671");
+		//JTextField infoTotal = new JTextField("2671");
 		infoTotal.setBorder(BorderFactory.createCompoundBorder(
 				infoTotal.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1449,7 +1494,7 @@ public class RentasView {
 		panelInfo.add(estatus);
 		
 		
-		JTextField infoEstatus = new JTextField("En hospedaje");
+		//JTextField infoEstatus = new JTextField("En hospedaje");
 		infoEstatus.setBorder(BorderFactory.createCompoundBorder(
 				infoEstatus.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -2740,8 +2785,9 @@ public class RentasView {
 		cambio.setBounds(20, 185, 100, 35);
 		panelDinero.add(cambio);
 		
+		String monto1 = costoFinalResp.getText(); /////////////////////////////
 		//Salida de datos sobre el monto
-		JTextField infoMonto = new JTextField("271873");
+		JTextField infoMonto = new JTextField(monto1);
 		infoMonto.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoMonto.setBorder(BorderFactory.createCompoundBorder(
 				infoMonto.getBorder(),
@@ -3052,7 +3098,7 @@ public class RentasView {
 		emergente.revalidate();
 		emergente.setSize( 560, 290);
 		String[] dias = new String[31];
-        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        String[] meses = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
         String[] años = new String[80]; 
         
         for (int i = 0; i < 31; i++) {
@@ -3152,7 +3198,7 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Aceptar");
-				String fechaNacimiento = (String) comboDias.getSelectedItem() + "/" + (String) comboMes.getSelectedItem() + "/" + (String) comboAño.getSelectedItem();
+				String fechaNacimiento = (String) comboAño.getSelectedItem() + "-" + (String) comboMes.getSelectedItem() + "-" + (String) comboDias.getSelectedItem();
 				 if(opcion==1)
 			        {
 					 fechaInicialResp.setText(fechaNacimiento);
@@ -3581,7 +3627,7 @@ public class RentasView {
 	}
 	
 	
-	public void seleccion()
+	public void seleccion() 
 	{
 		emergente.getContentPane().removeAll();
 		emergente.repaint();
@@ -3639,6 +3685,51 @@ public class RentasView {
 	    emergente.setVisible(true);;
 		
 	}
+	
+	public JTextField getId() {	
+        return infoIdRenta;		
+    }
+
+	
+	public JTextField getNombre() {
+        return infoNombre;
+    }
+	
+	public JTextField getCorreo() {
+        return infoCorreo;
+    }
+	
+	public JTextField getFecha1() {
+        return infoFechaInicial;
+    }
+	
+	public JTextField getFecha2()
+	{
+		return infoFechaFinal;
+	}
+	
+	public JTextField getTarifasD()
+	{
+		return infoNomEmerg;
+	}
+	
+	public JTextArea getAmenidades()
+	{
+		return infoAmenidades;
+	}
+	
+	public JTextField getSubtotal() {
+        return infoSubtotal;
+    }
+ 
+	 public JTextField getTotal()
+	 {
+		 return infoTotal;
+	 }
+	 
+	 public JTextField getEstatus() {
+		    return infoEstatus;
+		}
 	
 	
 }

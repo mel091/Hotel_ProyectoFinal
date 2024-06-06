@@ -307,26 +307,26 @@ public class HabitacionesModel {
 	        table.setWidthPercentage(100);
 	        
 	        String[] datos = {
-		            "ID", "Nombre", "Tipo", "Tamaño", "Descripción",
-		            "Solicitudes", "Tarifas", "Costo"
-		        };
+	            "ID", "Nombre", "Tipo", "Tamaño", "Descripción",
+	            "Solicitudes", "Tarifas", "Costo"
+	        };
 
 	        try {
 	            Connection cn = Conexion.conectar();
-	            PreparedStatement pst = cn.prepareStatement("SELECT * FROM habitacion WHERE idCliente = ?");
+	            PreparedStatement pst = cn.prepareStatement("SELECT * FROM habitaciones WHERE idHabitacion = ?");
 	            pst.setString(1, id);
 
 	            ResultSet rs = pst.executeQuery();
 
 	            if (rs.next()) {
-	                
-	            	for (int i = 0; i < datos.length; i++) {
-	            	    PdfPCell datosR = new PdfPCell(new Phrase(datos[i]));
-	            	    datosR.setBackgroundColor(new BaseColor(168, 203, 248));
-	            	    table.addCell(datosR);
-	            	    PdfPCell dataCell = new PdfPCell(new Phrase(rs.getString(i + 1)));
-	            	    table.addCell(dataCell);
-	            	}	               
+	                // Iterar sobre los datos y agregarlos a la tabla
+	                for (String dato : datos) {
+	                    PdfPCell datosR = new PdfPCell(new Phrase(dato));
+	                    datosR.setBackgroundColor(new BaseColor(168, 203, 248));
+	                    table.addCell(datosR);
+	                    PdfPCell dataCell = new PdfPCell(new Phrase(rs.getString(dato)));
+	                    table.addCell(dataCell);
+	                }               
 	            }
 
 	            rs.close();
@@ -349,6 +349,7 @@ public class HabitacionesModel {
 	        //view.docError();
 	    }
 	}
+
 	
 	public String subirImg() {
 	    fc = new JFileChooser();
