@@ -46,7 +46,7 @@ public class RentasModel
 		try {
 			Connection cn = Conexion.conectar();
 			PreparedStatement pst = cn.prepareStatement("select rentas.idRenta, clientes.nombreCompleto, clientes.correo, rentas.fecha_inicial, "
-					+ "rentas.fecha_final, rentas.tarifas, rentas.solicitudes, rentas.subtotal, rentas.estatus AS estatus_renta from rentas join clientes on rentas.idCliente = clientes.idCliente where rentas.idRenta = ?");
+					+ "rentas.fecha_final, rentas.tarifas, rentas.solicitudes, rentas.subtotal, rentas.total, rentas.estatus AS estatus_renta from rentas join clientes on rentas.idCliente = clientes.idCliente where rentas.idRenta = ?");
 			pst.setString(1, id);
 		
 			ResultSet rs = pst.executeQuery();
@@ -61,7 +61,7 @@ public class RentasModel
 				rs.getString("tarifas");
 				rs.getString("solicitudes");
 				rs.getString("subtotal");
-				rs.getString("subtotal");
+				rs.getString("total");
 				rs.getString("estatus_renta");
 				
 				 if (id != null) {
@@ -73,8 +73,8 @@ public class RentasModel
 	                    f2.setText(rs.getString("fecha_final"));
 	                    tarifasD.setText(rs.getString("tarifas"));
 	                    amenidades.setText(rs.getString("solicitudes"));
-	                    subtotal.setText(rs.getString("subtotal"));
-	                    total.setText(rs.getString("subtotal"));
+	                    subtotal.setText(rs.getString("total"));
+	                    total.setText(rs.getString("total"));
 	                    estatusD.setText(rs.getString("estatus_renta"));
 	
 				 }
@@ -162,7 +162,7 @@ public class RentasModel
 		try 
 		{
 			Connection cn = Conexion.conectar();
-			PreparedStatement pst = cn.prepareStatement("insert into rentas (idRenta, idCliente, fecha_inicial, fecha_final, tarifas, solicitudes, costo_final, estatus)"
+			PreparedStatement pst = cn.prepareStatement("insert into rentas (idRenta, idCliente, fecha_inicial, fecha_final, tarifas, solicitudes, total, estatus)"
 					+ "  values(?, ?, ?, ?, ?, ?, ?,?)"); //signos = num columnas
 	
 			pst.setString(1, "0");

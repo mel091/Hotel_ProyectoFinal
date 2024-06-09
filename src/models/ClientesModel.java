@@ -284,7 +284,7 @@ public class ClientesModel
 		
 		try {
 			Connection cn = Conexion.conectar();
-			PreparedStatement pst = cn.prepareStatement("select rentas.idRenta, rentas.fecha_inicial, rentas.fecha_final, rentas.costo_final, "
+			PreparedStatement pst = cn.prepareStatement("select rentas.idRenta, rentas.fecha_inicial, rentas.fecha_final, rentas.total, "
 					+ "rentas.estatus AS estatus_reserva, clientes.estatus AS estatus_cliente from rentas join clientes on rentas.idCliente = clientes.idCliente where clientes.idCliente = ?");
 			pst.setString(1, id);
 			ResultSet rs = pst.executeQuery();
@@ -295,7 +295,7 @@ public class ClientesModel
 				 fila[0] = rs.getString("idRenta");
 		         fila[1] = rs.getString("fecha_inicial");
 		         fila[2] = rs.getString("fecha_final");
-		         fila[3] = rs.getString("costo_final");
+		         fila[3] = rs.getString("total");
 		         fila[4] = rs.getString("estatus_reserva");
 		         fila[5] = rs.getString("estatus_cliente");
 				

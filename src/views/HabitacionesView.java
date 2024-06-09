@@ -58,7 +58,7 @@ public class HabitacionesView {
 	
 	private ArrayList<String> HabitacionIds;
 	public JComboBox <String> tipoResp = new JComboBox <String>();
-	String[] tiposHab = {"Estándar", "Habitación doble", "Suite"};
+	String[] tiposHab = {"Tarifa vacacional", "Tarifa Estándar", "Tarifa corporativa"};
 	private int indexActual;
 	
 	public TarifasController tarifa;
@@ -2026,7 +2026,7 @@ public class HabitacionesView {
 		telResp.setBounds(35, 214, 420, 25);
 		panelInfo.add(telResp);
 		
-		JLabel descripcion = new JLabel("Dirección");
+		JLabel descripcion = new JLabel("Descripción");
 		descripcion.setForeground(Color.BLACK);
 		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
 		descripcion.setBounds(35, 244, 109, 46);
@@ -2059,8 +2059,7 @@ public class HabitacionesView {
 		panel.setBounds(581, 185, 420, 60);
 		panelInfo.add(panel);
 		panel.setLayout(null);
-		
-		
+
 		wifi.setOpaque(false);
 		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		wifi.setBounds(0, 0, 200, 31);
@@ -2098,7 +2097,6 @@ public class HabitacionesView {
 		scrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollBar.setBounds(581, 290, 420, 75);
 		panelInfo.add(scrollBar);
-		
 		
 		tipoResp = new JComboBox<>(tiposHab); //////////////////////////////////////
 		tipoResp.addActionListener(new ActionListener()

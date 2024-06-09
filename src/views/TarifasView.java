@@ -760,6 +760,7 @@ public class TarifasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Fecha inicial");
+				fechas(1);
 			}
 		});
 		fechaInicialBtn.setBounds(395, 132, 60, 25);
@@ -775,6 +776,7 @@ public class TarifasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Fecha final");
+				fechas(2);
 			}
 		});
 		fechaFinalBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/fecha.png")));
