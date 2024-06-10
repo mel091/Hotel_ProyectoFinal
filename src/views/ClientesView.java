@@ -86,6 +86,7 @@ public class ClientesView {
 	JTextArea infoAdResp  = new JTextArea("");
 	JLabel nombreCliente = new JLabel("");
 	
+	JButton subirBtn= new JButton();
 	private ArrayList<String> clienteIds;
 	private int indexActual;
 	
@@ -99,7 +100,8 @@ public class ClientesView {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+		ImageIcon icono = new ImageIcon(getClass().getResource("/contenido/castleIcon2.png"));
+		frame.setIconImage(icono.getImage());
 		emergente=new JDialog(frame,"Emergente", true);
 		emergente.setSize( 560, 290);
 		emergente.setResizable(false);
@@ -416,8 +418,9 @@ public class ClientesView {
 		    	    view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles(), view.getPanelImg());
 		    	    
 		    	    frame.dispose();
-		    	    
 		    	    model.mostrarDetalles(idCliente);
+		    	    panelImagen.repaint();
+		    		panelImagen.revalidate();
 		    	    view.detalles();
 		    	   
 		    	} else {
@@ -731,7 +734,7 @@ public class ClientesView {
 		panelAzul.add(panelInfo);
 		panelInfo.setLayout(null);
 		
-		JButton subirBtn= new JButton();
+		
 		subirBtn.setFont(new Font("Palatino Linotype", Font.BOLD, 28));
 		subirBtn.setForeground(new Color(255, 255, 255));
 		subirBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/subirCliente.png")));
@@ -895,15 +898,8 @@ public class ClientesView {
 		JButton botonVacio = new JButton();
 		botonVacio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				nombreResp.setText("");
-				correoResp.setText("");
-				telResp.setText("");
-				direccionResp.setText("");
-				contactoResp.setText("");
-				relacionResp.setText("");
-				noContactoResp.setText("");
-				infoAdResp.setText("");
-				eleccion();
+				
+				eleccion(1);
 			}
 		});
 		botonVacio.setBorderPainted(false);
@@ -915,6 +911,8 @@ public class ClientesView {
 		JButton botonCrear = new JButton();
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int contadorErrores = 0;
+				int contadorVacios = 0;
 				String nombre = nombreResp.getText();
 				String correo = correoResp.getText();
 				String tel = telResp.getText();
@@ -923,9 +921,11 @@ public class ClientesView {
 				String relacion = relacionResp.getText();
 				String telEmergencia = noContactoResp.getText();
 				String info = infoAdResp.getText();
-				
+				String email = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 				InputStream img = model.getImagen();
+				String soloLetras = "^[a-zA-Z\\s]+$";
 				model = new ClientesModel();
+
 				if(path != null)
 				{
 					imgB = model.imageToBlob(path);
@@ -935,8 +935,63 @@ public class ClientesView {
 					System.out.println("Path no existe");
 				}
 				
-				model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, imgB);
-				exito();
+				//validación
+				
+			    // Validar vacios
+			    if (tel.equals("") || correo.equals("") || telEmergencia.equals("") || nombre.equals("") || dir.equals("") || contactoEmergencia.equals("") || relacion.equals("") || info.equals("")) {
+			    	contadorVacios=1;
+			        telResp.setBorder(BorderFactory.createLineBorder(tel.equals("") ? Color.red : Color.green, 2));
+			        correoResp.setBorder(BorderFactory.createLineBorder(correo.equals("") ? Color.red : Color.green, 2));
+			        noContactoResp.setBorder(BorderFactory.createLineBorder(telEmergencia.equals("") ? Color.red: Color.green, 2));
+			        nombreResp.setBorder(BorderFactory.createLineBorder(nombre.equals("") ? Color.red : Color.green, 2));
+			        direccionResp.setBorder(BorderFactory.createLineBorder(dir.equals("") ? Color.red : Color.green, 2));
+			        contactoResp.setBorder(BorderFactory.createLineBorder(contactoEmergencia.equals("") ? Color.red : Color.green, 2));
+			        relacionResp.setBorder(BorderFactory.createLineBorder(relacion.equals("") ? Color.red : Color.green, 2));
+			        infoAdResp.setBorder(BorderFactory.createLineBorder(info.equals("") ? Color.red : Color.green, 2));
+			       
+			    }
+			    if (tel.length() > 10 || !tel.matches("\\d+")) {
+			        
+			        telResp.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+			        contadorErrores++;
+			    
+			    }
+			    if (!correo.matches(email)) {	       
+			       
+			        correoResp.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+			        contadorErrores++;
+				    
+			    }
+			    if (telEmergencia.length() > 10 || !telEmergencia.matches("\\d+")) {
+				    
+			        
+			        noContactoResp.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+			        contadorErrores++;
+				    
+			    
+			    }
+			    if (!nombre.matches(soloLetras)) {
+				    
+			        
+			        noContactoResp.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+			        contadorErrores++;
+			    }	
+
+			    
+			    if (contadorErrores > 0) {
+			        datosNoValidos();
+			    }
+
+			    if (contadorVacios > 0) {
+			        campoVacio();
+			    }
+
+			    
+			    if (contadorErrores == 0 && contadorVacios == 0) {
+			        model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, imgB);
+			        exito();
+			    }	
+
 				
 			}
 		});
@@ -1340,8 +1395,13 @@ public class ClientesView {
 		
 		
 		panelImagen.setBounds(20, 20, 472, 291);
-		panel.add(panelImagen);
 		panelImagen.setLayout(null);
+		panelImagen.setOpaque(true); 
+		panelImagen.setBackground(Color.red);
+		panelImagen.repaint();
+		panelImagen.revalidate();
+		
+		panel.add(panelImagen);
 		panelInfo.setLayout(null);
 		
 		JLabel idCliente = new JLabel("ID del cliente");
@@ -2355,7 +2415,7 @@ public class ClientesView {
 		
 	}
 	
-	public void eleccion()
+	public void eleccion(int eleccion)
 	{
 		emergente.getContentPane().removeAll();
 		emergente.repaint();
@@ -2410,7 +2470,32 @@ public class ClientesView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Aceptar");
-				emergente.dispose();
+				if(eleccion==1)
+				{
+					nombreResp.setText("");
+					correoResp.setText("");
+					telResp.setText("");
+					direccionResp.setText("");
+					contactoResp.setText("");
+					relacionResp.setText("");
+					noContactoResp.setText("");
+					infoAdResp.setText("");
+					emergente.dispose();
+					emergente.dispose();
+					subirBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/subirHab.png")));
+			        subirBtn.setEnabled(true);
+			        subirBtn.repaint();
+			        subirBtn.revalidate();
+				}
+				else
+				{
+					if(eleccion==2)
+					{
+						System.out.println("Pa eliminar el cliente");
+						emergente.dispose();
+					}
+				}
+				
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));

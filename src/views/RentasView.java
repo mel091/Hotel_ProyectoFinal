@@ -53,7 +53,7 @@ public class RentasView {
 	public ClientesController cliente;
 	public JTextField fechaInicialResp;
 	public JTextField fechaFinalResp;
-	
+	JTextField idClienteResp = new JTextField();
 	private int cambio1; /////////////////////////////////
 	
 	private String idRenta;
@@ -65,7 +65,7 @@ public class RentasView {
 	JCheckBox lavanderia = new JCheckBox("Lavandería");
 	JTextField costoFinalResp = new JTextField();
 	JTextField infoCambio = new JTextField();
-	
+	public JPanel panelMovil;
 	JTextField infoIdRenta = new JTextField();
 	JTextField infoNombre = new JTextField();
 	JTextField infoCorreo = new JTextField();
@@ -83,7 +83,8 @@ public class RentasView {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+		ImageIcon icono = new ImageIcon(getClass().getResource("/contenido/castleIcon2.png"));
+		frame.setIconImage(icono.getImage());
 		emergente=new JDialog(frame,"Emergente", true);
 		emergente.setSize( 560, 290);
 		emergente.setResizable(false);
@@ -712,9 +713,7 @@ public class RentasView {
 		idCliente.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
 		idCliente.setBounds(35, 21, 327, 46);
 		panelInfo.add(idCliente);
-		
 	
-		JTextField idClienteResp = new JTextField();
 		idClienteResp.setBorder(BorderFactory.createCompoundBorder(
 				idClienteResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -805,14 +804,7 @@ public class RentasView {
 		JButton botonVacio = new JButton();
 		botonVacio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				idClienteResp.setText("");
-//				fechaInicialResp.setText("");
-//				fechaFinalResp.setText("");
-//						direccionResp.setText("");
-//						contactoResp.setText("");
-//						relacionResp.setText("");
-//						noContactoResp.setText("");
-//						infoAdResp.setText("");
+				eleccion(1);
 			}
 		});
 		botonVacio.setBorderPainted(false);
@@ -2144,6 +2136,7 @@ public class RentasView {
 		frame.repaint();
 		frame.revalidate();
 	}
+
 	public void rentasPrincipal()
 	{
 		frame.getContentPane().removeAll();
@@ -2398,275 +2391,23 @@ public class RentasView {
 		panelCentral.setBounds(150,110,1175, 560);
 		panelCentral.setLayout(null);
 		panelPrincipal.add(panelCentral);
+
+		panelMovil = new JPanel();
+		panelMovil.setOpaque(false);
+		panelMovil.setLayout(null);
 		
-		JPanel habi1 = new JPanel();
-		habi1.setBackground(new Color(0, 72, 103));
-		habi1.setBounds(28, 26, 1120, 144);
-		panelCentral.add(habi1);
-		habi1.setLayout(null);
+		//createCenterPanel(); 
+		panelMovil.repaint();
+		panelMovil.revalidate();
 		
-		JLabel labelImagen = new JLabel("");
-		labelImagen.setOpaque(true);
-		labelImagen.setBackground(new Color(214, 252, 254));
-		labelImagen.setBounds(10, 11, 257, 122);
-		habi1.add(labelImagen);
-		
-		JPanel infopan = new JPanel();
-		infopan.setBackground(new Color(255, 255, 255));
-		infopan.setBounds(277, 11, 833, 122);
-		habi1.add(infopan);
-		infopan.setLayout(null);
-		
-		JLabel nomHabitacion = new JLabel("Nombre de la habitación");
-		nomHabitacion.setHorizontalAlignment(SwingConstants.LEFT);
-		nomHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		nomHabitacion.setBounds(10, 8, 343, 35);
-		infopan.add(nomHabitacion);
-		
-		JLabel tipoHabitacion = new JLabel("Tipo de habitación");
-		tipoHabitacion.setHorizontalAlignment(SwingConstants.LEFT);
-		tipoHabitacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
-		tipoHabitacion.setBounds(10, 37, 343, 35);
-		infopan.add(tipoHabitacion);
-		
-		JLabel tamaño = new JLabel("Tamaño");
-		tamaño.setHorizontalAlignment(SwingConstants.LEFT);
-		tamaño.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
-		tamaño.setBounds(10, 64, 343, 35);
-		infopan.add(tamaño);
-		
-		JLabel desc = new JLabel("Descripción");
-		desc.setHorizontalAlignment(SwingConstants.LEFT);
-		desc.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
-		desc.setBounds(10, 95, 343, 29);
-		infopan.add(desc);
-		
-		JLabel desde = new JLabel("Desde");
-		desde.setHorizontalAlignment(SwingConstants.LEFT);
-		desde.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		desde.setBounds(763, 9, 49, 35);
-		infopan.add(desde);
-		
-		JLabel desde_1 = new JLabel("$");
-		desde_1.setHorizontalAlignment(SwingConstants.LEFT);
-		desde_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		desde_1.setBounds(655, 37, 18, 35);
-		infopan.add(desde_1);
-		
-		JLabel cantidad = new JLabel("000.00");
-		cantidad.setHorizontalAlignment(SwingConstants.LEFT);
-		cantidad.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		cantidad.setBounds(668, 45, 104, 47);
-		infopan.add(cantidad);
-		
-		JLabel usd = new JLabel("USD");
-		usd.setHorizontalAlignment(SwingConstants.LEFT);
-		usd.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		usd.setBounds(773, 53, 39, 35);
-		infopan.add(usd);
-		
-		JLabel leyenda = new JLabel("por noche, incluidos los impuestos");
-		leyenda.setHorizontalAlignment(SwingConstants.LEFT);
-		leyenda.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		leyenda.setBounds(583, 89, 250, 35);
-		infopan.add(leyenda);
-		
-		
-		
-		JPanel habi2 = new JPanel();
-		habi2.setLayout(null);
-		habi2.setBackground(new Color(0, 72, 103));
-		habi2.setBounds(28, 208, 1120, 144);
-		panelCentral.add(habi2);
-		
-		JLabel labelImagen_1 = new JLabel("");
-		labelImagen_1.setOpaque(true);
-		labelImagen_1.setBackground(new Color(214, 252, 254));
-		labelImagen_1.setBounds(10, 11, 257, 122);
-		habi2.add(labelImagen_1);
-		
-		JPanel panelConInfo_1 = new JPanel();
-		panelConInfo_1.setLayout(null);
-		panelConInfo_1.setBackground(Color.WHITE);
-		panelConInfo_1.setBounds(277, 11, 833, 122);
-		habi2.add(panelConInfo_1);
-		
-		JLabel nomHabitacion_1 = new JLabel("Nombre de la habitación");
-		nomHabitacion_1.setHorizontalAlignment(SwingConstants.LEFT);
-		nomHabitacion_1.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		nomHabitacion_1.setBounds(10, 8, 343, 35);
-		panelConInfo_1.add(nomHabitacion_1);
-		
-		JLabel tipoHabitacion_1 = new JLabel("Tipo de habitación");
-		tipoHabitacion_1.setHorizontalAlignment(SwingConstants.LEFT);
-		tipoHabitacion_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
-		tipoHabitacion_1.setBounds(10, 37, 343, 35);
-		panelConInfo_1.add(tipoHabitacion_1);
-		
-		JLabel tamaño_1 = new JLabel("Tamaño");
-		tamaño_1.setHorizontalAlignment(SwingConstants.LEFT);
-		tamaño_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
-		tamaño_1.setBounds(10, 64, 343, 35);
-		panelConInfo_1.add(tamaño_1);
-		
-		JLabel desc_1 = new JLabel("Descripción");
-		desc_1.setHorizontalAlignment(SwingConstants.LEFT);
-		desc_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
-		desc_1.setBounds(10, 95, 343, 29);
-		panelConInfo_1.add(desc_1);
-		
-		JLabel desde_2 = new JLabel("Desde");
-		desde_2.setHorizontalAlignment(SwingConstants.LEFT);
-		desde_2.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		desde_2.setBounds(763, 9, 49, 35);
-		panelConInfo_1.add(desde_2);
-		
-		JLabel desde_1_1 = new JLabel("$");
-		desde_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		desde_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		desde_1_1.setBounds(655, 37, 18, 35);
-		panelConInfo_1.add(desde_1_1);
-		
-		JLabel cantidad_1 = new JLabel("000.00");
-		cantidad_1.setHorizontalAlignment(SwingConstants.LEFT);
-		cantidad_1.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		cantidad_1.setBounds(668, 45, 104, 47);
-		panelConInfo_1.add(cantidad_1);
-		
-		JLabel usd_1 = new JLabel("USD");
-		usd_1.setHorizontalAlignment(SwingConstants.LEFT);
-		usd_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		usd_1.setBounds(773, 53, 39, 35);
-		panelConInfo_1.add(usd_1);
-		
-		JLabel leyenda_1 = new JLabel("por noche, incluidos los impuestos");
-		leyenda_1.setHorizontalAlignment(SwingConstants.LEFT);
-		leyenda_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		leyenda_1.setBounds(583, 89, 250, 35);
-		panelConInfo_1.add(leyenda_1);
-		
-		JPanel habi3 = new JPanel();
-		habi3.setLayout(null);
-		habi3.setBackground(new Color(0, 72, 103));
-		habi3.setBounds(28, 388, 1120, 144);
-		panelCentral.add(habi3);
-		
-		JLabel labelImagen_1_1 = new JLabel("");
-		labelImagen_1_1.setOpaque(true);
-		labelImagen_1_1.setBackground(new Color(214, 252, 254));
-		labelImagen_1_1.setBounds(10, 11, 257, 122);
-		habi3.add(labelImagen_1_1);
-		
-		JPanel panelConInfo_1_1 = new JPanel();
-		panelConInfo_1_1.setLayout(null);
-		panelConInfo_1_1.setBackground(Color.WHITE);
-		panelConInfo_1_1.setBounds(277, 11, 833, 122);
-		habi3.add(panelConInfo_1_1);
-		
-		JLabel nomHabitacion_1_1 = new JLabel("Nombre de la habitación");
-		nomHabitacion_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		nomHabitacion_1_1.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		nomHabitacion_1_1.setBounds(10, 8, 343, 35);
-		panelConInfo_1_1.add(nomHabitacion_1_1);
-		
-		JLabel tipoHabitacion_1_1 = new JLabel("Tipo de habitación");
-		tipoHabitacion_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		tipoHabitacion_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
-		tipoHabitacion_1_1.setBounds(10, 37, 343, 35);
-		panelConInfo_1_1.add(tipoHabitacion_1_1);
-		
-		JLabel tamaño_1_1 = new JLabel("Tamaño");
-		tamaño_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		tamaño_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
-		tamaño_1_1.setBounds(10, 64, 343, 35);
-		panelConInfo_1_1.add(tamaño_1_1);
-		
-		JLabel desc_1_1 = new JLabel("Descripción");
-		desc_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		desc_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 20));
-		desc_1_1.setBounds(10, 95, 343, 29);
-		panelConInfo_1_1.add(desc_1_1);
-		
-		JLabel desde_2_1 = new JLabel("Desde");
-		desde_2_1.setHorizontalAlignment(SwingConstants.LEFT);
-		desde_2_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		desde_2_1.setBounds(763, 9, 49, 35);
-		panelConInfo_1_1.add(desde_2_1);
-		
-		JLabel desde_1_1_1 = new JLabel("$");
-		desde_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		desde_1_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		desde_1_1_1.setBounds(655, 37, 18, 35);
-		panelConInfo_1_1.add(desde_1_1_1);
-		
-		JLabel cantidad_1_1 = new JLabel("000.00");
-		cantidad_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		cantidad_1_1.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		cantidad_1_1.setBounds(668, 45, 104, 47);
-		panelConInfo_1_1.add(cantidad_1_1);
-		
-		JLabel usd_1_1 = new JLabel("USD");
-		usd_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		usd_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		usd_1_1.setBounds(773, 53, 39, 35);
-		panelConInfo_1_1.add(usd_1_1);
-		
-		JLabel leyenda_1_1 = new JLabel("por noche, incluidos los impuestos");
-		leyenda_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		leyenda_1_1.setFont(new Font("Palatino Linotype", Font.PLAIN, 15));
-		leyenda_1_1.setBounds(583, 89, 250, 35);
-		panelConInfo_1_1.add(leyenda_1_1);
-		
-		JButton btnHab1 = new JButton();
-		btnHab1.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("hab1");
-				frame.dispose();
-				renta = new RentasController();
-				renta.crear();
-			}
-		});
-		btnHab1.setBounds(28, 26, 1120, 144);
-		btnHab1.setBorderPainted(false);
-		btnHab1.setContentAreaFilled(false);
-		panelCentral.add(btnHab1);
-		
-		JButton btnHab2 = new JButton();
-		btnHab2.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("hab2");
-				frame.dispose();
-				renta = new RentasController();
-				renta.crear();
-			}
-		});
-		btnHab2.setBounds(28, 208, 1120, 144);
-		btnHab2.setBorderPainted(false);
-		btnHab2.setContentAreaFilled(false);
-		panelCentral.add(btnHab2);
-		
-		JButton btnHab3 = new JButton();
-		btnHab3.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("hab3");
-				frame.dispose();
-				renta = new RentasController();
-				renta.crear();
-			}
-		});
-		btnHab3.setBounds(28, 388, 1120, 144);
-		btnHab3.setBorderPainted(false);
-		btnHab3.setContentAreaFilled(false);
-		panelCentral.add(btnHab3);
+		JScrollPane scrollPane = new JScrollPane(panelMovil);
+		scrollPane.setBounds(0, 0, 1175, 575);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+		//scrollPane.setVerticalScrollBar(null);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		panelCentral.add(scrollPane);
 		
 		frame.getContentPane().add(panelPrincipal);
 		frame.setVisible(true);
@@ -3543,7 +3284,7 @@ public class RentasView {
 	}
 	
 	
-	public void eleccion()
+	public void eleccion(int eleccion)
 	{
 		emergente.getContentPane().removeAll();
 		emergente.repaint();
@@ -3599,7 +3340,26 @@ public class RentasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Aceptar");
-				emergente.dispose();
+				if(eleccion==1)
+				{
+					idClienteResp.setText("");
+					fechaInicialResp.setText("");
+					fechaFinalResp.setText("");
+					costoFinalResp.setText("");
+
+					emergente.dispose();
+					emergente.dispose();
+					
+				}
+				else
+				{
+					if(eleccion==2)
+					{
+						System.out.println("Pa eliminar el cliente");
+						emergente.dispose();
+					}
+				}
+				
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
@@ -3685,7 +3445,24 @@ public class RentasView {
 	    emergente.setVisible(true);;
 		
 	}
-	
+//	public void createCenterPanel() {
+//        ArrayList<Habitacion> rooms = HabitacionesModel.getHabitaciones();
+//        System.out.println("Número de habitaciones: " + rooms.size());
+//        int y = 26; 
+//        int yCuarto =170;
+//        for (Habitacion roomcito : rooms) 
+//        {
+//            HabitacionVIew habiView = new HabitacionVIew(roomcito,y,frame);
+//            panelMovil.add(habiView);
+//            panelMovil.repaint();
+//    		panelMovil.revalidate();
+//    		y+=yCuarto;
+//    		
+//        }
+//        int nuevaY=rooms.size()*yCuarto + 200; 
+//        panelMovil.setPreferredSize(new Dimension(1175, nuevaY));
+//        //panelMovil.setPreferredSize(new Dimension(1175, yPanel));
+//    }
 	public JTextField getId() {	
         return infoIdRenta;		
     }

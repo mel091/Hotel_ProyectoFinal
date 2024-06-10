@@ -63,6 +63,7 @@ public class TiposView {
 	JTextField serviciosResp = new JTextField();
 	JTextArea descResp = new JTextArea();
 	JTextField capResp = new JTextField();
+	JTextField capacidadResp = new JTextField();
 	
 	JLabel nombreDetalles = new JLabel("");
 	
@@ -72,7 +73,8 @@ public class TiposView {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+		ImageIcon icono = new ImageIcon(getClass().getResource("/contenido/castleIcon2.png"));
+		frame.setIconImage(icono.getImage());
 		emergente=new JDialog(frame,"Emergente", true);
 		emergente.setSize( 560, 290);
 		emergente.setResizable(false);
@@ -699,7 +701,7 @@ public class TiposView {
 		panelInfo.add(nombreTipo);
 		
 	
-		JTextField nombreHabiResp = new JTextField();
+		//JTextField nombreHabiResp = new JTextField();
 		nombreHabiResp.setBorder(BorderFactory.createCompoundBorder(
 				nombreHabiResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -722,7 +724,7 @@ public class TiposView {
 		serviciosInclu.setBounds(35, 285, 216, 46);
 		panelInfo.add(serviciosInclu);
 		
-		JTextField serviciosResp = new JTextField();
+		//JTextField serviciosResp = new JTextField();
 		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
 				serviciosResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -739,12 +741,12 @@ public class TiposView {
 		descripcion.setBounds(35, 95, 160, 46);
 		panelInfo.add(descripcion);
 		
-		JTextArea descResp = new JTextArea();
+		//JTextArea descResp = new JTextArea();
 		descResp.setBackground(new Color(217, 217, 217));
 		descResp.setBounds(35, 133, 420, 60);
 		panelInfo.add(descResp);
 		
-		JTextField capacidadResp = new JTextField();
+		//JTextField capacidadResp = new JTextField();
 		capacidadResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		capacidadResp.setColumns(10);
 		capacidadResp.setBackground(new Color(217, 217, 217));
@@ -754,14 +756,7 @@ public class TiposView {
 		JButton botonVacio = new JButton();
 		botonVacio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				nombreHabiResp.setText("");
-//				tipoResp.setText("");
-//				telResp.setText("");
-//				direccionResp.setText("");
-//				contactoResp.setText("");
-//				relacionResp.setText("");
-//				noContactoResp.setText("");
-//				infoAdResp.setText("");
+				eleccion(1);
 			}
 		});
 		botonVacio.setBorderPainted(false);
@@ -840,29 +835,7 @@ public class TiposView {
 			tarifaPanel.add(checkBox);
 		}
 		
-//		JCheckBox tari1 = new JCheckBox("Tarifa #1");
-//		tari1.setBounds(6, 7, 200, 31);
-//		tarifaPanel.add(tari1);
-//		tari1.setOpaque(false);
-//		tari1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-//		
-//		JCheckBox tarifa2 = new JCheckBox("Tarifa #2");
-//		tarifa2.setBounds(6, 35, 200, 31);
-//		tarifaPanel.add(tarifa2);
-//		tarifa2.setOpaque(false);
-//		tarifa2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-//		
-//		JCheckBox tarifa3 = new JCheckBox("Tarifa #3");
-//		tarifa3.setBounds(195, 7, 200, 31);
-//		tarifaPanel.add(tarifa3);
-//		tarifa3.setOpaque(false);
-//		tarifa3.setFont(new Font("Tahoma", Font.PLAIN, 18));
-//		
-//		JCheckBox tarifa4 = new JCheckBox("Tarifa #4");
-//		tarifa4.setBounds(195, 35, 200, 31);
-//		tarifaPanel.add(tarifa4);
-//		tarifa4.setOpaque(false);
-//		tarifa4.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(217, 217, 217));
@@ -914,6 +887,7 @@ public class TiposView {
 		frame.revalidate();
 			
 	}	
+	
 	public void detalles()
 	{
 		frame.getContentPane().removeAll();
@@ -1722,34 +1696,7 @@ public class TiposView {
 		regresarBtn.setContentAreaFilled(false);
 		regresarBtn.setBounds(33, 8, 80, 80);
 		panelAzul.add(regresarBtn);
-		
-//		JPanel panelCentral=new JPanel()
-//		{
-//			@Override
-//			public void paintComponent(Graphics create) {
-//				super.paintComponent(create);
-//				Graphics2D g2d = (Graphics2D) create;
-//				try {
-//					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/centralDegradado.jpg"));
-//					g2d.drawImage(image, 0,0, 1174, 560, null);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		};
-//		panelCentral.setBounds(150,111,1175, 560);
-//		panelCentral.setLayout(null);
-//		panelEditar.add(panelCentral);
-//	
-//		//Titulo del panel central
-//		JLabel editarTipoHabi = new JLabel("Editar tipo de habitacion");
-//		editarTipoHabi.setForeground(new Color(0, 0, 0));
-//		editarTipoHabi.setFont(new Font("Palatino Linotype", Font.BOLD, 35));
-//		editarTipoHabi.setBounds(345, 34, 465, 65);
-//		panelCentral.add(editarTipoHabi);
-//		
 
-	
 		frame.getContentPane().add(panelEditar);
 		frame.setVisible(true);
 		frame.repaint();
@@ -1934,7 +1881,7 @@ public class TiposView {
 	    emergente.setVisible(true);;
 		
 	}
-	public void eleccion()
+	public void eleccion(int eleccion)
 	{
 		emergente.getContentPane().removeAll();
 		emergente.repaint();
@@ -1990,7 +1937,26 @@ public class TiposView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Aceptar");
-				emergente.dispose();
+				if(eleccion==1)
+				{
+					nombreHabiResp.setText("");
+					descResp.setText("");
+					capacidadResp.setText("");
+					serviciosResp.setText("");
+				
+
+					emergente.dispose();
+					emergente.dispose();
+					
+				}
+				else
+				{
+					if(eleccion==2)
+					{
+						System.out.println("Pa eliminar el cliente");
+						emergente.dispose();
+					}
+				}emergente.dispose();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
@@ -2016,6 +1982,7 @@ public class TiposView {
 	    emergente.setVisible(true);;
 		
 	}
+	
 	public void campoVacio()
 	{
 		emergente.getContentPane().removeAll();

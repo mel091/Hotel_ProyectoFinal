@@ -42,7 +42,8 @@ public class AuthView
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		ImageIcon icono = new ImageIcon(getClass().getResource("/contenido/castleIcon2.png"));
+		frame.setIconImage(icono.getImage());
 		emergente=new JDialog(frame,"ventana", true);
 		emergente.setSize( 560, 290);
 		emergente.setResizable(false);

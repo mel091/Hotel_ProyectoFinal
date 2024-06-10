@@ -51,13 +51,20 @@ public class TarifasView {
 	public JTextField fechaInicialResp;
 	public JTextField fechaFinalResp;
 	
+	JTextField nombreTarifaResp = new JTextField();
+	JTextArea descResp = new JTextArea();
+	JTextArea condicionesResp = new JTextArea();
+	JTextArea serviciosResp = new JTextArea();
+	JTextField precioBaseResp = new JTextField();
+	
 	public TarifasView(){
 		frame = new JFrame();
 		frame.setBounds(10, 5, 1350, 720);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+		ImageIcon icono = new ImageIcon(getClass().getResource("/contenido/castleIcon2.png"));
+		frame.setIconImage(icono.getImage());
 		emergente=new JDialog(frame,"Emergente", true);
 		emergente.setSize( 560, 290);
 		emergente.setResizable(false);
@@ -427,461 +434,7 @@ public class TarifasView {
 		frame.repaint();
 		frame.revalidate();
 	}
-	public void crear()
-	{
-		frame.getContentPane().removeAll();
-		frame.repaint();
-		//Panel principal
-		JPanel panelCrear=new JPanel();
-		panelCrear.setBackground(Color.white);
-		panelCrear.setBounds(0, 0, 1200, 700);
-		panelCrear.setLayout(null);
-
-		//Panel de la cabecera
-		JLabel disneyFondo = new JLabel();
-		disneyFondo.setBounds(10, 10, 1313, 90);
-		disneyFondo.setOpaque(true);
-		disneyFondo.setBackground(new Color(0,73,102));
-		disneyFondo.setLayout(null);
-		panelCrear.add(disneyFondo);
-		
 	
-		JButton btnDisney = new JButton();
-		btnDisney.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				inicio = new InicioController();
-				inicio.inicio();
-			}
-		});
-		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
-		btnDisney.setBorderPainted(false);
-		btnDisney.setContentAreaFilled(false);
-		btnDisney.setBounds(25, 16, 250, 56);
-		disneyFondo.add(btnDisney);
-		
-		//Labels
-		
-		JLabel habitaciones = new JLabel("Habitaciones");
-		habitaciones.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		habitaciones.setForeground(Color.white);
-		habitaciones.setBounds(315, 36, 180, 40);
-		disneyFondo.add(habitaciones);
-		
-		JLabel clientes = new JLabel("Clientes");
-		clientes.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		clientes.setForeground(Color.white);
-		clientes.setBounds(540, 36, 120, 40);
-		disneyFondo.add(clientes );
-		
-		JLabel rentas = new JLabel("Rentas");
-		rentas.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		rentas.setForeground(Color.white);
-		rentas.setBounds(700, 36, 120, 40);
-		disneyFondo.add(rentas);
-		
-		JLabel tarifas = new JLabel("Tarifas");
-		tarifas.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		tarifas.setForeground(new Color(252,210,87));
-		tarifas.setBounds(840, 36, 130, 40);
-		disneyFondo.add(tarifas);
-		
-		JLabel tipos = new JLabel("Tipos de habitaciones");
-		tipos.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		tipos.setForeground(Color.white);
-		tipos.setBounds(985, 36, 310, 40);
-		disneyFondo.add(tipos);
-		
-		JButton btnHabitaciones = new JButton();
-		btnHabitaciones.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Habitaciones");
-				frame.dispose();
-				room = new HabitacionesController();
-				room.consultar();
-			}
-		});
-		btnHabitaciones.setBorderPainted(false);
-		btnHabitaciones.setContentAreaFilled(false);
-		btnHabitaciones.setBounds(315, 36, 180, 30);
-		disneyFondo.add(btnHabitaciones);
-		
-		JButton btnClientes = new JButton("");
-		btnClientes.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Clientes");
-				frame.dispose();
-				cliente = new ClientesController();
-				cliente.crear();
-			}
-		});
-		btnClientes.setBorderPainted(false);
-		btnClientes.setContentAreaFilled(false);
-		btnClientes.setBounds(540, 36, 110, 30);
-		disneyFondo.add(btnClientes );
-		
-		JButton btnRentas= new JButton("");
-		btnRentas.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Rentas");
-				frame.dispose();
-				renta = new RentasController();
-				renta.rentasPrincipal();
-			}
-		});
-		btnRentas.setBorderPainted(false);
-		btnRentas.setContentAreaFilled(false);
-		btnRentas.setBounds(700, 36, 93, 30);
-		disneyFondo.add(btnRentas);
-		
-		JButton btnTarifas= new JButton("");
-		btnTarifas.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				tarifa = new TarifasController();
-				tarifa.crear();
-			}
-		});
-		btnTarifas.setBorderPainted(false);
-		btnTarifas.setContentAreaFilled(false);
-		btnTarifas.setBounds(840, 36, 95, 30);
-		disneyFondo.add(btnTarifas);
-		
-		
-		JButton btnTipos= new JButton("");
-		btnTipos.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Tipos");
-				frame.dispose();
-				tipo = new TiposController();
-				tipo.crear();
-			}
-		});
-		btnTipos.setBorderPainted(false);
-		btnTipos.setContentAreaFilled(false);
-		btnTipos.setBounds(985, 36, 295, 30);
-		disneyFondo.add(btnTipos);
-		
-		//Panel vertical (Consultar)
-		JPanel panelVertical1=new JPanel()
-		{
-			@Override
-			public void paintComponent(Graphics create) {
-				super.paintComponent(create);
-				Graphics2D g2d = (Graphics2D) create;
-				try {
-					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/mickeyMouse.png"));
-					g2d.drawImage(image, 5, 80, 120,120, null);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		panelVertical1.setBounds(10,110,130, 277);
-		panelVertical1.setBackground(new Color(0,73,102));
-		panelVertical1.setLayout(null);
-		panelCrear.add(panelVertical1);
-		
-		
-		JLabel crear=new JLabel("Crear");
-		crear.setFont(new Font("Palatino Linotype", Font.BOLD, 28));
-		crear.setBounds(28, 135, 130, 35);
-		crear.setForeground(new Color(252,210,87));
-		panelVertical1.add(crear);
-		
-		
-		JButton crearBtn = new JButton();
-		crearBtn .addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				tarifa = new TarifasController();
-				tarifa.crear();
-			}
-		});
-		crearBtn.setBounds(0, 0, 130, 277);
-		crearBtn.setBorderPainted(false);
-		crearBtn.setContentAreaFilled(false);
-		panelVertical1.add(crearBtn);
-		
-		//Panel vertical (Crear)
-		JPanel panelVertical2=new JPanel()
-		{
-			@Override
-			public void paintComponent(Graphics create) {
-				super.paintComponent(create);
-				Graphics2D g2d = (Graphics2D) create;
-				try {
-					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/mickeyMouse.png"));
-					g2d.drawImage(image, 5, 80, 120,120, null);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		panelVertical2.setBounds(10,393,130, 277);
-		panelVertical2.setBackground(new Color(0,73,102));
-		panelVertical2.setLayout(null);
-		panelCrear.add(panelVertical2);
-		
-		JLabel consultar=new JLabel("Consultar");
-		consultar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		consultar.setBounds(9,  133, 130, 35);
-		consultar.setForeground(Color.white);
-		panelVertical2.add(consultar);
-		
-		JButton consultarBtn = new JButton();
-		consultarBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				tarifa = new TarifasController();
-				tarifa.consultar();
-			}
-		});
-		consultarBtn.setBorderPainted(false);
-		consultarBtn.setContentAreaFilled(false);
-		consultarBtn.setBounds(0, 0, 130, 277);
-		panelVertical2.add(consultarBtn);
-		
-		//panel central
-		JPanel panelCentral=new JPanel()
-		{
-			@Override
-			public void paintComponent(Graphics create) {
-				super.paintComponent(create);
-				Graphics2D g2d = (Graphics2D) create;
-				try {
-					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/centralDegradado.jpg"));
-					g2d.drawImage(image, 0,0, 1174, 560, null);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		panelCentral.setBounds(150,110,1175, 560);
-		panelCentral.setLayout(null);
-		panelCrear.add(panelCentral);
-		
-		JPanel panelAzul = new JPanel();
-		panelAzul.setBackground(new Color(0, 73, 102));
-		panelAzul.setBounds(24, 11, 1115, 539);
-		panelCentral.add(panelAzul);
-		panelAzul.setLayout(null);
-		
-		JLabel tarifasTitulo = new JLabel("Tarifas");
-		tarifasTitulo.setForeground(new Color(0, 0, 0));
-		tarifasTitulo.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		tarifasTitulo.setBounds(503, 30, 266, 46);
-		panelAzul.add(tarifasTitulo);
-	
-		JLabel fondoCliente = new JLabel("");
-		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
-		fondoCliente.setBounds(315, 21, 489, 45);
-		panelAzul.add(fondoCliente);
-		
-		JPanel panelInfo = new JPanel();
-		panelInfo.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
-		panelInfo.setBounds(42, 87, 1022, 384);
-		panelAzul.add(panelInfo);
-		panelInfo.setLayout(null);
-		
-		JLabel nombreTarifa = new JLabel("Nombre de la tarifa");
-		nombreTarifa.setForeground(Color.BLACK);
-		nombreTarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		nombreTarifa.setBounds(35, 21, 327, 46);
-		panelInfo.add(nombreTarifa);
-		
-	
-		JTextField nombreTarifaResp = new JTextField();
-		nombreTarifaResp.setBorder(BorderFactory.createCompoundBorder(
-				nombreTarifaResp.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		nombreTarifaResp.setBackground(new Color(217, 217, 217));
-		nombreTarifaResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		nombreTarifaResp.setBounds(35, 59, 420, 25);
-		panelInfo.add(nombreTarifaResp);
-		nombreTarifaResp.setColumns(10);
-		
-		JLabel fechaInicial = new JLabel("Fecha inicial");
-		fechaInicial.setForeground(Color.BLACK);
-		fechaInicial.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		fechaInicial.setBounds(35, 95, 160, 46);
-		panelInfo.add(fechaInicial);
-		
-		JLabel fechaFinal = new JLabel("Fecha final");
-		fechaFinal.setForeground(Color.BLACK);
-		fechaFinal.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		fechaFinal.setBounds(35, 168, 160, 46);
-		panelInfo.add(fechaFinal);
-		
-		JTextField fechaInicialResp = new JTextField();
-		fechaInicialResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		fechaInicialResp.setColumns(10);
-		fechaInicialResp.setBackground(new Color(217, 217, 217));
-		fechaInicialResp.setBounds(35, 132, 360, 25);
-		panelInfo.add(fechaInicialResp);
-		
-		
-		JLabel descripcion = new JLabel("Descripción");
-		descripcion.setForeground(Color.BLACK);
-		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		descripcion.setBounds(35, 246, 160, 46);
-		panelInfo.add(descripcion);
-		
-		JTextField fechaFinalResp = new JTextField();
-		fechaFinalResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		fechaFinalResp.setColumns(10);
-		fechaFinalResp.setBackground(new Color(217, 217, 217));
-		fechaFinalResp.setBounds(35, 210, 360, 25);
-		panelInfo.add(fechaFinalResp);
-		
-		//Botones de fecha
-		JButton fechaInicialBtn = new JButton();
-		fechaInicialBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/fecha.png")));
-		fechaInicialBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Fecha inicial");
-				fechas(1);
-			}
-		});
-		fechaInicialBtn.setBounds(395, 132, 60, 25);
-		fechaInicialBtn.setBorderPainted(false);
-		fechaInicialBtn.setContentAreaFilled(false);
-		panelInfo.add(fechaInicialBtn);
-		
-		
-		JButton fechaFinalBtn = new JButton();
-		fechaFinalBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Fecha final");
-				fechas(2);
-			}
-		});
-		fechaFinalBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/fecha.png")));
-		fechaInicialBtn.setBorderPainted(false);
-		fechaInicialBtn.setContentAreaFilled(false);
-		fechaFinalBtn.setBounds(395, 210, 60, 25);
-		panelInfo.add(fechaFinalBtn);
-		
-		JTextArea descResp = new JTextArea();
-		descResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		descResp.setBackground(new Color(217, 217, 217));
-		descResp.setBounds(35, 292, 420, 60);
-		panelInfo.add(descResp);
-		
-		
-		
-		JButton botonVacio = new JButton();
-		botonVacio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				nombreHabiResp.setText("");
-//				tipoResp.setText("");
-//				telResp.setText("");
-//				direccionResp.setText("");
-//				contactoResp.setText("");
-//				relacionResp.setText("");
-//				noContactoResp.setText("");
-//				infoAdResp.setText("");
-			}
-		});
-		botonVacio.setBorderPainted(false);
-		botonVacio.setContentAreaFilled(false);
-		botonVacio.setIcon(new ImageIcon(getClass().getResource("/contenido/vaciar.png")));
-		botonVacio.setBounds(85, 482, 380, 50);
-		panelAzul.add(botonVacio);
-		
-		JButton botonCrear = new JButton();
-		botonCrear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		botonCrear.setBorderPainted(false);
-		botonCrear.setContentAreaFilled(false);
-		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/crearTarifa.png")));
-		botonCrear.setBounds(628, 482, 387, 50);
-		panelAzul.add(botonCrear);
-
-		
-		JLabel precioBase = new JLabel("Precio base");
-		precioBase.setBounds(563, 282, 364, 46);
-		panelInfo.add(precioBase);
-		precioBase.setForeground(Color.BLACK);
-		precioBase.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		
-		JLabel capacidad = new JLabel("Condiciones");
-		capacidad.setBounds(563, 152, 196, 46);
-		panelInfo.add(capacidad);
-		capacidad.setForeground(Color.BLACK);
-		capacidad.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		
-		JLabel serviciosInclu = new JLabel("Servicios incluidos");
-		serviciosInclu.setBounds(563, 22, 216, 46);
-		panelInfo.add(serviciosInclu);
-		serviciosInclu.setForeground(Color.BLACK);
-		serviciosInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		
-		JTextArea serviciosResp = new JTextArea();
-		serviciosResp.setBounds(563, 69, 420, 60);
-		panelInfo.add(serviciosResp);
-		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
-				serviciosResp.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		serviciosResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		serviciosResp.setColumns(10);
-		serviciosResp.setBackground(new Color(217, 217, 217));
-		
-		JTextArea condicionesResp = new JTextArea();
-		condicionesResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		condicionesResp.setBorder(BorderFactory.createCompoundBorder(
-				condicionesResp.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		condicionesResp.setColumns(10);
-		condicionesResp.setBackground(new Color(217, 217, 217));
-		condicionesResp.setBounds(563, 199, 420, 60);
-		panelInfo.add(condicionesResp);
-		
-		JTextField precioBaseResp = new JTextField();
-		precioBaseResp.setBorder(BorderFactory.createCompoundBorder(
-				precioBaseResp.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		precioBaseResp.setBounds(563, 326, 420, 25);
-		panelInfo.add(precioBaseResp);
-		precioBaseResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		precioBaseResp.setColumns(10);
-		precioBaseResp.setBackground(new Color(217, 217, 217));
-		
-		
-		frame.getContentPane().add(panelCrear);
-		frame.setVisible(true);
-		frame.repaint();
-		frame.revalidate();
-			
-	}	
 	public void detalles()
 	{
 		frame.getContentPane().removeAll();
@@ -1318,7 +871,408 @@ public class TarifasView {
 		frame.repaint();
 		frame.revalidate();	
 	}
+	public void crear()
+	{
+		frame.getContentPane().removeAll();
+		frame.repaint();
+		//Panel principal
+		JPanel panelCrear=new JPanel();
+		panelCrear.setBackground(Color.white);
+		panelCrear.setBounds(0, 0, 1200, 700);
+		panelCrear.setLayout(null);
+
+		//Panel de la cabecera
+		JLabel disneyFondo = new JLabel();
+		disneyFondo.setBounds(10, 10, 1313, 90);
+		disneyFondo.setOpaque(true);
+		disneyFondo.setBackground(new Color(0,73,102));
+		disneyFondo.setLayout(null);
+		panelCrear.add(disneyFondo);
+		
 	
+		JButton btnDisney = new JButton();
+		btnDisney.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				inicio = new InicioController();
+				inicio.inicio();
+			}
+		});
+		btnDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgCabecera.png")));
+		btnDisney.setBorderPainted(false);
+		btnDisney.setContentAreaFilled(false);
+		btnDisney.setBounds(25, 16, 250, 56);
+		disneyFondo.add(btnDisney);
+		
+		//Labels
+		
+		JLabel habitaciones = new JLabel("Habitaciones");
+		habitaciones.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		habitaciones.setForeground(Color.white);
+		habitaciones.setBounds(315, 36, 180, 40);
+		disneyFondo.add(habitaciones);
+		
+		JLabel clientes = new JLabel("Clientes");
+		clientes.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		clientes.setForeground(Color.white);
+		clientes.setBounds(540, 36, 120, 40);
+		disneyFondo.add(clientes );
+		
+		JLabel rentas = new JLabel("Rentas");
+		rentas.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		rentas.setForeground(Color.white);
+		rentas.setBounds(700, 36, 120, 40);
+		disneyFondo.add(rentas);
+		
+		JLabel tarifas = new JLabel("Tarifas");
+		tarifas.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		tarifas.setForeground(new Color(252,210,87));
+		tarifas.setBounds(840, 36, 130, 40);
+		disneyFondo.add(tarifas);
+		
+		JLabel tipos = new JLabel("Tipos de habitaciones");
+		tipos.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		tipos.setForeground(Color.white);
+		tipos.setBounds(985, 36, 310, 40);
+		disneyFondo.add(tipos);
+		
+		JButton btnHabitaciones = new JButton();
+		btnHabitaciones.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Habitaciones");
+				frame.dispose();
+				room = new HabitacionesController();
+				room.consultar();
+			}
+		});
+		btnHabitaciones.setBorderPainted(false);
+		btnHabitaciones.setContentAreaFilled(false);
+		btnHabitaciones.setBounds(315, 36, 180, 30);
+		disneyFondo.add(btnHabitaciones);
+		
+		JButton btnClientes = new JButton("");
+		btnClientes.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Clientes");
+				frame.dispose();
+				cliente = new ClientesController();
+				cliente.crear();
+			}
+		});
+		btnClientes.setBorderPainted(false);
+		btnClientes.setContentAreaFilled(false);
+		btnClientes.setBounds(540, 36, 110, 30);
+		disneyFondo.add(btnClientes );
+		
+		JButton btnRentas= new JButton("");
+		btnRentas.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Rentas");
+				frame.dispose();
+				renta = new RentasController();
+				renta.rentasPrincipal();
+			}
+		});
+		btnRentas.setBorderPainted(false);
+		btnRentas.setContentAreaFilled(false);
+		btnRentas.setBounds(700, 36, 93, 30);
+		disneyFondo.add(btnRentas);
+		
+		JButton btnTarifas= new JButton("");
+		btnTarifas.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
+			}
+		});
+		btnTarifas.setBorderPainted(false);
+		btnTarifas.setContentAreaFilled(false);
+		btnTarifas.setBounds(840, 36, 95, 30);
+		disneyFondo.add(btnTarifas);
+		
+		
+		JButton btnTipos= new JButton("");
+		btnTipos.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Tipos");
+				frame.dispose();
+				tipo = new TiposController();
+				tipo.crear();
+			}
+		});
+		btnTipos.setBorderPainted(false);
+		btnTipos.setContentAreaFilled(false);
+		btnTipos.setBounds(985, 36, 295, 30);
+		disneyFondo.add(btnTipos);
+		
+		//Panel vertical (Consultar)
+		JPanel panelVertical1=new JPanel()
+		{
+			@Override
+			public void paintComponent(Graphics create) {
+				super.paintComponent(create);
+				Graphics2D g2d = (Graphics2D) create;
+				try {
+					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/mickeyMouse.png"));
+					g2d.drawImage(image, 5, 80, 120,120, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		panelVertical1.setBounds(10,110,130, 277);
+		panelVertical1.setBackground(new Color(0,73,102));
+		panelVertical1.setLayout(null);
+		panelCrear.add(panelVertical1);
+		
+		
+		JLabel crear=new JLabel("Crear");
+		crear.setFont(new Font("Palatino Linotype", Font.BOLD, 28));
+		crear.setBounds(28, 135, 130, 35);
+		crear.setForeground(new Color(252,210,87));
+		panelVertical1.add(crear);
+		
+		
+		JButton crearBtn = new JButton();
+		crearBtn .addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.crear();
+			}
+		});
+		crearBtn.setBounds(0, 0, 130, 277);
+		crearBtn.setBorderPainted(false);
+		crearBtn.setContentAreaFilled(false);
+		panelVertical1.add(crearBtn);
+		
+		//Panel vertical (Crear)
+		JPanel panelVertical2=new JPanel()
+		{
+			@Override
+			public void paintComponent(Graphics create) {
+				super.paintComponent(create);
+				Graphics2D g2d = (Graphics2D) create;
+				try {
+					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/mickeyMouse.png"));
+					g2d.drawImage(image, 5, 80, 120,120, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		panelVertical2.setBounds(10,393,130, 277);
+		panelVertical2.setBackground(new Color(0,73,102));
+		panelVertical2.setLayout(null);
+		panelCrear.add(panelVertical2);
+		
+		JLabel consultar=new JLabel("Consultar");
+		consultar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+		consultar.setBounds(9,  133, 130, 35);
+		consultar.setForeground(Color.white);
+		panelVertical2.add(consultar);
+		
+		JButton consultarBtn = new JButton();
+		consultarBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				tarifa = new TarifasController();
+				tarifa.consultar();
+			}
+		});
+		consultarBtn.setBorderPainted(false);
+		consultarBtn.setContentAreaFilled(false);
+		consultarBtn.setBounds(0, 0, 130, 277);
+		panelVertical2.add(consultarBtn);
+		
+		//panel central
+		JPanel panelCentral=new JPanel()
+		{
+			@Override
+			public void paintComponent(Graphics create) {
+				super.paintComponent(create);
+				Graphics2D g2d = (Graphics2D) create;
+				try {
+					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/centralDegradado.jpg"));
+					g2d.drawImage(image, 0,0, 1174, 560, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		panelCentral.setBounds(150,110,1175, 560);
+		panelCentral.setLayout(null);
+		panelCrear.add(panelCentral);
+		
+		JPanel panelAzul = new JPanel();
+		panelAzul.setBackground(new Color(0, 73, 102));
+		panelAzul.setBounds(24, 11, 1115, 539);
+		panelCentral.add(panelAzul);
+		panelAzul.setLayout(null);
+		
+		JLabel tarifasTitulo = new JLabel("Tarifas");
+		tarifasTitulo.setForeground(new Color(0, 0, 0));
+		tarifasTitulo.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		tarifasTitulo.setBounds(503, 30, 266, 46);
+		panelAzul.add(tarifasTitulo);
+	
+		JLabel fondoCliente = new JLabel("");
+		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
+		fondoCliente.setBounds(315, 21, 489, 45);
+		panelAzul.add(fondoCliente);
+		
+		JPanel panelInfo = new JPanel();
+		panelInfo.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
+		panelInfo.setBounds(42, 87, 1022, 384);
+		panelAzul.add(panelInfo);
+		panelInfo.setLayout(null);
+		
+		JLabel nombreTarifa = new JLabel("Nombre de la tarifa");
+		nombreTarifa.setForeground(Color.BLACK);
+		nombreTarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nombreTarifa.setBounds(35, 15, 327, 46);
+		panelInfo.add(nombreTarifa);
+		
+	
+		
+		nombreTarifaResp.setBorder(BorderFactory.createCompoundBorder(
+				nombreTarifaResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		nombreTarifaResp.setBackground(new Color(217, 217, 217));
+		nombreTarifaResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		nombreTarifaResp.setBounds(35, 50, 420, 25);
+		panelInfo.add(nombreTarifaResp);
+		nombreTarifaResp.setColumns(10);
+		
+		
+		JLabel descripcion = new JLabel("Descripción");
+		descripcion.setForeground(Color.BLACK);
+		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		descripcion.setBounds(35, 73, 160, 46);
+		panelInfo.add(descripcion);
+		
+		
+		
+		descResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		descResp.setBackground(new Color(217, 217, 217));
+		descResp.setBounds(35, 105, 420, 60);
+		panelInfo.add(descResp);
+		
+		
+		
+		JButton botonVacio = new JButton();
+		botonVacio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eleccion(1);
+			}
+		});
+		botonVacio.setBorderPainted(false);
+		botonVacio.setContentAreaFilled(false);
+		botonVacio.setIcon(new ImageIcon(getClass().getResource("/contenido/vaciar.png")));
+		botonVacio.setBounds(85, 482, 380, 50);
+		panelAzul.add(botonVacio);
+		
+		JButton botonCrear = new JButton();
+		botonCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		botonCrear.setBorderPainted(false);
+		botonCrear.setContentAreaFilled(false);
+		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/crearTarifa.png")));
+		botonCrear.setBounds(628, 482, 387, 50);
+		panelAzul.add(botonCrear);
+
+		
+		JLabel condiciones = new JLabel("Condiciones");
+		condiciones.setBounds(35, 165, 196, 46);
+		panelInfo.add(condiciones);
+		condiciones.setForeground(Color.BLACK);
+		condiciones.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+
+		
+		condicionesResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		condicionesResp.setBorder(BorderFactory.createCompoundBorder(
+				condicionesResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		condicionesResp.setColumns(10);
+		condicionesResp.setBackground(new Color(217, 217, 217));
+		condicionesResp.setBounds(35, 200, 420, 60);
+		panelInfo.add(condicionesResp);
+		
+		JLabel serviciosInclu = new JLabel("Servicios incluidos");
+		serviciosInclu.setBounds(35, 262, 216, 46);
+		panelInfo.add(serviciosInclu);
+		serviciosInclu.setForeground(Color.BLACK);
+		serviciosInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		
+		serviciosResp.setBounds(35, 300, 420, 60);
+		panelInfo.add(serviciosResp);
+		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
+				serviciosResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		serviciosResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		serviciosResp.setColumns(10);
+		serviciosResp.setBackground(new Color(217, 217, 217));
+		
+		JLabel precioBase = new JLabel("Precio base");
+		precioBase.setBounds(563, 293, 364, 46);
+		panelInfo.add(precioBase);
+		precioBase.setForeground(Color.BLACK);
+		precioBase.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		
+		precioBaseResp.setBorder(BorderFactory.createCompoundBorder(
+				precioBaseResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		precioBaseResp.setBounds(563, 335, 420, 25);
+		panelInfo.add(precioBaseResp);
+		precioBaseResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		precioBaseResp.setColumns(10);
+		precioBaseResp.setBackground(new Color(217, 217, 217));
+		
+		JPanel panelCrearImg = new JPanel();
+		panelCrearImg.setBackground(new Color (0, 73,102));
+		panelCrearImg.setBounds(563, 20, 420, 260);
+		panelCrearImg.setLayout(null);
+		panelInfo.add(panelCrearImg);
+		
+		JLabel imagenDisney = new JLabel();
+		imagenDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgTarifas.jpg")));
+		imagenDisney.setBackground(Color.white);
+		imagenDisney.setOpaque(true);
+		imagenDisney.setBounds(20, 20, 380, 220);
+		imagenDisney.setLayout(null);
+		panelCrearImg.add(imagenDisney);
+		
+		frame.getContentPane().add(panelCrear);
+		frame.setVisible(true);
+		frame.repaint();
+		frame.revalidate();
+			
+	}	
 	public void editar()
 	{
 		frame.getContentPane().removeAll();
@@ -1594,12 +1548,14 @@ public class TarifasView {
 		panelAzul.add(panelInfo);
 		panelInfo.setLayout(null);
 		
+		
 		JLabel nombreTarifa = new JLabel("Nombre de la tarifa");
 		nombreTarifa.setForeground(Color.BLACK);
 		nombreTarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		nombreTarifa.setBounds(35, 21, 327, 46);
+		nombreTarifa.setBounds(35, 15, 327, 46);
 		panelInfo.add(nombreTarifa);
 		
+	
 		JTextField nombreTarifaResp = new JTextField();
 		nombreTarifaResp.setBorder(BorderFactory.createCompoundBorder(
 				nombreTarifaResp.getBorder(),
@@ -1607,91 +1563,92 @@ public class TarifasView {
 		));
 		nombreTarifaResp.setBackground(new Color(217, 217, 217));
 		nombreTarifaResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		nombreTarifaResp.setBounds(35, 59, 420, 25);
+		nombreTarifaResp.setBounds(35, 50, 420, 25);
 		panelInfo.add(nombreTarifaResp);
 		nombreTarifaResp.setColumns(10);
 		
-		JLabel fechaInicial = new JLabel("Fecha inicial");
-		fechaInicial.setForeground(Color.BLACK);
-		fechaInicial.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		fechaInicial.setBounds(35, 95, 160, 46);
-		panelInfo.add(fechaInicial);
-		
-		JLabel fechaFinal = new JLabel("Fecha final");
-		fechaFinal.setForeground(Color.BLACK);
-		fechaFinal.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		fechaFinal.setBounds(35, 168, 160, 46);
-		panelInfo.add(fechaFinal);
-		
-		JTextField fechaInicialResp = new JTextField();
-		fechaInicialResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		fechaInicialResp.setColumns(10);
-		fechaInicialResp.setBackground(new Color(217, 217, 217));
-		fechaInicialResp.setBounds(35, 132, 360, 25);
-		panelInfo.add(fechaInicialResp);
-	
 		JLabel descripcion = new JLabel("Descripción");
 		descripcion.setForeground(Color.BLACK);
 		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		descripcion.setBounds(35, 246, 160, 46);
+		descripcion.setBounds(35, 73, 160, 46);
 		panelInfo.add(descripcion);
 		
-		JTextField fechaFinalResp = new JTextField();
-		fechaFinalResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		fechaFinalResp.setColumns(10);
-		fechaFinalResp.setBackground(new Color(217, 217, 217));
-		fechaFinalResp.setBounds(35, 210, 360, 25);
-		panelInfo.add(fechaFinalResp);
-		
-		//Botones de fecha
-		JButton fechaInicialBtn = new JButton();
-		fechaInicialBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/fecha.png")));
-		fechaInicialBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Fecha inicial");
-			}
-		});
-		fechaInicialBtn.setBounds(395, 132, 60, 25);
-		fechaInicialBtn.setBorderPainted(false);
-		fechaInicialBtn.setContentAreaFilled(false);
-		panelInfo.add(fechaInicialBtn);
-		
-		
-		JButton fechaFinalBtn = new JButton();
-		fechaFinalBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Fecha final");
-			}
-		});
-		fechaFinalBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/fecha.png")));
-		fechaInicialBtn.setBorderPainted(false);
-		fechaInicialBtn.setContentAreaFilled(false);
-		fechaFinalBtn.setBounds(395, 210, 60, 25);
-		panelInfo.add(fechaFinalBtn);
 		
 		JTextArea descResp = new JTextArea();
 		descResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		descResp.setBackground(new Color(217, 217, 217));
-		descResp.setBounds(35, 292, 420, 60);
+		descResp.setBounds(35, 105, 420, 60);
 		panelInfo.add(descResp);
-	
+		
+		JLabel condiciones = new JLabel("Condiciones");
+		condiciones.setBounds(35, 165, 196, 46);
+		panelInfo.add(condiciones);
+		condiciones.setForeground(Color.BLACK);
+		condiciones.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+
+		JTextArea condicionesResp = new JTextArea();
+		condicionesResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		condicionesResp.setBorder(BorderFactory.createCompoundBorder(
+				condicionesResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		condicionesResp.setColumns(10);
+		condicionesResp.setBackground(new Color(217, 217, 217));
+		condicionesResp.setBounds(35, 200, 420, 60);
+		panelInfo.add(condicionesResp);
+		
+		JLabel serviciosInclu = new JLabel("Servicios incluidos");
+		serviciosInclu.setBounds(35, 262, 216, 46);
+		panelInfo.add(serviciosInclu);
+		serviciosInclu.setForeground(Color.BLACK);
+		serviciosInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		JTextArea serviciosResp = new JTextArea();
+		serviciosResp.setBounds(35, 300, 420, 60);
+		panelInfo.add(serviciosResp);
+		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
+				serviciosResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		serviciosResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		serviciosResp.setColumns(10);
+		serviciosResp.setBackground(new Color(217, 217, 217));
+		
+		JLabel precioBase = new JLabel("Precio base");
+		precioBase.setBounds(563, 293, 364, 46);
+		panelInfo.add(precioBase);
+		precioBase.setForeground(Color.BLACK);
+		precioBase.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		
+		JTextField precioBaseResp = new JTextField();
+		precioBaseResp.setBorder(BorderFactory.createCompoundBorder(
+				precioBaseResp.getBorder(),
+		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
+		));
+		precioBaseResp.setBounds(563, 335, 420, 25);
+		panelInfo.add(precioBaseResp);
+		precioBaseResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		precioBaseResp.setColumns(10);
+		precioBaseResp.setBackground(new Color(217, 217, 217));
+		
+		JPanel panelCrearImg = new JPanel();
+		panelCrearImg.setBackground(new Color (0, 73,102));
+		panelCrearImg.setBounds(563, 20, 420, 260);
+		panelCrearImg.setLayout(null);
+		panelInfo.add(panelCrearImg);
+		
+		JLabel imagenDisney = new JLabel();
+		imagenDisney.setIcon(new ImageIcon(getClass().getResource("/contenido/imgTarifas.jpg")));
+		imagenDisney.setBackground(Color.white);
+		imagenDisney.setOpaque(true);
+		imagenDisney.setBounds(20, 20, 380, 220);
+		imagenDisney.setLayout(null);
+		panelCrearImg.add(imagenDisney);
+		
 		JButton eliminarTarifBtn = new JButton();
 		eliminarTarifBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				nombreHabiResp.setText("");
-//				tipoResp.setText("");
-//				telResp.setText("");
-//				direccionResp.setText("");
-//				contactoResp.setText("");
-//				relacionResp.setText("");
-//				noContactoResp.setText("");
-//				infoAdResp.setText("");
+
 			}
 		});
 		eliminarTarifBtn.setBorderPainted(false);
@@ -1711,56 +1668,6 @@ public class TarifasView {
 		guardarCambios.setBounds(628, 482, 387, 50);
 		panelAzul.add(guardarCambios);
 		
-		JLabel precioBase = new JLabel("Precio base");
-		precioBase.setBounds(563, 282, 364, 46);
-		panelInfo.add(precioBase);
-		precioBase.setForeground(Color.BLACK);
-		precioBase.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		
-		JLabel capacidad = new JLabel("Condiciones");
-		capacidad.setBounds(563, 152, 196, 46);
-		panelInfo.add(capacidad);
-		capacidad.setForeground(Color.BLACK);
-		capacidad.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		
-		JLabel serviciosInclu = new JLabel("Servicios incluidos");
-		serviciosInclu.setBounds(563, 22, 216, 46);
-		panelInfo.add(serviciosInclu);
-		serviciosInclu.setForeground(Color.BLACK);
-		serviciosInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		
-		JTextArea serviciosResp = new JTextArea();
-		serviciosResp.setBounds(563, 69, 420, 60);
-		panelInfo.add(serviciosResp);
-		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
-				serviciosResp.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		serviciosResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		serviciosResp.setColumns(10);
-		serviciosResp.setBackground(new Color(217, 217, 217));
-		
-		JTextArea condicionesResp = new JTextArea();
-		condicionesResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		condicionesResp.setBorder(BorderFactory.createCompoundBorder(
-				condicionesResp.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		condicionesResp.setColumns(10);
-		condicionesResp.setBackground(new Color(217, 217, 217));
-		condicionesResp.setBounds(563, 199, 420, 60);
-		panelInfo.add(condicionesResp);
-		
-		JTextField precioBaseResp = new JTextField();
-		precioBaseResp.setBorder(BorderFactory.createCompoundBorder(
-				precioBaseResp.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		precioBaseResp.setBounds(563, 326, 420, 25);
-		panelInfo.add(precioBaseResp);
-		precioBaseResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		precioBaseResp.setColumns(10);
-		precioBaseResp.setBackground(new Color(217, 217, 217));
 		
 		JButton regresarBtn = new JButton();
 		regresarBtn.addActionListener(new ActionListener() {
@@ -1781,158 +1688,6 @@ public class TarifasView {
 		frame.setVisible(true);
 		frame.repaint();
 		frame.revalidate();	
-	}
-	public void fechas(int opcion)
-	{
-		emergente.getContentPane().removeAll();
-		emergente.repaint();
-		emergente.revalidate();
-		emergente.setSize( 560, 290);
-		String[] dias = new String[31];
-        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-        String[] años = new String[80]; 
-        
-        for (int i = 0; i < 31; i++) {
-            dias[i] = Integer.toString(i + 1);
-        }
-        
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = 0; i < 80; i++) {
-            años[i] = Integer.toString(currentYear+ i);
-        }
-        JPanel fechasPanel= new JPanel();
-        fechasPanel.setBackground(new Color(220,220,220));
-        fechasPanel.setLayout(null);
-        
-        JComboBox<String> comboDias = new JComboBox<>(dias);
-        comboDias.setBackground(Color.white);
-        comboDias.setBounds(200,65,250,25);
-        fechasPanel.add(comboDias);
-        
-        JComboBox<String> comboMes = new JComboBox<>(meses);
-        comboMes.setBackground(Color.white);
-        comboMes.setBounds(200,105,250,25);
-        fechasPanel.add(comboMes);
-
-        JComboBox<String> comboAño = new JComboBox<>(años);
-        comboAño.setBackground(Color.white);
-        comboAño.setBounds(200,145,250,25);
-        fechasPanel.add(comboAño);
-        String text="";
-        if(opcion==1)
-        {
-        	text="Seleccione la fecha inicial";
-        }
-        else
-        {
-        	if(opcion==2)
-        	{
-        		text="Seleccione la fecha final";
-        	}
-        	else
-        	{
-        		System.out.println("Error");
-        	}
-        }
-        JLabel tituloFechas=new JLabel(text);
-		tituloFechas.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		tituloFechas.setForeground(Color.black);
-		tituloFechas.setBounds(100, 15, 350, 45);
-		fechasPanel.add(tituloFechas);
-       
-        JLabel dia=new JLabel("Día: ");
-		dia.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		dia.setForeground(Color.black);
-		dia.setBounds(120, 65, 70, 40);
-		fechasPanel.add(dia);
-        
-        JLabel mes=new JLabel("Mes: ");
-        mes.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		mes.setForeground(Color.black);
-		mes.setBounds(120, 105, 70, 40);
-        fechasPanel.add(mes);
-        
-        JLabel año=new JLabel("Año:");
-        año.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		año.setForeground(Color.black);
-		año.setBounds(120, 145, 70, 40);
-        fechasPanel.add(año);
-       
-        JButton botonCancelar = new JButton("Cancelar");
-		botonCancelar.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Cancelar");
-				emergente.getContentPane().removeAll();
-				emergente.dispose();
-			}
-		});
-		botonCancelar.setForeground(new Color(255, 255, 255));
-		botonCancelar.setVerticalAlignment(SwingConstants.BOTTOM);
-		botonCancelar.setBorderPainted(false);
-		botonCancelar.setContentAreaFilled(false);
-		botonCancelar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		botonCancelar.setBounds(40, 190, 181, 51);
-		fechasPanel.add(botonCancelar);
-		
-		JLabel imgCancelar= new JLabel();
-		imgCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgCancelar.setBounds(40, 190, 181, 51);
-		fechasPanel.add(imgCancelar);
-		
-		JButton botonAceptar = new JButton("Aceptar");
-		botonAceptar.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Aceptar");
-				String fechaNacimiento = (String) comboDias.getSelectedItem() + "/" + (String) comboMes.getSelectedItem() + "/" + (String) comboAño.getSelectedItem();
-				 if(opcion==1)
-			        {
-					 //fechaInicialResp.setText(fechaNacimiento);
-			        }
-			        else
-			        {
-			        	if(opcion==2)
-			        	{
-			        		//fechaFinalResp.setText(fechaNacimiento);
-			        	}
-			        	else
-			        	{
-			        		System.out.println("Error");
-			        	}
-			        }
-				emergente.getContentPane().removeAll();
-				emergente.dispose();
-			}
-		});
-		botonAceptar.setForeground(new Color(255, 255, 255));
-		botonAceptar.setVerticalAlignment(SwingConstants.BOTTOM);
-		botonAceptar.setBorderPainted(false);
-		botonAceptar.setContentAreaFilled(false);
-		botonAceptar.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		botonAceptar.setBounds(325, 190, 181, 51);
-		fechasPanel.add(botonAceptar);
-		
-		JLabel imgAceptar= new JLabel();
-		imgAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/accesoLogin.png")));
-		imgAceptar.setBounds(325, 190, 181, 51);
-		fechasPanel.add(imgAceptar);
-		
-		JLabel iconPosion= new JLabel();
-		iconPosion.setIcon(new ImageIcon(getClass().getResource("/contenido/tiempo.png")));
-		iconPosion.setBounds(15, 74, 90, 94);
-		fechasPanel.add(iconPosion);
-
-		emergente.getContentPane().add(fechasPanel);
-	    emergente.setLocationRelativeTo(frame);
-	    emergente.setVisible(true);
-	    emergente.repaint();
-	    emergente.revalidate();
-		
 	}
 	public void datosNoValidos()
 	{
@@ -2112,7 +1867,7 @@ public class TarifasView {
 	    emergente.setVisible(true);;
 		
 	}
-	public void eleccion()
+	public void eleccion(int eleccion)
 	{
 		emergente.getContentPane().removeAll();
 		emergente.repaint();
@@ -2168,7 +1923,26 @@ public class TarifasView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Aceptar");
-				emergente.dispose();
+				if(eleccion==1)
+				{
+					nombreTarifaResp.setText("");
+					descResp.setText("");
+					condicionesResp.setText("");
+					serviciosResp.setText("");
+					precioBaseResp.setText("");
+
+					emergente.dispose();
+					emergente.dispose();
+					
+				}
+				else
+				{
+					if(eleccion==2)
+					{
+						System.out.println("Pa eliminar el cliente");
+						emergente.dispose();
+					}
+				}emergente.dispose();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
