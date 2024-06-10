@@ -1,15 +1,20 @@
 package models;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import com.mysql.cj.jdbc.Blob;
 
 public class TiposModel 
 {
@@ -18,20 +23,17 @@ public class TiposModel
 	private JTextArea descripcion;
 	private JTextField capacidad;
 	private JTextField servicios;
-	private JTextArea tarifas;
+	//private JTextArea tarifas;
+	
+	List<String> tarifas = new ArrayList<>();
 	
 	private JLabel nombreDetalles;
 	
 	private JTextArea listado;
-	
-	public TiposModel()
-	{
-		
-	}
-	
+
 	public List <String> getTarifasName()
 	{
-		List<String> tarifas = new ArrayList<>();
+		
 		String query = "select nombre from tarifas";
 		try {
 			Connection cn = Conexion.conectar();
@@ -48,6 +50,7 @@ public class TiposModel
 		return tarifas;
 	}
 
+	
 	public void crear(String nombre, String descripcion, String capacidad, String servicios, String tarifas)
 	{
 		try 
@@ -61,7 +64,7 @@ public class TiposModel
 			pst.setString(3, descripcion);
 			pst.setString(4, capacidad);
 			pst.setString(5, servicios);
-			pst.setString(6, tarifas);
+			pst.setString(6, tarifas.trim());
 		
 			pst.executeUpdate(); // EJECUTAR INSTRUCCIONES ENVIADAS A LA BASE DE DATOS, PONER PARA QUE FUNCIONE.
 			
@@ -94,6 +97,9 @@ public class TiposModel
 					descripcion.setText(rs.getString("descripcion"));
 					capacidad.setText(rs.getString("capacidad"));
 					servicios.setText(rs.getString("serviciosIncluidos"));
+					
+					String tarifasSeleccionadas = obtenerCheckBoxSeleccionados();
+					System.out.println("SELECCION: " + tarifasSeleccionadas);
 				}
 			}else {
 				System.out.println("tipo no encontrado");
@@ -104,6 +110,69 @@ public class TiposModel
 			e.printStackTrace();
 		}
 	}
+	
+	public void editar1(String id, String nombre, String desc, String capacidad, String servicios, String tarifas) 
+	{
+	    try {
+	        Connection cn = Conexion.conectar();
+	        PreparedStatement pst = cn.prepareStatement("UPDATE tipos SET nombre=?, descripcion=?, capacidad=?, serviciosIncluidos=?, tarifas=? WHERE idTipo=?");
+	        pst.setString(1, nombre);
+	        pst.setString(2, desc);
+	        pst.setString(3, capacidad);
+	        pst.setString(4, servicios);
+	        pst.setString(5, tarifas);
+	        pst.setString(6, id);
+
+	        int rowsAffected = pst.executeUpdate();
+	        if (rowsAffected > 0) {
+	            System.out.println("tipo actualizado exitosamente.");
+	        } else {
+	            System.out.println("No se encontró ningún cliente con el ID proporcionado.");
+	        }
+
+	        pst.close();
+	        cn.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public String buscarId(String nom)
+	{
+		String idEncontrado = null;
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement pst = cn.prepareStatement("select idTipo from tipos where nombre=?");
+	        pst.setString(1, nom);
+	        
+	        ResultSet rs = pst.executeQuery();
+	        
+	        if(rs.next())
+	        {
+	        	idEncontrado =rs.getString("idTipo");
+	        }
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return idEncontrado;
+	}
+	
+	public String obtenerCheckBoxSeleccionados() {
+	    StringBuilder seleccion = new StringBuilder();
+	    
+	    List<String> tarifas = getTarifasName(); // Obtener la lista de nombres de tarifas
+	    for (String tarifa : tarifas) {
+	        JCheckBox checkBox = new JCheckBox(tarifa);
+	        if (checkBox.isSelected()) {
+	            seleccion.append(checkBox.getText()).append("\n");
+	        }
+	    }
+	    
+	    return seleccion.toString();
+	}
+
 	
 	public DefaultTableModel tablaTipos() //tabla de sql
 	{
@@ -182,4 +251,30 @@ public class TiposModel
 		}
 	}
 	
+	public void eliminarTipo(String id)
+	{
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement pst = cn.prepareStatement("delete from tipos where nombre=?");
+			pst.setString(1, id);
+			
+			int cambios = pst.executeUpdate();
+			
+			if(cambios > 0)
+			{
+				System.out.println("tipo eliminada");
+			}
+			else
+			{
+				System.out.println("tipo no encontrada");
+			}
+			
+			pst.close();
+			cn.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

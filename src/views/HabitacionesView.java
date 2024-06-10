@@ -428,8 +428,8 @@ public class HabitacionesView {
 		    	    view.detalles();
 		    	   
 		    	} else {
-		    	    //seleccion();
-		    		System.out.println("ningun coso selec");
+		    	    seleccion();
+		    		
 		    	}
 			}
 		});
@@ -458,6 +458,10 @@ public class HabitacionesView {
   		            model.recuperaDatos(idHabitacion); // Solo recupera y establece datos
   		            editar();
   		        }
+				else
+				{
+					 seleccion();
+				}
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -1489,6 +1493,7 @@ public class HabitacionesView {
 			public void actionPerformed(ActionEvent e) {
 				model = new HabitacionesModel();
 				model.eliminarHabitacion(idHabitacion);
+				exito();
 			}
 		});
 		eliminarHabi.setBorderPainted(false);
@@ -1544,7 +1549,7 @@ public class HabitacionesView {
 	                String amenidades1 = seleccion.toString();
 	                
 					model.editar(idHabitacion, nombre, nuevoTipo, nuevaTarifa, tam, dec, amenidades1, imgB);
-				
+					exito();
 				}
 				else {
 					System.out.println("idhjaajk null");
@@ -1698,11 +1703,10 @@ public class HabitacionesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 					model = new HabitacionesModel();
 					System.out.println("id seleccionado desc: " + idHabSeleccion);
 					model.descargar(idHabSeleccion);
-				
+					docExito();
 			}
 		});
 		btnGuardar.setForeground(new Color(255, 255, 255));
@@ -2738,6 +2742,7 @@ public class HabitacionesView {
 	    emergente.setVisible(true);;
 		
 	}
+	
 	public void seleccion()
 	{
 		emergente.getContentPane().removeAll();
@@ -2797,6 +2802,8 @@ public class HabitacionesView {
 	    emergente.setVisible(true);;
 		
 	}
+	
+	
 	public JTextField getId() {	
         return infoIdHabitacion;		
     }

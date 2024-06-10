@@ -388,6 +388,10 @@ public class TarifasView {
 					model.mostrarDetalles(idTarifa);
 					detalles();
 				}
+				else
+				{
+					seleccion();
+				}
 			}
 		});
 		detallesBtn.setBorderPainted(false);
@@ -409,17 +413,19 @@ public class TarifasView {
 					model.textField2(nombreTarifaResp, descResp, condicionesResp, serviciosResp, precioBaseResp);
 			        model.editar(idTarifa); // Solo recupera y establece datos
 			        editar();
+		
 				}	
-				
+				else
+				{
+					seleccion();
+				}
 			}
 		});
 		editarBtn.setBorderPainted(false);
 		editarBtn.setContentAreaFilled(false);
 		editarBtn.setBounds(690, 480, 328, 45);
 		panelCentral.add(editarBtn);
-				
 	
-		
 		frame.getContentPane().add(panelConsultar);
 		frame.setVisible(true);
 		frame.repaint();
@@ -702,45 +708,10 @@ public class TarifasView {
 		panelInfo.setLayout(null);
 		//paneAzulFondo.add(panelInfo);
 		
-		JLabel fechaInicial = new JLabel("Fecha inicial");
-		fechaInicial.setForeground(Color.BLACK);
-		fechaInicial.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		fechaInicial.setBounds(10, 11, 354, 29);
-		panelInfo.add(fechaInicial);
-		
-		JTextField infoFechaInicial = new JTextField("//");
-		infoFechaInicial.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		infoFechaInicial.setBorder(BorderFactory.createCompoundBorder(
-				infoFechaInicial.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		infoFechaInicial.setEditable(false);
-		infoFechaInicial.setBackground(new Color(217, 217, 217));
-		infoFechaInicial.setBounds(10, 40, 420, 25);
-		panelInfo.add(infoFechaInicial);
-		
-		JLabel fechaFinal = new JLabel("Fecha final");
-		fechaFinal.setForeground(Color.BLACK);
-		fechaFinal.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		fechaFinal.setBounds(10, 78, 354, 29);
-		panelInfo.add(fechaFinal);
-		
-		JTextField infoFechaFinal = new JTextField("//");
-		infoFechaFinal.setBorder(BorderFactory.createCompoundBorder(
-				infoFechaFinal.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		infoFechaFinal.setEditable(false);
-		infoFechaFinal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		infoFechaFinal.setColumns(10);
-		infoFechaFinal.setBackground(new Color(217, 217, 217));
-		infoFechaFinal.setBounds(10, 107, 420, 25);
-		panelInfo.add(infoFechaFinal);
-		
 		JLabel descripcion = new JLabel("Descripcion");
 		descripcion.setForeground(Color.BLACK);
 		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		descripcion.setBounds(10, 143, 354, 29);
+		descripcion.setBounds(10, 11, 354, 29);
 		panelInfo.add(descripcion);
 		
 		//JTextArea infoDesc = new JTextArea("Ninguna");
@@ -752,14 +723,14 @@ public class TarifasView {
 		infoDesc.setEditable(false);
 		infoDesc.setColumns(10);
 		infoDesc.setBackground(new Color(217, 217, 217));
-		infoDesc.setBounds(10, 171, 420, 60);
+		infoDesc.setBounds(10, 40, 420, 60);
 		panelInfo.add(infoDesc);
 		
 		
 		JLabel servInclu = new JLabel("Servicios incluidos");
 		servInclu.setForeground(Color.BLACK);
 		servInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		servInclu.setBounds(10, 243, 354, 29);
+		servInclu.setBounds(10, 118, 354, 29);
 		panelInfo.add(servInclu);
 		
 		//JTextArea infoServInclu = new JTextArea("Ninguno");
@@ -771,13 +742,13 @@ public class TarifasView {
 		infoServInclu.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoServInclu.setColumns(10);
 		infoServInclu.setBackground(new Color(217, 217, 217));
-		infoServInclu.setBounds(10, 273, 420, 60);
+		infoServInclu.setBounds(10, 145, 420, 60);
 		panelInfo.add(infoServInclu);
 		
 		JLabel condiciones = new JLabel("Condiciones");
 		condiciones.setForeground(Color.BLACK);
 		condiciones.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		condiciones.setBounds(10, 348, 354, 29);
+		condiciones.setBounds(10, 225, 354, 29);
 		panelInfo.add(condiciones);
 		
 		//JTextArea infoCondiciones = new JTextArea("Ninguna");
@@ -789,14 +760,14 @@ public class TarifasView {
 		infoCondiciones.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoCondiciones.setColumns(10);
 		infoCondiciones.setBackground(new Color(217, 217, 217));
-		infoCondiciones.setBounds(10, 380, 420, 60);
+		infoCondiciones.setBounds(10, 250, 420, 60);
 		panelInfo.add(infoCondiciones);
 		
 		
 		JLabel precioBase = new JLabel("Precio base");
 		precioBase.setForeground(Color.BLACK);
 		precioBase.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		precioBase.setBounds(10, 455, 354, 29);
+		precioBase.setBounds(10, 325, 354, 29);
 		panelInfo.add(precioBase);
 		
 		
@@ -809,7 +780,7 @@ public class TarifasView {
 		infoPrecioBase.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoPrecioBase.setColumns(10);
 		infoPrecioBase.setBackground(new Color(217, 217, 217));
-		infoPrecioBase.setBounds(10,490, 420, 25);
+		infoPrecioBase.setBounds(10,355, 420, 25);
 		panelInfo.add(infoPrecioBase);
 
 		//Scroll
@@ -1246,6 +1217,8 @@ public class TarifasView {
 				int precioInt = Integer.parseInt(precio);
 				model = new TarifasModel();
 				model.crear(nombre, descripcion, servicios, condiciones, precioInt);
+				
+				exito();
 			}
 		});
 		botonCrear.setBorderPainted(false);
@@ -1651,6 +1624,7 @@ public class TarifasView {
 			public void actionPerformed(ActionEvent e) {
 				model = new TarifasModel();
 				model.eliminarTarifa(idTarifa);
+				exito();
 			}
 		});
 		eliminarTarifBtn.setBorderPainted(false);
@@ -1673,7 +1647,7 @@ public class TarifasView {
 					
 					model = new TarifasModel();
 					model.editar1(idTarifa, nombre, desc, condicion, servicio, precioInt);
-					
+					exito();
 				}
 			}
 		});

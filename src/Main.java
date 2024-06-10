@@ -1,4 +1,5 @@
 import controllers.Auth;
+import views.TarifasView;
 
 public class Main {
 
@@ -6,7 +7,11 @@ public class Main {
 	{
 		Auth sistema = new Auth();
 		
+		
+		
 		sistema.login();
+		
+		
 
 	}
 

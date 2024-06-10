@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -136,13 +137,13 @@ public class TiposView {
 		
 		JLabel tarifas = new JLabel("Tarifas");
 		tarifas.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		tarifas.setForeground(new Color(252,210,87));
+		tarifas.setForeground(Color.white);
 		tarifas.setBounds(840, 36, 130, 40);
 		disneyFondo.add(tarifas);
 		
 		JLabel tipos = new JLabel("Tipos de habitaciones");
 		tipos.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		tipos.setForeground(Color.white);
+		tipos.setForeground(new Color(252,210,87));
 		tipos.setBounds(985, 36, 310, 40);
 		disneyFondo.add(tipos);
 		
@@ -701,7 +702,7 @@ public class TiposView {
 		panelInfo.add(nombreTipo);
 		
 	
-		//JTextField nombreHabiResp = new JTextField();
+		JTextField nombreHabiResp = new JTextField();
 		nombreHabiResp.setBorder(BorderFactory.createCompoundBorder(
 				nombreHabiResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -724,7 +725,7 @@ public class TiposView {
 		serviciosInclu.setBounds(35, 285, 216, 46);
 		panelInfo.add(serviciosInclu);
 		
-		//JTextField serviciosResp = new JTextField();
+		JTextField serviciosResp = new JTextField();
 		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
 				serviciosResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -741,12 +742,12 @@ public class TiposView {
 		descripcion.setBounds(35, 95, 160, 46);
 		panelInfo.add(descripcion);
 		
-		//JTextArea descResp = new JTextArea();
+		JTextArea descResp = new JTextArea();
 		descResp.setBackground(new Color(217, 217, 217));
 		descResp.setBounds(35, 133, 420, 60);
 		panelInfo.add(descResp);
 		
-		//JTextField capacidadResp = new JTextField();
+		JTextField capacidadResp = new JTextField();
 		capacidadResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		capacidadResp.setColumns(10);
 		capacidadResp.setBackground(new Color(217, 217, 217));
@@ -764,46 +765,6 @@ public class TiposView {
 		botonVacio.setIcon(new ImageIcon(getClass().getResource("/contenido/vaciar.png")));
 		botonVacio.setBounds(85, 482, 380, 50);
 		panelAzul.add(botonVacio);
-		
-		JButton botonCrear = new JButton();
-		botonCrear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model = new TiposModel();
-				
-				String nombre = nombreHabiResp.getText();
-				String desc = descResp.getText();
-				String capacidad = capacidadResp.getText();
-				String servicios = serviciosResp.getText();
-				
-				StringBuilder seleccion = new StringBuilder();
-				if(tari1.isSelected())
-				{
-					seleccion.append(tari1.getText()).append("\n");
-				}
-				if(tarifa2.isSelected())
-				{
-					seleccion.append(tarifa2.getText()).append("\n");
-				}
-				if(tarifa3.isSelected())
-				{
-					seleccion.append(tarifa3.getText()).append("\n");
-				}
-				if(tarifa4.isSelected())
-				{
-					seleccion.append(tarifa4.getText()).append("\n");
-				}
-				String tarifas = seleccion.toString();
-				
-				model.crear(nombre, desc, capacidad, servicios, tarifas);
-				System.out.println("tipo creado");
-				
-			}
-		});
-		botonCrear.setBorderPainted(false);
-		botonCrear.setContentAreaFilled(false);
-		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/crearTipo.png")));
-		botonCrear.setBounds(628, 482, 387, 50);
-		panelAzul.add(botonCrear);
 		
 		JPanel panelInfo2 = new JPanel();
 		panelInfo2.setLayout(null);
@@ -826,6 +787,45 @@ public class TiposView {
 		panelInfo2.add(tarifaPanel);
 		tarifaPanel.setBackground(new Color(217, 217, 217));
 		tarifaPanel.setSize(new Dimension(401, 73));
+		
+		JButton botonCrear = new JButton();
+		botonCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model = new TiposModel();
+				
+				String nombre = nombreHabiResp.getText();
+				String desc = descResp.getText();
+				String capacidad = capacidadResp.getText();
+				String servicios = serviciosResp.getText();
+				
+				StringBuilder seleccion = new StringBuilder();
+		        for (Component comp : tarifaPanel.getComponents()) 
+		        {
+		            if (comp instanceof JCheckBox) 
+		            {
+		                JCheckBox checkBox = (JCheckBox) comp;
+		                if (checkBox.isSelected())
+		                {
+		                    seleccion.append(checkBox.getText()).append(",");
+		                }
+		            }
+		        }
+		        
+		        String tarifas = seleccion.toString();
+		        if (tarifas.endsWith(",")) {
+		            tarifas = tarifas.substring(0, tarifas.length() - 1); // Eliminar la última coma
+		        }
+		        System.out.println("TARIFAS DADAS " + tarifas);
+				
+				model.crear(nombre, desc, capacidad, servicios, tarifas);
+				
+			}
+		});
+		botonCrear.setBorderPainted(false);
+		botonCrear.setContentAreaFilled(false);
+		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/crearTipo.png")));
+		botonCrear.setBounds(628, 482, 387, 50);
+		panelAzul.add(botonCrear);
 		
 		for(String tari : tarifasList)
 		{
@@ -1509,11 +1509,11 @@ public class TiposView {
 		panelAzul.add(panelInfo);
 		panelInfo.setLayout(null);
 		
-		JLabel nombreTipo = new JLabel("Nombre del tipo de habitación");
-		nombreTipo.setForeground(Color.BLACK);
-		nombreTipo.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		nombreTipo.setBounds(35, 21, 327, 46);
-		panelInfo.add(nombreTipo);
+		JLabel nombreTipo1 = new JLabel("Nombre del tipo de habitación");
+		nombreTipo1.setForeground(Color.BLACK);
+		nombreTipo1.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nombreTipo1.setBounds(35, 21, 327, 46);
+		panelInfo.add(nombreTipo1);
 		
 	
 		//JTextField nombreHabiResp = new JTextField();
@@ -1571,14 +1571,8 @@ public class TiposView {
 		JButton eliminarTipoBtn = new JButton();
 		eliminarTipoBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				nombreHabiResp.setText("");
-//				tipoResp.setText("");
-//				telResp.setText("");
-//				direccionResp.setText("");
-//				contactoResp.setText("");
-//				relacionResp.setText("");
-//				noContactoResp.setText("");
-//				infoAdResp.setText("");
+				model = new TiposModel();
+				model.eliminarTipo(nombreTipo);
 			}
 		});
 		eliminarTipoBtn.setBorderPainted(false);
@@ -1587,60 +1581,73 @@ public class TiposView {
 		eliminarTipoBtn.setBounds(85, 482, 387, 50);
 		panelAzul.add(eliminarTipoBtn);
 		
-		JButton guardarCambiosBtn = new JButton();
-		guardarCambiosBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		guardarCambiosBtn.setBorderPainted(false);
-		guardarCambiosBtn.setContentAreaFilled(false);
-		guardarCambiosBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/guardarCambios.png")));
-		guardarCambiosBtn.setBounds(620, 482, 387, 50);
-		panelAzul.add(guardarCambiosBtn);
+		
 		
 		JPanel panelInfo2 = new JPanel();
 		panelInfo2.setLayout(null);
 		panelInfo2.setBorder(BorderFactory.createLineBorder(new Color(252,210,87), 3));
 		panelInfo2.setBounds(568, 87, 496, 384);
 		panelAzul.add(panelInfo2);
-		
+
 		JLabel tarifa = new JLabel("Tarifas");
 		tarifa.setBounds(33, 237, 364, 46);
 		panelInfo2.add(tarifa);
 		tarifa.setForeground(Color.BLACK);
 		tarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		
+
+		model = new TiposModel();
+		List<String> tarifasList = model.getTarifasName();
+
 		JPanel tarifaPanel = new JPanel();
-		tarifaPanel.setLocation(33, 285);
-		panelInfo2.add(tarifaPanel);
+		tarifaPanel.setLayout(new GridLayout(0, 1)); // Usamos un GridLayout para organizar los JCheckBox
+		tarifaPanel.setBounds(33, 285, 401, 73); // Ajustamos las dimensiones y posición del panel
 		tarifaPanel.setBackground(new Color(217, 217, 217));
-		tarifaPanel.setLayout(null);
-		tarifaPanel.setSize(new Dimension(401, 73));
-		
-		JCheckBox tari1 = new JCheckBox("Tarifa #1");
-		tari1.setBounds(6, 7, 200, 31);
-		tarifaPanel.add(tari1);
-		tari1.setOpaque(false);
-		tari1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		
-		JCheckBox tarifa2 = new JCheckBox("Tarifa #2");
-		tarifa2.setBounds(6, 35, 200, 31);
-		tarifaPanel.add(tarifa2);
-		tarifa2.setOpaque(false);
-		tarifa2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		
-		JCheckBox tarifa3 = new JCheckBox("Tarifa #3");
-		tarifa3.setBounds(195, 7, 200, 31);
-		tarifaPanel.add(tarifa3);
-		tarifa3.setOpaque(false);
-		tarifa3.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		
-		JCheckBox tarifa4 = new JCheckBox("Tarifa #4");
-		tarifa4.setBounds(195, 35, 200, 31);
-		tarifaPanel.add(tarifa4);
-		tarifa4.setOpaque(false);
-		tarifa4.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		
+		panelInfo2.add(tarifaPanel);
+
+		JButton guardarCambiosBtn = new JButton();
+		guardarCambiosBtn.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        if (nombreTipo != null) {
+		            String nombre = nombreHabiResp.getText();
+		            String desc = descResp.getText();
+		            String cap = capResp.getText();
+		            String serv = serviciosResp.getText();
+		            
+		            StringBuilder seleccion = new StringBuilder();
+		            for (Component comp : tarifaPanel.getComponents()) {
+		                if (comp instanceof JCheckBox) {
+		                    JCheckBox checkBox = (JCheckBox) comp;
+		                    if (checkBox.isSelected()) {
+		                        seleccion.append(checkBox.getText()).append(",");
+		                    }
+		                }
+		            }
+		            
+		            String tarifas = seleccion.toString();
+		            if (tarifas.endsWith(",")) {
+		                tarifas = tarifas.substring(0, tarifas.length() - 1); // Eliminar la última coma
+		            }
+
+		            model = new TiposModel();
+		            String idTipo = model.buscarId(nombreTipo);
+		            model.editar1(idTipo, nombre, desc, cap, serv, tarifas);
+		        }
+		    }
+		});
+		guardarCambiosBtn.setBorderPainted(false);
+		guardarCambiosBtn.setContentAreaFilled(false);
+		guardarCambiosBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/guardarCambios.png")));
+		guardarCambiosBtn.setBounds(620, 482, 387, 50);
+		panelAzul.add(guardarCambiosBtn);
+
+		for (String tari : tarifasList) {
+		    JCheckBox checkBox = new JCheckBox(tari);
+		    checkBox.setOpaque(false);
+		    checkBox.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		    tarifaPanel.add(checkBox);
+		}
+
+
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(217, 217, 217));
 		panel.setBounds(33, 70, 427, 158);
