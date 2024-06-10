@@ -1113,7 +1113,7 @@ public class TarifasView {
 		panelInfo.add(nomTarifa);
 		
 	
-		JTextField nombreTarifaResp = new JTextField();
+		//JTextField nombreTarifaResp = new JTextField();
 		nombreTarifaResp.setBorder(BorderFactory.createCompoundBorder(
 				nombreTarifaResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1131,7 +1131,7 @@ public class TarifasView {
 		panelInfo.add(descripcion);
 		
 		
-		JTextArea descResp = new JTextArea();
+		//JTextArea descResp = new JTextArea();
 		descResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		descResp.setBackground(new Color(217, 217, 217));
 		descResp.setBounds(35, 105, 420, 60);
@@ -1213,12 +1213,30 @@ public class TarifasView {
 				String servicios = serviciosResp.getText();
 				String condiciones = condicionesResp.getText();
 				String precio = precioBaseResp.getText();
+				int contadorVacios=0;
 				
-				int precioInt = Integer.parseInt(precio);
-				model = new TarifasModel();
-				model.crear(nombre, descripcion, servicios, condiciones, precioInt);
 				
-				exito();
+				
+				if (nombre.equals("") || descripcion.equals("") || servicios.equals("") || condiciones.equals("") || precio.equals("")) {
+				    contadorVacios++;
+				    nombreTarifaResp.setBorder(BorderFactory.createLineBorder(nombre.equals("") ? Color.red : Color.green, 2));
+				    descResp.setBorder(BorderFactory.createLineBorder(descripcion.equals("") ? Color.red : Color.green, 2));
+				    serviciosResp.setBorder(BorderFactory.createLineBorder(servicios.equals("") ? Color.red : Color.green, 2));
+				    condicionesResp.setBorder(BorderFactory.createLineBorder(condiciones.equals("") ? Color.red : Color.green, 2));
+				    precioBaseResp.setBorder(BorderFactory.createLineBorder(precio.equals("") ? Color.red : Color.green, 2));
+				}
+
+				if (contadorVacios > 0) {
+				    campoVacio();
+				}
+
+				if (contadorVacios == 0) {
+					int precioInt = Integer.parseInt(precio);
+					model = new TarifasModel();
+					model.crear(nombre, descripcion, servicios, condiciones, precioInt);	
+					exito();
+				}
+				
 			}
 		});
 		botonCrear.setBorderPainted(false);

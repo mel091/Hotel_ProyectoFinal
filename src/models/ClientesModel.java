@@ -398,8 +398,8 @@ public class ClientesModel
 	                                g2d.drawImage(icon.getImage(), 0, 0, 475, 300, null);
 	                            }
 	                        };   	
-	                    	panel1.setBackground(Color.red);
-	                    	panel1.setBounds(0,0,475,300);
+	                    	panel1.setBackground(Color.white);
+	                    	panel1.setBounds(0,0,472,291);
 	                    	panel1.revalidate();
 	                    	panel1.repaint();
 	                    	

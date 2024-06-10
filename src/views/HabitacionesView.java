@@ -1745,7 +1745,21 @@ public class HabitacionesView {
 		
 
 		//Panel para el documento
-		JPanel docPanel= new JPanel();
+		JPanel docPanel= new JPanel()
+		{
+			@Override
+			public void paintComponent(Graphics create) {
+				super.paintComponent(create);
+				Graphics2D g2d = (Graphics2D) create;
+				try {
+					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/imgDesenfocada.png"));
+					g2d.drawImage(image, 0, 0, 400,475, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		
 		docPanel.setBounds(65,70,400,475);
 		docPanel.setBackground(Color.white);
 		docPanel.setLayout(null);

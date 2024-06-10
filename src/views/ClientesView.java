@@ -1400,7 +1400,7 @@ public class ClientesView {
 		panelImagen.setBounds(20, 20, 472, 291);
 		panelImagen.setLayout(null);
 		panelImagen.setOpaque(true); 
-		panelImagen.setBackground(Color.red);
+		panelImagen.setBackground(Color.white);
 		panelImagen.repaint();
 		panelImagen.revalidate();
 		
@@ -2052,6 +2052,8 @@ public class ClientesView {
 			public void actionPerformed(ActionEvent e) {
 				if(idCliente != null && !idCliente.isEmpty())
 				{
+					int contadorErrores = 0;
+					int contadorVacios = 0;
 					String nombre = nombreResp.getText();
 					String correo = correoResp.getText();
 					String tel = telResp.getText();
@@ -2060,7 +2062,8 @@ public class ClientesView {
 					String relacion = relacionResp.getText();
 					String telEmergencia = noContactoResp.getText();
 					String info = infoAdResp.getText();
-					
+					String email = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+					String soloLetras = "^[a-zA-Z\\s]+$";
 					InputStream img = model.getImagen();
 					model = new ClientesModel();
 					
@@ -2076,9 +2079,65 @@ public class ClientesView {
 					System.out.println("guardar: " + idCliente);
 					
 					model = new ClientesModel();
-						
-					model.editar(idCliente, nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, imgB);
-				exito();
+					 // Validar vacios
+				    if (tel.equals("") || correo.equals("") || telEmergencia.equals("") || nombre.equals("") || dir.equals("") || contactoEmergencia.equals("") || relacion.equals("") || info.equals("")) {
+				    	contadorVacios=1;
+				        telResp.setBorder(BorderFactory.createLineBorder(tel.equals("") ? Color.red : Color.green, 2));
+				        correoResp.setBorder(BorderFactory.createLineBorder(correo.equals("") ? Color.red : Color.green, 2));
+				        noContactoResp.setBorder(BorderFactory.createLineBorder(telEmergencia.equals("") ? Color.red: Color.green, 2));
+				        nombreResp.setBorder(BorderFactory.createLineBorder(nombre.equals("") ? Color.red : Color.green, 2));
+				        direccionResp.setBorder(BorderFactory.createLineBorder(dir.equals("") ? Color.red : Color.green, 2));
+				        contactoResp.setBorder(BorderFactory.createLineBorder(contactoEmergencia.equals("") ? Color.red : Color.green, 2));
+				        relacionResp.setBorder(BorderFactory.createLineBorder(relacion.equals("") ? Color.red : Color.green, 2));
+				        infoAdResp.setBorder(BorderFactory.createLineBorder(info.equals("") ? Color.red : Color.green, 2));
+				       
+				    }
+				    if (tel.length() > 10 || !tel.matches("\\d+")) {
+				        
+				        telResp.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+				        contadorErrores++;
+				    
+				    }
+				    if (!correo.matches(email)) {	       
+				       
+				        correoResp.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+				        contadorErrores++;
+					    
+				    }
+				    if (telEmergencia.length() > 10 || !telEmergencia.matches("\\d+")) {
+					    
+				        
+				        noContactoResp.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+				        contadorErrores++;
+					    
+				    
+				    }
+				    if (!nombre.matches(soloLetras)) {
+					    
+				        
+				        noContactoResp.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+				        contadorErrores++;
+				    }	
+
+				    
+				    if (contadorErrores > 0) {
+				        datosNoValidos();
+				        contadorErrores=0;
+				    }
+
+				    if (contadorVacios > 0) {
+				        campoVacio();
+				        contadorVacios=0;
+				    }
+
+				    
+				    if (contadorErrores == 0 && contadorVacios == 0) {
+//				        model.crear(nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, imgB);
+//				        exito();
+				    	model.editar(idCliente, nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, imgB);
+						exito();
+				    }		
+					
 				}
 			}
 		});
@@ -2087,8 +2146,6 @@ public class ClientesView {
 		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/guardarCambios.png")));
 		botonCrear.setBounds(642, 482, 387, 50);
 		panelAzul.add(botonCrear);
-		
-		
 		
 		JButton regresarBtn = new JButton();
 		regresarBtn.addActionListener(new ActionListener() {
@@ -2260,7 +2317,21 @@ public class ClientesView {
 		
 
 		//Panel para el documento
-		JPanel docPanel= new JPanel();
+		JPanel docPanel= new JPanel()
+		{
+			@Override
+			public void paintComponent(Graphics create) {
+				super.paintComponent(create);
+				Graphics2D g2d = (Graphics2D) create;
+				try {
+					BufferedImage image = ImageIO.read(getClass().getResource("/contenido/imagenDesenfocada.jpg"));
+					g2d.drawImage(image, 0, 0, 400,300, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		
 		docPanel.setBounds(65,70,400,475);
 		docPanel.setBackground(Color.white);
 		docPanel.setLayout(null);
@@ -2422,6 +2493,9 @@ public class ClientesView {
 				// TODO Auto-generated method stub
 				System.out.println("Acceso");
 				emergente.dispose();
+				frame.dispose();
+				cliente=new ClientesController();
+				cliente.consultar();
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));
@@ -2698,6 +2772,7 @@ public class ClientesView {
 				// TODO Auto-generated method stub
 				System.out.println("Acceso");
 				emergente.dispose();
+				
 			}
 		});
 		botonAceptar.setForeground(new Color(255, 255, 255));

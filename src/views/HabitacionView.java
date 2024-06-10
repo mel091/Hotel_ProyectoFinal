@@ -54,7 +54,7 @@ public class HabitacionView extends JPanel {
 		JLabel nomHabitacion = new JLabel(habitacion.getNombre());
 		nomHabitacion.setHorizontalAlignment(SwingConstants.LEFT);
 		nomHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		nomHabitacion.setBounds(10, 8, 343, 35);
+		nomHabitacion.setBounds(10, 8, 450, 35);
 		infopan.add(nomHabitacion);
 		
 		JLabel tipoHabitacion = new JLabel(habitacion.getTipo());
@@ -87,7 +87,7 @@ public class HabitacionView extends JPanel {
 		desde_1.setBounds(655, 37, 18, 35);
 		infopan.add(desde_1);
 		
-		JLabel cantidad = new JLabel("000.00");
+		JLabel cantidad = new JLabel("3200.00");
 		cantidad.setHorizontalAlignment(SwingConstants.LEFT);
 		cantidad.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
 		cantidad.setBounds(668, 45, 104, 47);
