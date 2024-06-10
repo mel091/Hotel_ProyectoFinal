@@ -28,14 +28,14 @@ public class HabitacionView extends JPanel {
 		setBounds(28, y, 1120, 144);
 		setLayout(null);
 		
-		//ImageIcon icon = HabitacionesModel.blobToImageIcon(habitacion.getImagen());
+		ImageIcon icon = HabitacionesModel.blobToImageIcon(habitacion.getImagen());
         JPanel panelImagen = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-//                if (icon != null) {
-//                    g.drawImage(icon.getImage(), 0,0,257,122, null);
-//                }
+                if (icon != null) {
+                    g.drawImage(icon.getImage(), 0,0,257,122, null);
+                }
             }
         };
 		panelImagen.setLayout(null);

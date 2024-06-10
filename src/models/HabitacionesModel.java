@@ -696,7 +696,43 @@ public class HabitacionesModel {
 	        return tiposNombres;
 	    }
 	
-	public InputStream getImagen()
+	  public static ArrayList<Habitacion> getHabitaciones()//Para añadir el coso a rentas
+	    {
+	        ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
+
+	        try {
+	            Connection cn = Conexion.conectar();
+	            PreparedStatement pst = cn.prepareStatement("SELECT * FROM habitaciones");
+	            ResultSet rs = pst.executeQuery();
+	            while(rs.next())
+
+	            {
+	            	java.sql.Blob imagenBlob = rs.getBlob("img");
+	                Habitacion hab = new Habitacion(
+	                rs.getString("idHabitacion"),
+	                rs.getString("nombre"),
+	                rs.getString("tipo"),
+	                rs.getString("tamaño"),
+	                rs.getString("descripcion"),
+	                rs.getString("solicitudes"),
+	                imagenBlob
+	                );
+	                habitaciones.add(hab);
+	                
+	                
+	            }
+
+	            rs.close();
+	            pst.close();
+	            cn.close();
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return habitaciones;
+	    }
+	  
+	  public InputStream getImagen()
 	{
 		return imagenSeleccionada;
 	}

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -39,6 +40,8 @@ import controllers.InicioController;
 import controllers.RentasController;
 import controllers.TarifasController;
 import controllers.TiposController;
+import models.Habitacion;
+import models.HabitacionesModel;
 import models.RentasModel;
 
 public class RentasView {
@@ -51,20 +54,26 @@ public class RentasView {
 	public TiposController tipo;
 	public HabitacionesController room;
 	public ClientesController cliente;
-	public JTextField fechaInicialResp;
-	public JTextField fechaFinalResp;
+	public JTextField fechaInicialResp = new JTextField();;
+	public JTextField fechaFinalResp = new JTextField();;
+	
 	JTextField idClienteResp = new JTextField();
 	private int cambio1; /////////////////////////////////
 	
 	private String idRenta;
 	
 	JComboBox<String> tarifasResp = new JComboBox<>();
+	
 	JCheckBox wifi = new JCheckBox("Wi-Fi");
 	JCheckBox restaurante = new JCheckBox("Restaurante");
 	JCheckBox recreativos = new JCheckBox("Espacios recreativos");
 	JCheckBox lavanderia = new JCheckBox("Lavandería");
 	JTextField costoFinalResp = new JTextField();
 	JTextField infoCambio = new JTextField();
+	JTextField subtotalResp = new JTextField();
+	String[] posibles= {"Check-In","Cancelada", "Check-Out"};
+	JComboBox estatusResp = new JComboBox(posibles);
+	
 	public JPanel panelMovil;
 	JTextField infoIdRenta = new JTextField();
 	JTextField infoNombre = new JTextField();
@@ -77,6 +86,10 @@ public class RentasView {
 	JTextField infoTotal = new JTextField();
 	JTextField infoEstatus = new JTextField();  /////////////////////////////////
 	
+	//JTextField idClienteResp = new JTextField();
+	
+	JLabel nombreRenta = new JLabel("");
+	
 	public RentasView() {
 		frame = new JFrame();
 		frame.setBounds(10, 5, 1350, 720);
@@ -85,6 +98,7 @@ public class RentasView {
 		frame.setVisible(true);
 		ImageIcon icono = new ImageIcon(getClass().getResource("/contenido/castleIcon2.png"));
 		frame.setIconImage(icono.getImage());
+		
 		emergente=new JDialog(frame,"Emergente", true);
 		emergente.setSize( 560, 290);
 		emergente.setResizable(false);
@@ -391,13 +405,11 @@ public class RentasView {
 					System.out.println(idRenta);
 					model = new RentasModel();
 					
-					RentasView view = new RentasView();
+					model.textField(infoIdRenta, infoNombre, infoCorreo, infoFechaInicial, infoFechaFinal, 
+							infoNomEmerg, infoAmenidades, infoSubtotal, infoTotal, infoEstatus, nombreRenta);
 					
-					model.textField(view.getId(), view.getNombre(), view.getCorreo(), view.getFecha1(), view.getFecha2(), 
-							view.getTarifasD(), view.getAmenidades(), view.getSubtotal(), view.getTotal(), view.getEstatus());
-					
-					model.mostrarDetalles(idRenta);
-					view.detalles();
+					model.mostrarDetalles2(idRenta);
+					detalles();
 				}
 			}
 		});
@@ -413,11 +425,17 @@ public class RentasView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("editar");
-				frame.dispose();
-				renta = new RentasController();
-				renta.editar();
+				if (idRenta != null && !idRenta.isEmpty()) 
+				{ 
+  		            model = new RentasModel();
+  		            model.textField2(idClienteResp, fechaInicialResp,  fechaFinalResp, tarifasResp, wifi, restaurante, 
+  		            		recreativos, lavanderia, estatusResp, subtotalResp, costoFinalResp);
+  	       
+  		           model.recuperaDatos(idRenta);
+  		           frame.dispose();
+  		          
+  		            editar();
+  		        }
 			}
 		});
 		editarBtn.setBorderPainted(false);
@@ -714,6 +732,7 @@ public class RentasView {
 		idCliente.setBounds(35, 21, 327, 46);
 		panelInfo.add(idCliente);
 	
+		JTextField idClienteResp = new JTextField();
 		idClienteResp.setBorder(BorderFactory.createCompoundBorder(
 				idClienteResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -813,7 +832,7 @@ public class RentasView {
 		botonVacio.setBounds(85, 482, 380, 50);
 		panelAzul.add(botonVacio);
 		
-		JButton botonCrear = new JButton(); ////////////////////////////////////////////////////////
+		JButton botonCrear = new JButton(); /////////////////////////////////////////////////////////////////////////////////////////////////////////
 		botonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model = new RentasModel();
@@ -847,8 +866,9 @@ public class RentasView {
 	                System.out.println("Error: El valor ingresado no es un número entero válido");
 	                e1.printStackTrace();
 	            }
-	            
+	                
 	            model.crear(idC, fechaInicial, fechaFinal, tarifaSeleccionada, amenidades, costoDef);
+
 				pagoInicial();
 			}
 		});
@@ -1251,12 +1271,12 @@ public class RentasView {
 		panelCentral.add(checkOutBtn);
 		
 		
-		JLabel nombreHabitacion = new JLabel("Nombre de la habitación");
-		nombreHabitacion.setHorizontalAlignment(SwingConstants.CENTER);
-		nombreHabitacion.setForeground(new Color(0, 0, 0));
-		nombreHabitacion.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		nombreHabitacion.setBounds(330, 28, 489, 46);
-		panelCentral.add(nombreHabitacion);
+		//JLabel nombreHabitacion = new JLabel("Nombre de la habitación");
+		nombreRenta.setHorizontalAlignment(SwingConstants.CENTER);
+		nombreRenta.setForeground(new Color(0, 0, 0));
+		nombreRenta.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+		nombreRenta.setBounds(330, 28, 489, 46);
+		panelCentral.add(nombreRenta);
 	
 		JLabel fondoCliente = new JLabel("");
 		fondoCliente.setIcon(new ImageIcon(getClass().getResource("/contenido/tituloCliente.png")));
@@ -1409,7 +1429,7 @@ public class RentasView {
 		panelInfo.add(tarifa);
 		
 		
-		JTextField infoNomEmerg = new JTextField("blabla");
+		//JTextField infoNomEmerg = new JTextField("blabla");
 		infoNomEmerg.setBorder(BorderFactory.createCompoundBorder(
 				infoNomEmerg.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1797,7 +1817,7 @@ public class RentasView {
 		panelInfo.add(idCliente);
 		
 	
-		JTextField idClienteResp = new JTextField();
+		//JTextField idClienteResp = new JTextField();
 		idClienteResp.setBorder(BorderFactory.createCompoundBorder(
 				idClienteResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1820,7 +1840,7 @@ public class RentasView {
 		fechaFinal.setBounds(35, 137, 160, 46);
 		panelInfo.add(fechaFinal);
 		
-		fechaInicialResp = new JTextField();
+		//fechaInicialResp = new JTextField();
 		fechaInicialResp.setBorder(BorderFactory.createCompoundBorder(
 				fechaInicialResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1838,7 +1858,7 @@ public class RentasView {
 		tarifaTitulo.setBounds(35, 206, 160, 46);
 		panelInfo.add(tarifaTitulo);
 		
-		fechaFinalResp = new JTextField();
+		//fechaFinalResp = new JTextField();
 		fechaFinalResp.setBorder(BorderFactory.createCompoundBorder(
 				fechaFinalResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1936,31 +1956,31 @@ public class RentasView {
 		panelInfo.add(panelito);
 		panelito.setLayout(null);
 		
-		JCheckBox wifi = new JCheckBox("Wi-Fi");
+		//JCheckBox wifi = new JCheckBox("Wi-Fi");
 		wifi.setOpaque(false);
 		wifi.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		wifi.setBounds(0, 0, 200, 31);
 		panelito.add(wifi);
 		
-		JCheckBox restaurante = new JCheckBox("Restaurante");
+		//JCheckBox restaurante = new JCheckBox("Restaurante");
 		restaurante.setOpaque(false);
 		restaurante.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		restaurante.setBounds(0, 30, 200, 31);
 		panelito.add(restaurante);
 		
-		JCheckBox recreativos = new JCheckBox("Espacios recreativos");
+		//JCheckBox recreativos = new JCheckBox("Espacios recreativos");
 		recreativos.setOpaque(false);
 		recreativos.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		recreativos.setBounds(220, 0, 200, 31);
 		panelito.add(recreativos);
 		
-		JCheckBox lavanderia = new JCheckBox("Lavandería");
+		//JCheckBox lavanderia = new JCheckBox("Lavandería");
 		lavanderia.setOpaque(false);
 		lavanderia.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lavanderia.setBounds(220, 30, 200, 31);
 		panelito.add(lavanderia);
 		
-		JTextField costoFinalResp = new JTextField();
+		//JTextField costoFinalResp = new JTextField();
 		costoFinalResp.setBorder(BorderFactory.createCompoundBorder(
 				costoFinalResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1971,10 +1991,34 @@ public class RentasView {
 		costoFinalResp.setColumns(10);
 		costoFinalResp.setBackground(new Color(217, 217, 217));
 		
-		JComboBox tarifasResp = new JComboBox();
-		tarifasResp.setBackground(new Color(217, 217, 217));
-		tarifasResp.setBounds(35, 244, 420, 25);
+//		JComboBox tarifasResp = new JComboBox();
+//		tarifasResp.setBackground(new Color(217, 217, 217));
+//		tarifasResp.setBounds(35, 244, 420, 25);
+//		panelInfo.add(tarifasResp);
+		
+		model = new RentasModel();
+		List<String> tariNombres = model.getTar();
+
+        for (String nombre : tariNombres) 
+        {
+        	tarifasResp.addItem(nombre);
+        }
+
+        tarifasResp.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model = new RentasModel();
+				String tipo = (String) tarifasResp.getSelectedItem();
+//				String tarif = model.mostrarTarifas(tipo);
+//				tarifasText1.setText(tarif);	
+			}
+	
+		});
+        tarifasResp.setBackground(new Color(217, 217, 217));
+        tarifasResp.setBounds(35, 244, 420, 25);
 		panelInfo.add(tarifasResp);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 73, 102));
@@ -2036,7 +2080,7 @@ public class RentasView {
 		estatus.setBounds(563, 180, 364, 46);
 		panelInfo.add(estatus);
 		
-		JTextField subtotalResp = new JTextField();
+		//JTextField subtotalResp = new JTextField();
 		subtotalResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		subtotalResp.setColumns(10);
 		subtotalResp.setBackground(new Color(217, 217, 217));
@@ -2049,8 +2093,8 @@ public class RentasView {
 		subtotal.setBounds(563, 248, 364, 46);
 		panelInfo.add(subtotal);
 		
-		String[] posibles= {"Check-In","Cancelada", "Check-Out"};
-		JComboBox estatusResp = new JComboBox(posibles);
+		//String[] posibles= {"Check-In","Cancelada", "Check-Out"};
+		//JComboBox estatusResp = new JComboBox(posibles);
 		estatusResp.setBorder(BorderFactory.createCompoundBorder(
 				estatusResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -2396,7 +2440,7 @@ public class RentasView {
 		panelMovil.setOpaque(false);
 		panelMovil.setLayout(null);
 		
-		//createCenterPanel(); 
+		createCenterPanel(); 
 		panelMovil.repaint();
 		panelMovil.revalidate();
 		
@@ -2569,175 +2613,199 @@ public class RentasView {
 		
 	}
 	
-	public void edicionPago()
-	{
-		emergente.getContentPane().removeAll();
-		emergente.repaint();
-		emergente.setSize(650, 450);
-		
-		JPanel edicionPagoPanel= new JPanel();
-		edicionPagoPanel.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
-		edicionPagoPanel.setBackground(new Color(220,220,220));
-		edicionPagoPanel.setLayout(null);
-		
-		
-		JLabel text = new JLabel("Pago en efectivo");
-		text.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		text.setHorizontalAlignment(SwingConstants.CENTER);
-		text.setForeground(Color.white);
-		text.setBounds(195,15,250,40);
-		edicionPagoPanel.add(text);
-		
-		JLabel fondoTexto = new JLabel();
-		fondoTexto.setOpaque(true);
-		fondoTexto.setBackground(new Color(0,73,102));
-		fondoTexto.setBounds(0,0,emergente.getWidth(),50);
-		edicionPagoPanel.add(fondoTexto);
-		
-		JButton botonAceptar = new JButton();
-		botonAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/continuarCheck.png")));
-		botonAceptar.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Continuar");
-				emergente.dispose();
-				renta = new RentasController();
-				renta.editar();
-				reservaExitosa();
-			}
-		});
-		botonAceptar.setVerticalAlignment(SwingConstants.CENTER);
-		botonAceptar.setBorderPainted(false);
-		botonAceptar.setContentAreaFilled(false);
-		botonAceptar.setBounds(440, 350, 165, 50);
-		edicionPagoPanel.add(botonAceptar);
-		
-		
-		JButton botonCancelar = new JButton();
-		botonCancelar .setIcon(new ImageIcon(getClass().getResource("/contenido/cancelarCheck.png")));
-		botonCancelar.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Cancelar");
-				emergente.dispose();
-			}
-		});
-		botonCancelar.setBorderPainted(false);
-		botonCancelar.setContentAreaFilled(false);
-		botonCancelar.setBounds(30, 350, 166, 50);
-		edicionPagoPanel.add(botonCancelar);
-	
-		
-		JPanel panelAzulImagen=new JPanel();
-		panelAzulImagen.setBackground(new Color(0,72,103));
-		panelAzulImagen.setBounds(40, 65, 550, 270);
-		edicionPagoPanel.add(panelAzulImagen);
-		panelAzulImagen.setLayout(null);
-		
-		JLabel panelDinero=new JLabel();
-		panelDinero.setOpaque(true);
-		panelDinero.setLayout(null);
-		panelDinero.setBackground(Color.white);
-		panelDinero.setBounds(20, 20, 510, 233);
-		panelAzulImagen.add(panelDinero);
-		
-		JLabel imgDinero = new JLabel("");
-		imgDinero.setIcon(new ImageIcon(getClass().getResource("/contenido/dinero.png")));
-		imgDinero.setHorizontalAlignment(SwingConstants.CENTER);
-		imgDinero.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		imgDinero.setBounds(160, 18, 47, 40);
-		panelDinero.add(imgDinero);
-		
-		
-		JLabel tituloEfectivo_1 = new JLabel("Efectivo");
-		tituloEfectivo_1.setHorizontalAlignment(SwingConstants.CENTER);
-		tituloEfectivo_1.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
-		tituloEfectivo_1.setBounds(195, 25, 163, 40);
-		panelDinero.add(tituloEfectivo_1);
-		
-		JLabel subtotal = new JLabel("Subtotal");
-		subtotal.setHorizontalAlignment(SwingConstants.LEFT);
-		subtotal.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		subtotal.setBounds(20, 75, 120, 35);
-		panelDinero.add(subtotal);
-		
-		JLabel total = new JLabel("Total");
-		total.setHorizontalAlignment(SwingConstants.LEFT);
-		total.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		total.setBounds(20, 115, 100, 35);
-		panelDinero.add(total);
-		
-		JLabel recibido = new JLabel("Recibido");
-		recibido.setHorizontalAlignment(SwingConstants.LEFT);
-		recibido.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		recibido.setBounds(20, 155, 100, 35);
-		panelDinero.add(recibido);
-		
-		JLabel cambio = new JLabel("Cambio");
-		cambio.setHorizontalAlignment(SwingConstants.LEFT);
-		cambio.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
-		cambio.setBounds(20, 195, 100, 35);
-		panelDinero.add(cambio);
-		
-		//Salida de datos sobre el monto
-		
-		JTextField infoSubtotal = new JTextField("271873");
-		infoSubtotal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		infoSubtotal.setBorder(BorderFactory.createCompoundBorder(
-				infoSubtotal.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		infoSubtotal.setEditable(false);
-		infoSubtotal.setBackground(new Color(217, 217, 217));
-		infoSubtotal.setBounds(140, 75, 350, 25);
-		panelDinero.add(infoSubtotal);
-		
-		JTextField infoTotal = new JTextField("271873");
-		infoTotal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		infoTotal.setBorder(BorderFactory.createCompoundBorder(
-				infoTotal.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		infoTotal.setEditable(false);
-		infoTotal.setBackground(new Color(217, 217, 217));
-		infoTotal.setBounds(140, 115, 350, 25);
-		panelDinero.add(infoTotal);
-		
-		JTextField infoRecibido = new JTextField();
-		infoRecibido.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		infoRecibido.setBorder(BorderFactory.createCompoundBorder(
-				infoRecibido.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		infoRecibido.setEditable(true);
-		infoRecibido.setBackground(new Color(217, 217, 217));
-		infoRecibido.setBounds(140, 155, 350, 25);
-		panelDinero.add(infoRecibido);
-		
-		//Aparece en automatico con una operacion
-		JTextField infoCambio = new JTextField("7832");
-		infoCambio.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
-		infoCambio.setBorder(BorderFactory.createCompoundBorder(
-				infoCambio.getBorder(),
-		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
-		));
-		infoCambio.setEditable(false);
-		infoCambio.setBackground(new Color(217, 217, 217));
-		infoCambio.setBounds(140, 195, 350, 25);
-		panelDinero.add(infoCambio);
+	public void edicionPago() {
+	    emergente.getContentPane().removeAll();
+	    emergente.repaint();
+	    emergente.setSize(650, 450);
 
+	    JPanel edicionPagoPanel = new JPanel();
+	    edicionPagoPanel.setBounds(0, 0, emergente.getWidth(), emergente.getHeight());
+	    edicionPagoPanel.setBackground(new Color(220, 220, 220));
+	    edicionPagoPanel.setLayout(null);
 
-		
-		emergente.getContentPane().add(edicionPagoPanel);
+	    JLabel text = new JLabel("Pago en efectivo");
+	    text.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+	    text.setHorizontalAlignment(SwingConstants.CENTER);
+	    text.setForeground(Color.white);
+	    text.setBounds(195, 15, 250, 40);
+	    edicionPagoPanel.add(text);
+
+	    JLabel fondoTexto = new JLabel();
+	    fondoTexto.setOpaque(true);
+	    fondoTexto.setBackground(new Color(0, 73, 102));
+	    fondoTexto.setBounds(0, 0, emergente.getWidth(), 50);
+	    edicionPagoPanel.add(fondoTexto);
+
+	    JButton botonAceptar = new JButton();
+	    botonAceptar.setIcon(new ImageIcon(getClass().getResource("/contenido/continuarCheck.png")));
+	    botonAceptar.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            model = new RentasModel();
+	            String tipo2 = (String) tarifasResp.getSelectedItem();
+	            String estatusC = (String) estatusResp.getSelectedItem();
+
+	            StringBuilder seleccion = new StringBuilder();
+	            if (wifi.isSelected()) {
+	                seleccion.append(wifi.getText()).append("\n");
+	            }
+	            if (restaurante.isSelected()) {
+	                seleccion.append(restaurante.getText()).append("\n");
+	            }
+	            if (recreativos.isSelected()) {
+	                seleccion.append(recreativos.getText()).append("\n");
+	            }
+	            if (lavanderia.isSelected()) {
+	                seleccion.append(lavanderia.getText()).append("\n");
+	            }
+	            String amenidades1 = seleccion.toString();
+
+	            model.textField3(idClienteResp, fechaInicialResp, fechaFinalResp, tipo2, amenidades1, estatusC, subtotalResp, costoFinalResp);
+	            model.actualizarRentas(idRenta);
+
+	            reservaExitosa();
+	        }
+	    });
+	    botonAceptar.setVerticalAlignment(SwingConstants.CENTER);
+	    botonAceptar.setBorderPainted(false);
+	    botonAceptar.setContentAreaFilled(false);
+	    botonAceptar.setBounds(440, 350, 165, 50);
+	    edicionPagoPanel.add(botonAceptar);
+
+	    JButton botonCancelar = new JButton();
+	    botonCancelar.setIcon(new ImageIcon(getClass().getResource("/contenido/cancelarCheck.png")));
+	    botonCancelar.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            System.out.println("Cancelar");
+	            emergente.dispose();
+	        }
+	    });
+	    botonCancelar.setBorderPainted(false);
+	    botonCancelar.setContentAreaFilled(false);
+	    botonCancelar.setBounds(30, 350, 166, 50);
+	    edicionPagoPanel.add(botonCancelar);
+
+	    JPanel panelAzulImagen = new JPanel();
+	    panelAzulImagen.setBackground(new Color(0, 72, 103));
+	    panelAzulImagen.setBounds(40, 65, 550, 270);
+	    edicionPagoPanel.add(panelAzulImagen);
+	    panelAzulImagen.setLayout(null);
+
+	    JLabel panelDinero = new JLabel();
+	    panelDinero.setOpaque(true);
+	    panelDinero.setLayout(null);
+	    panelDinero.setBackground(Color.white);
+	    panelDinero.setBounds(20, 20, 510, 233);
+	    panelAzulImagen.add(panelDinero);
+
+	    JLabel imgDinero = new JLabel("");
+	    imgDinero.setIcon(new ImageIcon(getClass().getResource("/contenido/dinero.png")));
+	    imgDinero.setHorizontalAlignment(SwingConstants.CENTER);
+	    imgDinero.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+	    imgDinero.setBounds(160, 18, 47, 40);
+	    panelDinero.add(imgDinero);
+
+	    JLabel tituloEfectivo_1 = new JLabel("Efectivo");
+	    tituloEfectivo_1.setHorizontalAlignment(SwingConstants.CENTER);
+	    tituloEfectivo_1.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
+	    tituloEfectivo_1.setBounds(195, 25, 163, 40);
+	    panelDinero.add(tituloEfectivo_1);
+
+	    JLabel subtotal = new JLabel("Subtotal");
+	    subtotal.setHorizontalAlignment(SwingConstants.LEFT);
+	    subtotal.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+	    subtotal.setBounds(20, 75, 120, 35);
+	    panelDinero.add(subtotal);
+
+	    JLabel total = new JLabel("Total");
+	    total.setHorizontalAlignment(SwingConstants.LEFT);
+	    total.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+	    total.setBounds(20, 115, 100, 35);
+	    panelDinero.add(total);
+
+	    JLabel recibido = new JLabel("Recibido");
+	    recibido.setHorizontalAlignment(SwingConstants.LEFT);
+	    recibido.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+	    recibido.setBounds(20, 155, 100, 35);
+	    panelDinero.add(recibido);
+
+	    JLabel cambio = new JLabel("Cambio");
+	    cambio.setHorizontalAlignment(SwingConstants.LEFT);
+	    cambio.setFont(new Font("Palatino Linotype", Font.BOLD, 25));
+	    cambio.setBounds(20, 195, 100, 35);
+	    panelDinero.add(cambio);
+
+	    // Salida de datos sobre el monto
+	    JTextField infoSubtotal = new JTextField();
+	    infoSubtotal.setText(model.obtenerRenta(idRenta));
+	    infoSubtotal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+	    infoSubtotal.setBorder(BorderFactory.createCompoundBorder(
+	            infoSubtotal.getBorder(),
+	            BorderFactory.createEmptyBorder(3, 1, -5, 0)
+	    ));
+	    infoSubtotal.setEditable(false);
+	    infoSubtotal.setBackground(new Color(217, 217, 217));
+	    infoSubtotal.setBounds(140, 75, 350, 25);
+	    panelDinero.add(infoSubtotal);
+
+	    JTextField infoTotal = new JTextField();
+	    infoTotal.setText(model.obtenerRenta(idRenta));
+	    infoTotal.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+	    infoTotal.setBorder(BorderFactory.createCompoundBorder(
+	            infoTotal.getBorder(),
+	            BorderFactory.createEmptyBorder(3, 1, -5, 0)
+	    ));
+	    infoTotal.setEditable(false);
+	    infoTotal.setBackground(new Color(217, 217, 217));
+	    infoTotal.setBounds(140, 115, 350, 25);
+	    panelDinero.add(infoTotal);
+
+	    JTextField infoRecibido = new JTextField();
+	    infoRecibido.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+	    infoRecibido.setBorder(BorderFactory.createCompoundBorder(
+	            infoRecibido.getBorder(),
+	            BorderFactory.createEmptyBorder(3, 1, -5, 0)
+	    ));
+	    infoRecibido.setEditable(true);
+	    infoRecibido.setBackground(new Color(217, 217, 217));
+	    infoRecibido.setBounds(140, 155, 350, 25);
+	    panelDinero.add(infoRecibido);
+
+	    JTextField infoCambio = new JTextField();
+	    infoCambio.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+	    infoCambio.setBorder(BorderFactory.createCompoundBorder(
+	            infoCambio.getBorder(),
+	            BorderFactory.createEmptyBorder(3, 1, -5, 0)
+	    ));
+	    infoCambio.setEditable(false);
+	    infoCambio.setBackground(new Color(217, 217, 217));
+	    infoCambio.setBounds(140, 195, 350, 25);
+	    panelDinero.add(infoCambio);
+
+	    // Agregar el ActionListener para calcular el cambio
+	    infoRecibido.addActionListener(new ActionListener() 
+	    {
+	        @Override
+	        public void actionPerformed(ActionEvent e) 
+	        {
+	            try 
+	            {
+	                double totalAmount = Double.parseDouble(infoTotal.getText());
+	                double receivedAmount = Double.parseDouble(infoRecibido.getText());
+	                double changeAmount = totalAmount - receivedAmount;
+	                infoCambio.setText(String.format("%.2f", changeAmount));
+	            } catch (NumberFormatException ex) {
+	                datosNoValidos();
+	            }
+	        }
+	    });
+
+	    emergente.getContentPane().add(edicionPagoPanel);
 	    emergente.setLocationRelativeTo(frame);
 	    emergente.setVisible(true);
 	    emergente.repaint();
-		emergente.revalidate();
-		
+	    emergente.revalidate();
 	}
 	
 	
@@ -3445,24 +3513,26 @@ public class RentasView {
 	    emergente.setVisible(true);;
 		
 	}
-//	public void createCenterPanel() {
-//        ArrayList<Habitacion> rooms = HabitacionesModel.getHabitaciones();
-//        System.out.println("Número de habitaciones: " + rooms.size());
-//        int y = 26; 
-//        int yCuarto =170;
-//        for (Habitacion roomcito : rooms) 
-//        {
-//            HabitacionVIew habiView = new HabitacionVIew(roomcito,y,frame);
-//            panelMovil.add(habiView);
-//            panelMovil.repaint();
-//    		panelMovil.revalidate();
-//    		y+=yCuarto;
-//    		
-//        }
-//        int nuevaY=rooms.size()*yCuarto + 200; 
-//        panelMovil.setPreferredSize(new Dimension(1175, nuevaY));
-//        //panelMovil.setPreferredSize(new Dimension(1175, yPanel));
-//    }
+	
+	public void createCenterPanel() {
+        ArrayList<Habitacion> rooms = HabitacionesModel.getHabitaciones();
+        System.out.println("Número de habitaciones: " + rooms.size());
+        int y = 26; 
+        int yCuarto =170;
+        for (Habitacion roomcito : rooms) 
+        {
+        	HabitacionView habiView = new HabitacionView(roomcito,y,frame);
+            panelMovil.add(habiView);
+            panelMovil.repaint();
+    		panelMovil.revalidate();
+    		y+=yCuarto;
+    		
+        }
+        int nuevaY=rooms.size()*yCuarto + 200; 
+        panelMovil.setPreferredSize(new Dimension(1175, nuevaY));
+        //panelMovil.setPreferredSize(new Dimension(1175, yPanel));
+    }
+	
 	public JTextField getId() {	
         return infoIdRenta;		
     }

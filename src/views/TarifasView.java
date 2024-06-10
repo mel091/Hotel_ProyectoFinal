@@ -29,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import controllers.ClientesController;
 import controllers.HabitacionesController;
@@ -43,20 +44,29 @@ public class TarifasView {
 	private InicioController inicio;
 	private TarifasController tarifa;
 	private TarifasModel model;
+	
 	private JDialog emergente;
 	public TiposController tipo;
 	public RentasController renta;
 	public HabitacionesController room;
 	public ClientesController cliente;
-	public JTextField fechaInicialResp;
-	public JTextField fechaFinalResp;
+	public JTextField fechaInicialResp = new JTextField();;
+	public JTextField fechaFinalResp = new JTextField();;
 	
-	JTextField nombreTarifaResp = new JTextField();
+	private String idTarifa;
+	
+	JTextArea infoDesc = new JTextArea("Ninguna");
+	JTextArea infoServInclu = new JTextArea("Ninguno");
+	JTextArea infoCondiciones = new JTextArea("Ninguna");
+	JTextField infoPrecioBase = new JTextField("$");
+	JLabel nomTarifa = new JLabel("Nombre de la tarifa");
+
 	JTextArea descResp = new JTextArea();
 	JTextArea condicionesResp = new JTextArea();
 	JTextArea serviciosResp = new JTextArea();
 	JTextField precioBaseResp = new JTextField();
-	
+	JTextField nombreTarifaResp = new JTextField();
+
 	public TarifasView(){
 		frame = new JFrame();
 		frame.setBounds(10, 5, 1350, 720);
@@ -320,45 +330,7 @@ public class TarifasView {
 		panelCentral.setBounds(150,110,1175, 560);
 		panelCentral.setLayout(null);
 		panelConsultar.add(panelCentral);
-		
-		//botones del panel central
-		JButton editarBtn= new JButton();
-		editarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/editar.png")));
-		editarBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("editar");
-				frame.dispose();
-				tarifa = new TarifasController();
-				tarifa.editar();
-				
-			}
-		});
-		editarBtn.setBorderPainted(false);
-		editarBtn.setContentAreaFilled(false);
-		editarBtn.setBounds(690, 480, 328, 45);
-		panelCentral.add(editarBtn);
-		
-		JButton detallesBtn= new JButton();
-		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
-		detallesBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Detalles");
-				frame.dispose();
-				tarifa = new TarifasController();
-				tarifa.detalles();
-			}
-		});
-		detallesBtn.setBorderPainted(false);
-		detallesBtn.setContentAreaFilled(false);
-		detallesBtn.setBounds(145, 480, 328, 45);
-		panelCentral.add(detallesBtn);
-		
+
 		//Panel azul que contiene el panel de la tabla
 		JPanel panelAzul = new JPanel();
 		panelAzul.setBackground(new Color(0, 73, 102));
@@ -370,63 +342,82 @@ public class TarifasView {
 		panelDeTabla.setBounds(25, 25, 1023, 316);
 		panelAzul.add(panelDeTabla);
 		
-		String tableTitle[]={"Nombre de la tarifa", "Fecha inicial", "Fecha final", "Precio base"};
-		String tableData[][] = {
-							    {"", "", "", "" },
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""},
-							    {"", "", "", ""}
-		};
+		model = new TarifasModel();
+		DefaultTableModel datosHab = model.tablaTarifas();	
 	
-		JTable productoTable= new JTable(tableData, tableTitle);
+		JTable productoTable= new JTable(datosHab); //dentro de los parentesis mete "datosClientes" 
+															// del DefaultTable arriba
 		productoTable.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
 		productoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
 		{
-	            @Override
-	            public void valueChanged(ListSelectionEvent e) 
-	            {
-	                if (!e.getValueIsAdjusting()) 
-	                {
-	                    int selectedRow = productoTable.getSelectedRow();
-	                    if (selectedRow != -1) 
-	                    { 
-	                        System.out.println("Fila seleccionada: " + selectedRow);
-	                        
-	                    }
-	                }
-	            }
+		        @Override
+		        public void valueChanged(ListSelectionEvent e) 
+		        {
+		            if (!e.getValueIsAdjusting()) 
+		            {
+		                int selectedRow = productoTable.getSelectedRow();
+		                if (selectedRow != -1) 
+		                { 
+		                	idTarifa = (String) productoTable.getValueAt(selectedRow, 0);
+		                	System.out.println("ID seleccionado: " + idTarifa);
+		                }
+		            }
+		        }
 		    });
 		panelDeTabla.setLayout(null);
 		
 		JScrollPane tableScroll=new JScrollPane(productoTable);
 		tableScroll.setBounds(0, 0, 1023, 316);
 		panelDeTabla.add(tableScroll);
+		
+		JButton detallesBtn= new JButton();
+		detallesBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/detalles.png")));
+		detallesBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(idTarifa != null && !idTarifa.isEmpty())
+				{
+					System.out.println(idTarifa);
+					
+					model = new TarifasModel();
+					model.textField(infoDesc, infoServInclu, infoCondiciones, infoPrecioBase, nomTarifa);
+					
+					//frame.dispose();
+					
+					model.mostrarDetalles(idTarifa);
+					detalles();
+				}
+			}
+		});
+		detallesBtn.setBorderPainted(false);
+		detallesBtn.setContentAreaFilled(false);
+		detallesBtn.setBounds(145, 480, 328, 45);
+		panelCentral.add(detallesBtn);
+		
+		//botones del panel central
+		JButton editarBtn= new JButton();
+		editarBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/editar.png")));
+		editarBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(idTarifa != null && !idTarifa.isEmpty())
+				{
+					model = new TarifasModel();
+					 
+					model.textField2(nombreTarifaResp, descResp, condicionesResp, serviciosResp, precioBaseResp);
+			        model.editar(idTarifa); // Solo recupera y establece datos
+			        editar();
+				}	
+				
+			}
+		});
+		editarBtn.setBorderPainted(false);
+		editarBtn.setContentAreaFilled(false);
+		editarBtn.setBounds(690, 480, 328, 45);
+		panelCentral.add(editarBtn);
+				
 	
 		
 		frame.getContentPane().add(panelConsultar);
@@ -687,7 +678,7 @@ public class TarifasView {
 		panelDetalles.add(panelCentral);
 		
 		
-		JLabel nomTarifa = new JLabel("Nombre de la tarifa");
+		//JLabel nomTarifa = new JLabel("Nombre de la tarifa");
 		nomTarifa.setHorizontalAlignment(SwingConstants.CENTER);
 		nomTarifa.setForeground(new Color(0, 0, 0));
 		nomTarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
@@ -752,7 +743,7 @@ public class TarifasView {
 		descripcion.setBounds(10, 143, 354, 29);
 		panelInfo.add(descripcion);
 		
-		JTextArea infoDesc = new JTextArea("Ninguna");
+		//JTextArea infoDesc = new JTextArea("Ninguna");
 		infoDesc.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		infoDesc.setBorder(BorderFactory.createCompoundBorder(
 				infoDesc.getBorder(),
@@ -771,7 +762,7 @@ public class TarifasView {
 		servInclu.setBounds(10, 243, 354, 29);
 		panelInfo.add(servInclu);
 		
-		JTextArea infoServInclu = new JTextArea("Ninguno");
+		//JTextArea infoServInclu = new JTextArea("Ninguno");
 		infoServInclu.setBorder(BorderFactory.createCompoundBorder(
 				infoServInclu.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -789,7 +780,7 @@ public class TarifasView {
 		condiciones.setBounds(10, 348, 354, 29);
 		panelInfo.add(condiciones);
 		
-		JTextArea infoCondiciones = new JTextArea("Ninguna");
+		//JTextArea infoCondiciones = new JTextArea("Ninguna");
 		infoCondiciones.setBorder(BorderFactory.createCompoundBorder(
 				infoCondiciones.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -809,7 +800,7 @@ public class TarifasView {
 		panelInfo.add(precioBase);
 		
 		
-		JTextField infoPrecioBase = new JTextField("$");
+		//JTextField infoPrecioBase = new JTextField("$");
 		infoPrecioBase.setBorder(BorderFactory.createCompoundBorder(
 				infoPrecioBase.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1144,14 +1135,14 @@ public class TarifasView {
 		panelAzul.add(panelInfo);
 		panelInfo.setLayout(null);
 		
-		JLabel nombreTarifa = new JLabel("Nombre de la tarifa");
-		nombreTarifa.setForeground(Color.BLACK);
-		nombreTarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
-		nombreTarifa.setBounds(35, 15, 327, 46);
-		panelInfo.add(nombreTarifa);
+		//JLabel nombreTarifa = new JLabel("Nombre de la tarifa");
+		nomTarifa.setForeground(Color.BLACK);
+		nomTarifa.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
+		nomTarifa.setBounds(35, 15, 327, 46);
+		panelInfo.add(nomTarifa);
 		
 	
-		
+		JTextField nombreTarifaResp = new JTextField();
 		nombreTarifaResp.setBorder(BorderFactory.createCompoundBorder(
 				nombreTarifaResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1161,8 +1152,7 @@ public class TarifasView {
 		nombreTarifaResp.setBounds(35, 50, 420, 25);
 		panelInfo.add(nombreTarifaResp);
 		nombreTarifaResp.setColumns(10);
-		
-		
+				
 		JLabel descripcion = new JLabel("Descripción");
 		descripcion.setForeground(Color.BLACK);
 		descripcion.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
@@ -1170,7 +1160,7 @@ public class TarifasView {
 		panelInfo.add(descripcion);
 		
 		
-		
+		JTextArea descResp = new JTextArea();
 		descResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		descResp.setBackground(new Color(217, 217, 217));
 		descResp.setBounds(35, 105, 420, 60);
@@ -1190,16 +1180,7 @@ public class TarifasView {
 		botonVacio.setBounds(85, 482, 380, 50);
 		panelAzul.add(botonVacio);
 		
-		JButton botonCrear = new JButton();
-		botonCrear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		botonCrear.setBorderPainted(false);
-		botonCrear.setContentAreaFilled(false);
-		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/crearTarifa.png")));
-		botonCrear.setBounds(628, 482, 387, 50);
-		panelAzul.add(botonCrear);
+		
 
 		
 		JLabel condiciones = new JLabel("Condiciones");
@@ -1252,6 +1233,26 @@ public class TarifasView {
 		precioBaseResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		precioBaseResp.setColumns(10);
 		precioBaseResp.setBackground(new Color(217, 217, 217));
+		
+		JButton botonCrear = new JButton();
+		botonCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nombre = nombreTarifaResp.getText();
+				String descripcion = descResp.getText();
+				String servicios = serviciosResp.getText();
+				String condiciones = condicionesResp.getText();
+				String precio = precioBaseResp.getText();
+				
+				int precioInt = Integer.parseInt(precio);
+				model = new TarifasModel();
+				model.crear(nombre, descripcion, servicios, condiciones, precioInt);
+			}
+		});
+		botonCrear.setBorderPainted(false);
+		botonCrear.setContentAreaFilled(false);
+		botonCrear.setIcon(new ImageIcon(getClass().getResource("/contenido/crearTarifa.png")));
+		botonCrear.setBounds(628, 482, 387, 50);
+		panelAzul.add(botonCrear);
 		
 		JPanel panelCrearImg = new JPanel();
 		panelCrearImg.setBackground(new Color (0, 73,102));
@@ -1556,7 +1557,7 @@ public class TarifasView {
 		panelInfo.add(nombreTarifa);
 		
 	
-		JTextField nombreTarifaResp = new JTextField();
+		//JTextField nombreTarifaResp = new JTextField();
 		nombreTarifaResp.setBorder(BorderFactory.createCompoundBorder(
 				nombreTarifaResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1574,7 +1575,7 @@ public class TarifasView {
 		panelInfo.add(descripcion);
 		
 		
-		JTextArea descResp = new JTextArea();
+		//JTextArea descResp = new JTextArea();
 		descResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		descResp.setBackground(new Color(217, 217, 217));
 		descResp.setBounds(35, 105, 420, 60);
@@ -1586,7 +1587,7 @@ public class TarifasView {
 		condiciones.setForeground(Color.BLACK);
 		condiciones.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
 
-		JTextArea condicionesResp = new JTextArea();
+		//JTextArea condicionesResp = new JTextArea();
 		condicionesResp.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		condicionesResp.setBorder(BorderFactory.createCompoundBorder(
 				condicionesResp.getBorder(),
@@ -1603,7 +1604,7 @@ public class TarifasView {
 		serviciosInclu.setForeground(Color.BLACK);
 		serviciosInclu.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
 		
-		JTextArea serviciosResp = new JTextArea();
+		//JTextArea serviciosResp = new JTextArea();
 		serviciosResp.setBounds(35, 300, 420, 60);
 		panelInfo.add(serviciosResp);
 		serviciosResp.setBorder(BorderFactory.createCompoundBorder(
@@ -1620,7 +1621,7 @@ public class TarifasView {
 		precioBase.setForeground(Color.BLACK);
 		precioBase.setFont(new Font("Palatino Linotype", Font.BOLD, 21));
 		
-		JTextField precioBaseResp = new JTextField();
+		//JTextField precioBaseResp = new JTextField();
 		precioBaseResp.setBorder(BorderFactory.createCompoundBorder(
 				precioBaseResp.getBorder(),
 		        BorderFactory.createEmptyBorder(3, 1, -5, 0)
@@ -1648,7 +1649,8 @@ public class TarifasView {
 		JButton eliminarTarifBtn = new JButton();
 		eliminarTarifBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				model = new TarifasModel();
+				model.eliminarTarifa(idTarifa);
 			}
 		});
 		eliminarTarifBtn.setBorderPainted(false);
@@ -1660,6 +1662,19 @@ public class TarifasView {
 		JButton guardarCambios = new JButton();
 		guardarCambios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(idTarifa != null)
+				{
+					String nombre = nombreTarifaResp.getText();
+					String desc = descResp.getText();
+					String condicion = condicionesResp.getText();
+					String servicio = serviciosResp.getText();
+					String precio = precioBaseResp.getText();
+					int precioInt = Integer.parseInt(precio);
+					
+					model = new TarifasModel();
+					model.editar1(idTarifa, nombre, desc, condicion, servicio, precioInt);
+					
+				}
 			}
 		});
 		guardarCambios.setBorderPainted(false);
