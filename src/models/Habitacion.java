@@ -1,6 +1,7 @@
 package models;
 
-public class Habitacion {
+public class Habitacion 
+{
 	private String idHabitacion;
 	private String nombre;
 	private String tipo;
@@ -8,10 +9,10 @@ public class Habitacion {
 	private String descripcion;
 	private String solicitudes;
 	//private String costo;
-	private byte[] imagen;
+	private java.sql.Blob imagen;
 	
 	public Habitacion(String idHabitacion, String nombre, String tipo, String tam, String descripcion,
-			String solicitudes,  byte[] imagen)
+			String solicitudes, java.sql.Blob imagen)
 	{
 		this.idHabitacion = idHabitacion;
 		this.nombre = nombre;
@@ -47,8 +48,9 @@ public class Habitacion {
 	}
 
 
-
-	public byte[] getImagen() {
+	public java.sql.Blob getImagen() {
 		return imagen;
 	}
+	
+	
 }
