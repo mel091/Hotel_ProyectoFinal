@@ -418,9 +418,10 @@ public class ClientesView {
 		    	    view.getRelacion(), view.getNumEmergencia(), view.getInfo(), view.getEstatus(), view.getNombreDetalles(), view.getPanelImg());
 		    	    
 		    	    frame.dispose();
+		    	    
 		    	    model.mostrarDetalles(idCliente);
-		    	    panelImagen.repaint();
-		    		panelImagen.revalidate();
+//		    	    panelImagen.repaint();
+//		    		panelImagen.revalidate();
 		    	    view.detalles();
 		    	   
 		    	} else {
@@ -734,7 +735,7 @@ public class ClientesView {
 		panelAzul.add(panelInfo);
 		panelInfo.setLayout(null);
 		
-		
+		JButton subirBtn= new JButton();
 		subirBtn.setFont(new Font("Palatino Linotype", Font.BOLD, 28));
 		subirBtn.setForeground(new Color(255, 255, 255));
 		subirBtn.setIcon(new ImageIcon(getClass().getResource("/contenido/subirCliente.png")));
@@ -922,8 +923,10 @@ public class ClientesView {
 				String telEmergencia = noContactoResp.getText();
 				String info = infoAdResp.getText();
 				String email = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-				InputStream img = model.getImagen();
 				String soloLetras = "^[a-zA-Z\\s]+$";
+				
+				InputStream img = model.getImagen();
+				
 				model = new ClientesModel();
 
 				if(path != null)
@@ -1623,7 +1626,7 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				System.out.println("Inicio");
 			}
 		});
@@ -1883,8 +1886,18 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Subir");
+				model = new ClientesModel();
+				path = model.subirImg();
+				if(path != null)
+				{
+					imgB = model.imageToBlob(path);
+					model.imagen(subirBtn);
+				}
+				else
+				{
+					System.out.println("ninguna img selec");
+				}
+				subirBtn.setEnabled(false); 
 			}
 		});
 		subirBtn.setBorderPainted(false);
@@ -2039,10 +2052,32 @@ public class ClientesView {
 			public void actionPerformed(ActionEvent e) {
 				if(idCliente != null && !idCliente.isEmpty())
 				{
-					System.out.println("guardar: " + idCliente);
+					String nombre = nombreResp.getText();
+					String correo = correoResp.getText();
+					String tel = telResp.getText();
+					String dir = direccionResp.getText();
+					String contactoEmergencia = contactoResp.getText();
+					String relacion = relacionResp.getText();
+					String telEmergencia = noContactoResp.getText();
+					String info = infoAdResp.getText();
+					
+					InputStream img = model.getImagen();
 					model = new ClientesModel();
-					model.textField2(nombreResp, correoResp, telResp, direccionResp, contactoResp, relacionResp, noContactoResp, infoAdResp);
-					model.actualizarClientes(idCliente);
+					
+					if(path != null)
+					{
+						imgB = model.imageToBlob(path);
+					}
+					else
+					{
+						System.out.println("Path no existe");
+					}
+					
+					System.out.println("guardar: " + idCliente);
+					
+					model = new ClientesModel();
+						
+					model.editar(idCliente, nombre, correo, tel, dir, contactoEmergencia, relacion, telEmergencia, info, imgB);
 				exito();
 				}
 			}
@@ -2207,9 +2242,7 @@ public class ClientesView {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				cliente = new ClientesController();
-				cliente.consultar();
+				emergente.dispose();
 			}
 		});
 		botonCancelar.setForeground(new Color(255, 255, 255));

@@ -1,7 +1,10 @@
 package models;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -77,11 +80,6 @@ public class ClientesModel
 	
 	private JPanel panelImg;
 	private String idRecuperado;
-	
-	public ClientesModel()
-	{
-		
-	}
 	
 	public void crear(String nombreC, String correo, String tel, String dir, String contactoEmergencia, 
 			String relacion, String telEmergencia, String inf, Blob img)
@@ -392,24 +390,28 @@ public class ClientesModel
 	                    
 	                    if(icon != null)
 	                    {
-	                    	JLabel label = new JLabel(icon);
-	                    	label.setPreferredSize(new Dimension(472, 291));
-	                    	label.setOpaque(true);
-	                    	panelImg.removeAll();
-	                    	panelImg.add(label);
+	                    	JPanel panel1 = new JPanel() {
+	                            @Override
+	                            protected void paintComponent(Graphics create) {
+	                                super.paintComponent(create);
+	                                Graphics2D g2d = (Graphics2D) create;
+	                                g2d.drawImage(icon.getImage(), 0, 0, 475, 300, null);
+	                            }
+	                        };   	
+	                    	panel1.setBackground(Color.red);
+	                    	panel1.setBounds(0,0,475,300);
+	                    	panel1.revalidate();
+	                    	panel1.repaint();
+	                    	
+	                    	panelImg.add(panel1);
 	                    	panelImg.revalidate();
 	                    	panelImg.repaint();
-	                    	System.out.println("icon no null");
-	                    	Component[] components = panelImg.getComponents();
-	                    	for (Component component : components) {
-	                    	    System.out.println("Componente en el panel: " + component.getClass().getName());
-	                    	}
 
 	                    }else
 	                    {
 	                    	System.out.println("no se puede cargar la imagen");
 	                    }
-				 } else
+				 }  else
 				 {
 					 System.out.println("imagen null");
 				 }
@@ -433,7 +435,7 @@ public class ClientesModel
 	    Clientes cliente = mostrarDetalles(id);
 
 	    if (cliente != null) {
-	        //idC.setText(cliente.getIdCliente());
+	        
 	    	nombreResp.setText(cliente.getNombreCompleto());
 	    	correoResp.setText(cliente.getCorreo());
 	        telefonoResp.setText(cliente.getTelefono());
@@ -442,7 +444,7 @@ public class ClientesModel
 	        relacionResp.setText(cliente.getRelacionCliente());
 	        telefonoEmergenciaResp.setText(cliente.getTelefonoEmergencia());
 	        infoAdicionalResp.setText(cliente.getInfAdicional());
-	        //estatus.setText(cliente.getEstatus());
+	       
 	    } else {
 	        System.out.println("no hay clientes");
 	    }
@@ -457,16 +459,20 @@ public class ClientesModel
 	    String nuevaRelacionCliente = relacionResp.getText();
 	    String nuevoTelefonoEmergencia = telefonoEmergenciaResp.getText();
 	    String nuevaInfoAdicional = infoAdicionalResp.getText();
-	   // String nuevoEstatus = estatus.getText();
+	  
+	    Blob nuevaImagen = null;
+	    if (pathImg != null && !pathImg.isEmpty()) {
+	        nuevaImagen = imageToBlob(pathImg);
+	    }
 
-	    // Llamar al método editar para actualizar los datos en la base de datos
-	    editar(id, nuevoNombre, nuevoCorreo, nuevoTelefono, nuevaDireccion, nuevoContactoEmergencia, nuevaRelacionCliente, nuevoTelefonoEmergencia, nuevaInfoAdicional);
+	    editar(id, nuevoNombre, nuevoCorreo, nuevoTelefono, nuevaDireccion, nuevoContactoEmergencia, nuevaRelacionCliente, nuevoTelefonoEmergencia, nuevaInfoAdicional, nuevaImagen);
 	}
 	
-	public void editar(String id, String nombreCompleto, String correo, String telefono, String direccion, String contactoEmergencia, String relacionCliente, String telefonoEmergencia, String infAdicional) {
+	public void editar(String id, String nombreCompleto, String correo, String telefono, String direccion, String contactoEmergencia, String relacionCliente, 
+			String telefonoEmergencia, String infAdicional, Blob imagen) {
 	    try {
 	        Connection cn = Conexion.conectar();
-	        PreparedStatement pst = cn.prepareStatement("UPDATE clientes SET nombreCompleto=?, correo=?, telefono=?, direccion=?, contactoEmergencia=?, relacionCliente=?, telefonoEmergencia=?, infAdicional=? WHERE idCliente=?");
+	        PreparedStatement pst = cn.prepareStatement("UPDATE clientes SET nombreCompleto=?, correo=?, telefono=?, direccion=?, contactoEmergencia=?, relacionCliente=?, telefonoEmergencia=?, infAdicional=?, img =? WHERE idCliente=?");
 	        pst.setString(1, nombreCompleto);
 	        pst.setString(2, correo);
 	        pst.setString(3, telefono);
@@ -475,7 +481,13 @@ public class ClientesModel
 	        pst.setString(6, relacionCliente);
 	        pst.setString(7, telefonoEmergencia);
 	        pst.setString(8, infAdicional);
-	        pst.setString(9, id);
+	       
+	        if (imagen != null) {
+	            pst.setBlob(9, imagen);
+	            pst.setString(10, id);
+	        } else {
+	            pst.setString(9, id);
+	        }
 
 	        int rowsAffected = pst.executeUpdate();
 	        if (rowsAffected > 0) {
